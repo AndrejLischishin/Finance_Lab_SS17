@@ -1,0 +1,268 @@
+\hypertarget{worksheet1_8cpp}{}\section{worksheet1.\+cpp File Reference}
+\label{worksheet1_8cpp}\index{worksheet1.\+cpp@{worksheet1.\+cpp}}
+{\ttfamily \#include $<$cstdlib$>$}\\*
+{\ttfamily \#include $<$cstdio$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include $<$gsl/gsl\+\_\+rng.\+h$>$}\\*
+{\ttfamily \#include $<$sys/time.\+h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bfseries A0}~0.\+398942270991\hypertarget{worksheet1_8cpp_a0d158f1e3af2ab523eb8423db3e5bd6e}{}\label{worksheet1_8cpp_a0d158f1e3af2ab523eb8423db3e5bd6e}
+
+\item 
+\#define {\bfseries A1}~0.\+020133760596\hypertarget{worksheet1_8cpp_acd92b430059d886880c53f13ae038e3f}{}\label{worksheet1_8cpp_acd92b430059d886880c53f13ae038e3f}
+
+\item 
+\#define {\bfseries A2}~0.\+002946756074\hypertarget{worksheet1_8cpp_a2946bc30423c2a996eeafa49e995c30e}{}\label{worksheet1_8cpp_a2946bc30423c2a996eeafa49e995c30e}
+
+\item 
+\#define {\bfseries B1}~0.\+217134277847\hypertarget{worksheet1_8cpp_a7b21d6a6a4573b4997b1f04b01cd4efb}{}\label{worksheet1_8cpp_a7b21d6a6a4573b4997b1f04b01cd4efb}
+
+\item 
+\#define {\bfseries B2}~0.\+018576112465\hypertarget{worksheet1_8cpp_a6945d50f798e1fde624d70c74457090e}{}\label{worksheet1_8cpp_a6945d50f798e1fde624d70c74457090e}
+
+\item 
+\#define {\bfseries B3}~0.\+000643163695\hypertarget{worksheet1_8cpp_ae6ac0edb1e2c9c7672ab9488d8b65be9}{}\label{worksheet1_8cpp_ae6ac0edb1e2c9c7672ab9488d8b65be9}
+
+\item 
+\#define {\bfseries C0}~1.\+398247031184\hypertarget{worksheet1_8cpp_ac539c7fe47611738d5320760d4453602}{}\label{worksheet1_8cpp_ac539c7fe47611738d5320760d4453602}
+
+\item 
+\#define {\bfseries C1}~-\/0.\+360040248231\hypertarget{worksheet1_8cpp_a44779f18d87e71c78fc9fbf9dc88537d}{}\label{worksheet1_8cpp_a44779f18d87e71c78fc9fbf9dc88537d}
+
+\item 
+\#define {\bfseries C2}~0.\+022719786588\hypertarget{worksheet1_8cpp_ad6fc13322a4f1c314332ff34aa8b3fa0}{}\label{worksheet1_8cpp_ad6fc13322a4f1c314332ff34aa8b3fa0}
+
+\item 
+\#define {\bfseries D0}~1.\+460954518699\hypertarget{worksheet1_8cpp_ae0b2360d4b8e961bf2709b0663fd9f2a}{}\label{worksheet1_8cpp_ae0b2360d4b8e961bf2709b0663fd9f2a}
+
+\item 
+\#define {\bfseries D1}~-\/0.\+305459640162\hypertarget{worksheet1_8cpp_a52deba56234661c77d4b9573d5175ae2}{}\label{worksheet1_8cpp_a52deba56234661c77d4b9573d5175ae2}
+
+\item 
+\#define {\bfseries D2}~0.\+038611796258\hypertarget{worksheet1_8cpp_a7537ecd0f0af6ccc5b85d5df80f4aee7}{}\label{worksheet1_8cpp_a7537ecd0f0af6ccc5b85d5df80f4aee7}
+
+\item 
+\#define {\bfseries D3}~-\/0.\+003787400686\hypertarget{worksheet1_8cpp_afea037e4c6e9187610b538bd6a34b8ff}{}\label{worksheet1_8cpp_afea037e4c6e9187610b538bd6a34b8ff}
+
+\item 
+\#define {\bfseries E0}~2.\+50662823884\hypertarget{worksheet1_8cpp_a73f0647950b85591fbe61fff44d45c2e}{}\label{worksheet1_8cpp_a73f0647950b85591fbe61fff44d45c2e}
+
+\item 
+\#define {\bfseries E1}~-\/18.\+61500062529\hypertarget{worksheet1_8cpp_a9c73f041ffe2562e07a3a9f6e62de5e2}{}\label{worksheet1_8cpp_a9c73f041ffe2562e07a3a9f6e62de5e2}
+
+\item 
+\#define {\bfseries E2}~41.\+39119773534\hypertarget{worksheet1_8cpp_afe784fb045791fe0c97c8e848627cbe0}{}\label{worksheet1_8cpp_afe784fb045791fe0c97c8e848627cbe0}
+
+\item 
+\#define {\bfseries E3}~-\/25.\+44106049637\hypertarget{worksheet1_8cpp_a31cbade3f8edb728b06a18b804010544}{}\label{worksheet1_8cpp_a31cbade3f8edb728b06a18b804010544}
+
+\item 
+\#define {\bfseries F0}~-\/8.\+47351093090\hypertarget{worksheet1_8cpp_a2ab300cbf3906ff6fcc7b07681dac361}{}\label{worksheet1_8cpp_a2ab300cbf3906ff6fcc7b07681dac361}
+
+\item 
+\#define {\bfseries F1}~23.\+08336743743\hypertarget{worksheet1_8cpp_a54af470c198f3dbe32eede2c32f3d746}{}\label{worksheet1_8cpp_a54af470c198f3dbe32eede2c32f3d746}
+
+\item 
+\#define {\bfseries F2}~-\/21.\+06224101826\hypertarget{worksheet1_8cpp_a5368759862ac5fb38772b91eace1205c}{}\label{worksheet1_8cpp_a5368759862ac5fb38772b91eace1205c}
+
+\item 
+\#define {\bfseries F3}~3.\+13082909833\hypertarget{worksheet1_8cpp_a79fc770a19406e6876ff9ffd6ce66f3d}{}\label{worksheet1_8cpp_a79fc770a19406e6876ff9ffd6ce66f3d}
+
+\item 
+\#define {\bfseries G0}~0.\+3374754822726147\hypertarget{worksheet1_8cpp_a6440afc9207bc5eba00d9161ff744e16}{}\label{worksheet1_8cpp_a6440afc9207bc5eba00d9161ff744e16}
+
+\item 
+\#define {\bfseries G1}~0.\+9761690190917186\hypertarget{worksheet1_8cpp_aa8fd4816db72561194059582cf0efb09}{}\label{worksheet1_8cpp_aa8fd4816db72561194059582cf0efb09}
+
+\item 
+\#define {\bfseries G2}~0.\+1607979714918209\hypertarget{worksheet1_8cpp_ae62138575e5117b9426bd8bb1830e036}{}\label{worksheet1_8cpp_ae62138575e5117b9426bd8bb1830e036}
+
+\item 
+\#define {\bfseries G3}~0.\+0276438810333863\hypertarget{worksheet1_8cpp_aa18956b1e077aaf1b24bcb4b7eb841f5}{}\label{worksheet1_8cpp_aa18956b1e077aaf1b24bcb4b7eb841f5}
+
+\item 
+\#define {\bfseries G4}~0.\+0038405729373609\hypertarget{worksheet1_8cpp_a6f984a8b01aafc34122cc8bc0d9d5691}{}\label{worksheet1_8cpp_a6f984a8b01aafc34122cc8bc0d9d5691}
+
+\item 
+\#define {\bfseries G5}~0.\+0003951896511919\hypertarget{worksheet1_8cpp_a206f8f478aee56b55771546844d68a5f}{}\label{worksheet1_8cpp_a206f8f478aee56b55771546844d68a5f}
+
+\item 
+\#define {\bfseries G6}~0.\+0000321767881768\hypertarget{worksheet1_8cpp_acacab09484f962bcb59e7d1dcc68e8c0}{}\label{worksheet1_8cpp_acacab09484f962bcb59e7d1dcc68e8c0}
+
+\item 
+\#define {\bfseries G7}~0.\+0000002888167364\hypertarget{worksheet1_8cpp_ac8e9950f46638247d6a0986bb488ad54}{}\label{worksheet1_8cpp_ac8e9950f46638247d6a0986bb488ad54}
+
+\item 
+\#define {\bfseries G8}~0.\+0000003960315187\hypertarget{worksheet1_8cpp_a476ab3e6b1d7f433a1bea30b793060f0}{}\label{worksheet1_8cpp_a476ab3e6b1d7f433a1bea30b793060f0}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{worksheet1_8cpp_ac51ae52051cdb8ffe6fbb64b506d59b5}{random\+Number01} ()
+\item 
+double \hyperlink{worksheet1_8cpp_a0ee2de3b5f9ed6d4b5e523ea0ab9e9a7}{random\+Number01\+G\+SL} (gsl\+\_\+rng $\ast$r)
+\item 
+double \hyperlink{worksheet1_8cpp_a8e6a60314cabb06d18dc2236ad5f9e16}{random\+Numberab\+G\+SL} (gsl\+\_\+rng $\ast$r, double a, double b)
+\item 
+double \hyperlink{worksheet1_8cpp_a2a6a023af9973f221c56e8f1f36051e1}{standard\+Normal\+Density} (double x)
+\item 
+double \hyperlink{worksheet1_8cpp_a7e880486214586d412376ed812406b8e}{rejection\+Sampling} (gsl\+\_\+rng $\ast$r)
+\item 
+double $\ast$ \hyperlink{worksheet1_8cpp_a080db70000420f392549fb104f23823d}{box\+Muller} (gsl\+\_\+rng $\ast$r)
+\item 
+double \hyperlink{worksheet1_8cpp_ab7ff49c69a7906b2feb4296c37a72919}{normal\+C\+DF} (double x)
+\item 
+double {\bfseries normal\+Inverse\+C\+DF} (double x)\hypertarget{worksheet1_8cpp_ab5fd021ba65456ca372a1d6752258940}{}\label{worksheet1_8cpp_ab5fd021ba65456ca372a1d6752258940}
+
+\item 
+double {\bfseries sigma\+Algorithm} (double values\mbox{[}$\,$\mbox{]}, int N)\hypertarget{worksheet1_8cpp_aead53c667bd155ad311a31959ab1eb35}{}\label{worksheet1_8cpp_aead53c667bd155ad311a31959ab1eb35}
+
+\item 
+double {\bfseries normal\+From\+Standard\+Normal\+Distribution} (gsl\+\_\+rng $\ast$r, double mu, double sigma)\hypertarget{worksheet1_8cpp_ae1b9e6438c33b8ea7c1c3c09f7de53dd}{}\label{worksheet1_8cpp_ae1b9e6438c33b8ea7c1c3c09f7de53dd}
+
+\item 
+int \hyperlink{worksheet1_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{worksheet1.\+cpp@{worksheet1.\+cpp}!box\+Muller@{box\+Muller}}
+\index{box\+Muller@{box\+Muller}!worksheet1.\+cpp@{worksheet1.\+cpp}}
+\subsubsection[{\texorpdfstring{box\+Muller(gsl\+\_\+rng $\ast$r)}{boxMuller(gsl_rng *r)}}]{\setlength{\rightskip}{0pt plus 5cm}double$\ast$ box\+Muller (
+\begin{DoxyParamCaption}
+\item[{gsl\+\_\+rng $\ast$}]{r}
+\end{DoxyParamCaption}
+)}\hypertarget{worksheet1_8cpp_a080db70000420f392549fb104f23823d}{}\label{worksheet1_8cpp_a080db70000420f392549fb104f23823d}
+Draws a standard normal distributed random number by using the Box-\/\+Muller method.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & A pointer to the random number generator which is used. \\
+\hline
+\end{DoxyParams}
+\index{worksheet1.\+cpp@{worksheet1.\+cpp}!main@{main}}
+\index{main@{main}!worksheet1.\+cpp@{worksheet1.\+cpp}}
+\subsubsection[{\texorpdfstring{main(int argc, char $\ast$argv[])}{main(int argc, char *argv[])}}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\hypertarget{worksheet1_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{}\label{worksheet1_8cpp_a0ddf1224851353fc92bfbff6f499fa97}
+Main function for random number evaluation. A first random number $x_1$ is drawn via rand. A second random number $x_2$ is drawn via gsl\+\_\+rng\+\_\+uniform.
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & The number of arguments provided. \\
+\hline
+{\em argv} & An array of arguments (argv\mbox{[}0\mbox{]} is the name of the executable).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If everything worked fine, 0 is returned. 
+\end{DoxyReturn}
+\index{worksheet1.\+cpp@{worksheet1.\+cpp}!normal\+C\+DF@{normal\+C\+DF}}
+\index{normal\+C\+DF@{normal\+C\+DF}!worksheet1.\+cpp@{worksheet1.\+cpp}}
+\subsubsection[{\texorpdfstring{normal\+C\+D\+F(double x)}{normalCDF(double x)}}]{\setlength{\rightskip}{0pt plus 5cm}double normal\+C\+DF (
+\begin{DoxyParamCaption}
+\item[{double}]{x}
+\end{DoxyParamCaption}
+)}\hypertarget{worksheet1_8cpp_ab7ff49c69a7906b2feb4296c37a72919}{}\label{worksheet1_8cpp_ab7ff49c69a7906b2feb4296c37a72919}
+Calculates the cumulative distribution function of the standard normal distribution for a parameter x.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The parameter for the C\+DF of the standard normal distribution.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value of the C\+DF at x. 
+\end{DoxyReturn}
+\index{worksheet1.\+cpp@{worksheet1.\+cpp}!random\+Number01@{random\+Number01}}
+\index{random\+Number01@{random\+Number01}!worksheet1.\+cpp@{worksheet1.\+cpp}}
+\subsubsection[{\texorpdfstring{random\+Number01()}{randomNumber01()}}]{\setlength{\rightskip}{0pt plus 5cm}double random\+Number01 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{worksheet1_8cpp_ac51ae52051cdb8ffe6fbb64b506d59b5}{}\label{worksheet1_8cpp_ac51ae52051cdb8ffe6fbb64b506d59b5}
+Draws a random number in $[0,1]$ via rand.
+
+\begin{DoxyReturn}{Returns}
+The drawn random number. 
+\end{DoxyReturn}
+\index{worksheet1.\+cpp@{worksheet1.\+cpp}!random\+Number01\+G\+SL@{random\+Number01\+G\+SL}}
+\index{random\+Number01\+G\+SL@{random\+Number01\+G\+SL}!worksheet1.\+cpp@{worksheet1.\+cpp}}
+\subsubsection[{\texorpdfstring{random\+Number01\+G\+S\+L(gsl\+\_\+rng $\ast$r)}{randomNumber01GSL(gsl_rng *r)}}]{\setlength{\rightskip}{0pt plus 5cm}double random\+Number01\+G\+SL (
+\begin{DoxyParamCaption}
+\item[{gsl\+\_\+rng $\ast$}]{r}
+\end{DoxyParamCaption}
+)}\hypertarget{worksheet1_8cpp_a0ee2de3b5f9ed6d4b5e523ea0ab9e9a7}{}\label{worksheet1_8cpp_a0ee2de3b5f9ed6d4b5e523ea0ab9e9a7}
+Draws a random number in $[0,1]$ via the gsl.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & A pointer to the random number generator which is used.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The drawn random number. 
+\end{DoxyReturn}
+\index{worksheet1.\+cpp@{worksheet1.\+cpp}!random\+Numberab\+G\+SL@{random\+Numberab\+G\+SL}}
+\index{random\+Numberab\+G\+SL@{random\+Numberab\+G\+SL}!worksheet1.\+cpp@{worksheet1.\+cpp}}
+\subsubsection[{\texorpdfstring{random\+Numberab\+G\+S\+L(gsl\+\_\+rng $\ast$r, double a, double b)}{randomNumberabGSL(gsl_rng *r, double a, double b)}}]{\setlength{\rightskip}{0pt plus 5cm}double random\+Numberab\+G\+SL (
+\begin{DoxyParamCaption}
+\item[{gsl\+\_\+rng $\ast$}]{r, }
+\item[{double}]{a, }
+\item[{double}]{b}
+\end{DoxyParamCaption}
+)}\hypertarget{worksheet1_8cpp_a8e6a60314cabb06d18dc2236ad5f9e16}{}\label{worksheet1_8cpp_a8e6a60314cabb06d18dc2236ad5f9e16}
+Draws a random number in $[a,b]$ via the gsl.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & A pointer to the random number generator which is used. \\
+\hline
+{\em a} & Left bound of interval. \\
+\hline
+{\em b} & Right bound of interval.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The drawn random number. 
+\end{DoxyReturn}
+\index{worksheet1.\+cpp@{worksheet1.\+cpp}!rejection\+Sampling@{rejection\+Sampling}}
+\index{rejection\+Sampling@{rejection\+Sampling}!worksheet1.\+cpp@{worksheet1.\+cpp}}
+\subsubsection[{\texorpdfstring{rejection\+Sampling(gsl\+\_\+rng $\ast$r)}{rejectionSampling(gsl_rng *r)}}]{\setlength{\rightskip}{0pt plus 5cm}double rejection\+Sampling (
+\begin{DoxyParamCaption}
+\item[{gsl\+\_\+rng $\ast$}]{r}
+\end{DoxyParamCaption}
+)}\hypertarget{worksheet1_8cpp_a7e880486214586d412376ed812406b8e}{}\label{worksheet1_8cpp_a7e880486214586d412376ed812406b8e}
+Draws a standard normal distributed random number by using the rejection sampling algorithm.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & A pointer to the random number generator which is used.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The drawn random number. 
+\end{DoxyReturn}
+\index{worksheet1.\+cpp@{worksheet1.\+cpp}!standard\+Normal\+Density@{standard\+Normal\+Density}}
+\index{standard\+Normal\+Density@{standard\+Normal\+Density}!worksheet1.\+cpp@{worksheet1.\+cpp}}
+\subsubsection[{\texorpdfstring{standard\+Normal\+Density(double x)}{standardNormalDensity(double x)}}]{\setlength{\rightskip}{0pt plus 5cm}double standard\+Normal\+Density (
+\begin{DoxyParamCaption}
+\item[{double}]{x}
+\end{DoxyParamCaption}
+)}\hypertarget{worksheet1_8cpp_a2a6a023af9973f221c56e8f1f36051e1}{}\label{worksheet1_8cpp_a2a6a023af9973f221c56e8f1f36051e1}
+Calculates the density value of a standard normal distribution at point x.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Parameter for density function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The density value. 
+\end{DoxyReturn}
