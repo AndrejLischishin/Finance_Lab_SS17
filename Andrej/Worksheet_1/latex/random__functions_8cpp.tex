@@ -1,0 +1,68 @@
+\hypertarget{random__functions_8cpp}{}\section{random\+\_\+functions.\+cpp File Reference}
+\label{random__functions_8cpp}\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+{\ttfamily \#include \char`\"{}random\+\_\+functions.\+hpp\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{random__functions_8cpp_aa3e0bf590edce7b42c75b6b3766e6d82}{random\+\_\+number01} ()
+\item 
+double \hyperlink{random__functions_8cpp_a955b51c233f8992897ca5d6497d68c31}{random\+\_\+number\+\_\+01\+\_\+\+G\+SL} (gsl\+\_\+rng $\ast$r)
+\item 
+void \hyperlink{random__functions_8cpp_a86438bc9b56fc3a3b9a9b2f1e075b0f2}{rejection\+\_\+sampl\+\_\+algo} (int number\+\_\+samples=1)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{random__functions_8cpp_aa3e0bf590edce7b42c75b6b3766e6d82}\label{random__functions_8cpp_aa3e0bf590edce7b42c75b6b3766e6d82}} 
+\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}!random\+\_\+number01@{random\+\_\+number01}}
+\index{random\+\_\+number01@{random\+\_\+number01}!random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{random\+\_\+number01()}{random\_number01()}}
+{\footnotesize\ttfamily double random\+\_\+number01 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Draws a random number bewtween $[0,1]$ via rand.
+
+\begin{DoxyReturn}{Returns}
+The drawn random number. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{random__functions_8cpp_a955b51c233f8992897ca5d6497d68c31}\label{random__functions_8cpp_a955b51c233f8992897ca5d6497d68c31}} 
+\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}!random\+\_\+number\+\_\+01\+\_\+\+G\+SL@{random\+\_\+number\+\_\+01\+\_\+\+G\+SL}}
+\index{random\+\_\+number\+\_\+01\+\_\+\+G\+SL@{random\+\_\+number\+\_\+01\+\_\+\+G\+SL}!random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{random\+\_\+number\+\_\+01\+\_\+\+G\+S\+L()}{random\_number\_01\_GSL()}}
+{\footnotesize\ttfamily double random\+\_\+number\+\_\+01\+\_\+\+G\+SL (\begin{DoxyParamCaption}\item[{gsl\+\_\+rng $\ast$}]{r }\end{DoxyParamCaption})}
+
+Draws a random number in $[0,1]$ via the gsl.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & A pointer to the random number generator which is used.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The drawn random number. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{random__functions_8cpp_a86438bc9b56fc3a3b9a9b2f1e075b0f2}\label{random__functions_8cpp_a86438bc9b56fc3a3b9a9b2f1e075b0f2}} 
+\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}!rejection\+\_\+sampl\+\_\+algo@{rejection\+\_\+sampl\+\_\+algo}}
+\index{rejection\+\_\+sampl\+\_\+algo@{rejection\+\_\+sampl\+\_\+algo}!random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{rejection\+\_\+sampl\+\_\+algo()}{rejection\_sampl\_algo()}}
+{\footnotesize\ttfamily void rejection\+\_\+sampl\+\_\+algo (\begin{DoxyParamCaption}\item[{int}]{number\+\_\+samples = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+Main function for random number evaluation. A first random number $x_1$ is drawn via rand. A second random number $x_2$ is drawn via gsl\+\_\+rng\+\_\+uniform.
+
+Furthermore, an array of 10 doubles is allocated. However, someone seems to have forgotten to free the allocated space again in the end...
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & The number of arguments provided. \\
+\hline
+{\em argv} & An array of arguments (argv\mbox{[}0\mbox{]} is the name of the executable).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If everything worked fine, 0 is returned. rejection sampling algorithm this function produces specified by the input number of standard normal distributed values, which will be automatically written to the \char`\"{}rejection\+\_\+sampl.\+txt\char`\"{} file 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em number\+\_\+samples} & an integer argument, specifies number of velues, default = 1 \\
+\hline
+\end{DoxyParams}
+interval bounds $[a,b]$, s.\+t. $\int ^{b}_{a}p\left(x\right) dx = 1$, p(x) density for a standard normal distribution
