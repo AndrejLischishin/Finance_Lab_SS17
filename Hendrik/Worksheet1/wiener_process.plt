@@ -1,0 +1,2 @@
+set grid
+plot "wiener_process_1.txt" using 1:2 lt rgb "blue" notitle with linespoints, "wiener_process_1.txt" using 1:3 lt rgb "green" notitle with linespoints, "wiener_process_1.txt" using 1:4 lt rgb "red" notitle with linespoints, "wiener_process_2.txt" using 1:2 lt rgb "blue" notitle with linespoints, "wiener_process_2.txt" using 1:3 lt rgb "green" notitle with linespoints, "wiener_process_2.txt" using 1:4 lt rgb "red" notitle with linespoints

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['normalcdf',['normalCDF',['../random__functions_8hpp.html#ab7ff49c69a7906b2feb4296c37a72919',1,'random_functions.hpp']]],
-  ['normalfromstandardnormaldistribution',['normalFromStandardNormalDistribution',['../random__functions_8hpp.html#ae1b9e6438c33b8ea7c1c3c09f7de53dd',1,'random_functions.hpp']]],
-  ['normalinversecdf',['normalInverseCDF',['../random__functions_8hpp.html#ab5fd021ba65456ca372a1d6752258940',1,'random_functions.hpp']]]
+  ['normal_5fcdf',['normal_CDF',['../random__functions_8hpp.html#ac420155805f91f3b94cba4b9980056f5',1,'random_functions.hpp']]],
+  ['normal_5ffrom_5fstandard_5fnormal_5fdistribution',['normal_from_standard_normal_distribution',['../random__functions_8hpp.html#a7e15cd7602557cc75c75c192131e9f0f',1,'random_functions.hpp']]],
+  ['normal_5finverse_5fcdf',['normal_inverse_CDF',['../random__functions_8hpp.html#a60c5de2cc82852221db4885a946838c5',1,'random_functions.hpp']]]
 ];

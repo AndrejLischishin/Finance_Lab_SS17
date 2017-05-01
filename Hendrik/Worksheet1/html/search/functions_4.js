@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['sigmaalgorithm',['sigmaAlgorithm',['../random__functions_8hpp.html#aead53c667bd155ad311a31959ab1eb35',1,'random_functions.hpp']]],
-  ['standardnormaldensity',['standardNormalDensity',['../random__functions_8hpp.html#a2a6a023af9973f221c56e8f1f36051e1',1,'random_functions.hpp']]]
+  ['sigma_5falgorithm',['sigma_algorithm',['../random__functions_8hpp.html#ad270ad809e627f67c4e9a6a74aff733b',1,'random_functions.hpp']]],
+  ['standard_5fnormal_5fdensity',['standard_normal_density',['../random__functions_8hpp.html#a516366b1f2f588a71d72464318e66aa7',1,'random_functions.hpp']]]
 ];

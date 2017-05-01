@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <math.h>
 #include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>
 #include <sys/time.h>
 
 #define A0 0.398942270991
@@ -46,7 +47,7 @@
  *
  * @return The drawn random number.
  */
-double randomNumber01()
+double random_number_01()
 {
 	return (double) rand() / RAND_MAX;
 }
@@ -58,7 +59,7 @@ double randomNumber01()
  *
  * @return The drawn random number.
  */
-double randomNumber01GSL(gsl_rng* r)
+double random_number_01_GSL(gsl_rng* r)
 {
 	return gsl_rng_uniform(r);
 }
@@ -72,9 +73,9 @@ double randomNumber01GSL(gsl_rng* r)
  *
  * @return The drawn random number.
  */
-double randomNumberabGSL(gsl_rng* r, double a, double b)
+double random_number_ab_GSL(gsl_rng* r, double a, double b)
 {
-    double x = randomNumber01GSL(r);
+    double x = random_number_01_GSL(r);
     x = x*(b-a);
     x = x+a;
     return x;
@@ -87,7 +88,7 @@ double randomNumberabGSL(gsl_rng* r, double a, double b)
  *
  * @return The density value.
  */
-double standardNormalDensity(double x)
+double standard_normal_density(double x)
 {
     return exp(-pow(x,2)/2.)/sqrt(2.*M_PI);
 }
@@ -99,16 +100,16 @@ double standardNormalDensity(double x)
  *
  * @return The drawn random number.
  */
-double rejectionSampling(gsl_rng* r)
+double rejection_sampling(gsl_rng* r)
 {
     double x;
     double b = 1/sqrt(2.*M_PI);
     double y;
     do
     {
-        x = randomNumberabGSL(r, -6., 6.); // Interval [-2,2] for result in Figure 1
-        y = randomNumberabGSL(r, 0, b);
-    }while(y>standardNormalDensity(x));
+        x = random_number_ab_GSL(r, -6., 6.); // Interval [-2,2] for result in Figure 1
+        y = random_number_ab_GSL(r, 0, b);
+    }while(y>standard_normal_density(x));
     
 	return x;
 }
@@ -118,13 +119,13 @@ double rejectionSampling(gsl_rng* r)
  * 
  * @param r A pointer to the random number generator which is used.
  */
-double* boxMuller(gsl_rng* r)
+double* box_muller(gsl_rng* r)
 {
     double u[2];
     double *z = new double[2];
 
-    u[0] = randomNumber01GSL(r);
-    u[1] = randomNumber01GSL(r);
+    u[0] = random_number_01_GSL(r);
+    u[1] = random_number_01_GSL(r);
 
     z[0] = sqrt(-2.*log(u[0]))*sin(2.*M_PI*u[1]);
     z[1] = sqrt(-2.*log(u[0]))*cos(2.*M_PI*u[1]);
@@ -139,11 +140,11 @@ double* boxMuller(gsl_rng* r)
  *
  * @return The value of the CDF at x.
  */
-double normalCDF(double x)
+double normal_CDF(double x)
 {
     double x2;
     if(x<0.0)
-        return 1.0-normalCDF(-x);
+        return 1.0-normal_CDF(-x);
     if(x<=1.87)
     {
         x2 = x*x;
@@ -163,7 +164,7 @@ double normalCDF(double x)
  *
  * @return The value of the inverse CDF at x.
  */
-double normalInverseCDF(double x)
+double normal_inverse_CDF(double x)
 {
     double p = x-0.5;
     double r;
@@ -197,7 +198,7 @@ double normalInverseCDF(double x)
  *
  * @return The calculated variance of the samples.
  */
-double sigmaAlgorithm(double values[], int N)
+double sigma_algorithm(double values[], int N)
 {
     double alpha = values[0];
     double beta = 0.;
@@ -223,9 +224,38 @@ double sigmaAlgorithm(double values[], int N)
  *
  * @return The normal distributed value.
  */
-double normalFromStandardNormalDistribution(gsl_rng* r, double mu, double sigma)
+double normal_from_standard_normal_distribution(gsl_rng* r, double mu, double sigma)
 {
-    return mu+sigma*rejectionSampling(r);
+    return mu+sigma*rejection_sampling(r);
+}
+
+
+
+double* wiener_process(gsl_rng* r, double T, double delta_t)
+{
+	int M = (int)(T/delta_t);
+	double *w = new double[M+1];
+	w[0] = 0.0;
+	double temp;
+	for(int i=0; i<M; i++)
+	{
+		w[i+1] = w[i]+sqrt(delta_t)*gsl_ran_ugaussian(r);
+	}
+
+	return w;
+}
+
+double* brownian_motion(gsl_rng* r, double T, double delta_t, double *w, double s0, double mu, double sigma)
+{
+	int M = (int)(T/delta_t);
+	double *s = new double[M+1];
+	s[0] = s0;
+	for(int i=0; i<M; i++)
+	{
+		s[i+1] = s0*exp((mu-0.5*pow(sigma, 2.0))*(i+1)*delta_t+sigma*w[i+1]);
+	}
+
+	return s;
 }
 
 #endif
