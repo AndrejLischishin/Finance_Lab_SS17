@@ -6,6 +6,7 @@
 //  Copyright © 2017 Andrei. All rights reserved.
 //
 
+
 /** @file */
 #include "random_functions.hpp"
 
@@ -80,19 +81,19 @@ double rejection_sampl_algo(gsl_rng* r){
     double p_x;
     
     //until y>p(x), so until we are above the maximum of probability density function
-    while (1) {
+    do{
         //draws uniformly distributed x'є[a,b]
         x = gsl_ran_flat(r,a,b);
         //computes density value at point x
         p_x = gsl_ran_gaussian_pdf(x,sigma);
         //draws uniformly distributed yє[0,max_px]
         y = gsl_ran_flat(r,0,max_px);
+        
         //check if the sampled point is under p(x), if so then return
-        if(y<p_x||y==p_x){
-            
-            return x;
-        }
-    }
+    }while(y<p_x||y==p_x);
+    
+    return x;
+    
 }
 
 /**
@@ -119,6 +120,15 @@ double normal_cdf(double x){
     }
     return 1.0;
 }
+
+
+/**
+ * Calculates the inverse CDF of the standard normal distribution for a parameter x.
+ *
+ * @param x The parameter for the inverse CDF of the standard normal distribution.
+ *
+ * @return The value of the inverse CDF at x.
+ */
 
 double normal_inverse_cdf(double x){
     
@@ -151,22 +161,20 @@ double normal_inverse_cdf(double x){
  * @param mu It is mean for the normal distribution
  * @param sigma It is sigma for the normal distribution
  *
- * @return It returns normal distributed value
+ * @return It returns pointer to the vector with 2 normal distributed values
  *
  */
 
-double mueller_box_algo(double mu, double sigma){
+std::vector<double>* mueller_box_algo(double mu, double sigma){
     
     const double epsilon = std::numeric_limits<double>::min();
     const double two_pi = 2.0 * 3.14159265358979323846;
     
-    static double z0, z1;
-    static bool generate;
-    generate = !generate;
+    std::vector<double>* z;
+    z = new std::vector<double>;
     
     
-    if(!generate)
-        return z1 * sigma + mu;
+    double z0, z1;
     
     double u1, u2;
     do
@@ -176,9 +184,13 @@ double mueller_box_algo(double mu, double sigma){
     }
     while ( u1 <= epsilon );
     
-    z0 = sqrt(-2.0 * log(u1)) * cos(two_pi * u2);
-    z1 = sqrt(-2.0 * log(u1)) * sin(two_pi * u2);
-    return z0 * sigma + mu;
+    z0 = (sqrt(-2.0 * log(u1)) * cos(two_pi * u2))*sigma+mu;
+    z1 = (sqrt(-2.0 * log(u1)) * sin(two_pi * u2))*sigma+mu;
+    
+    z->push_back(z0);
+    z->push_back(z1);
+    
+    return z;
     
 }
 
@@ -187,7 +199,7 @@ double mueller_box_algo(double mu, double sigma){
  * of normal distributed samples
  * @param N Number of given samples
  * @param sample Pointer to the vector of double valued
- * samples
+ * normal distributed samples
  *
  * @return It returns sigma
  *
@@ -242,6 +254,56 @@ double sigma_algorithm(std::vector<double>* sample, int N)
 }
 
 
+/**
+ * Simulates a wiener process
+ *
+ * @param r Pointer to the gsl_rng object for generating standard normal distributed numbers
+ * @param T Time period of simulated process
+ * @param delta_t Step of discretisation
+ *
+ * @return Pointer to the vector of values at discretisation points
+ */
 
+std::vector<double>* wiener_process(gsl_rng* r, double T, double delta_t)
+{
+    int M = (int)(T/delta_t);
+    std::vector<double> *w = new std::vector<double>(M+1);
+    (*w)[0] = 0.0;
+
+    for(int i=0; i<M; i++)
+    {
+        (*w)[i+1] = (*w)[i]+sqrt(delta_t)*gsl_ran_ugaussian(r);
+    }
+    
+    return w;
+}
+
+/**
+ * Simulates brownian_motion path for the given values of wiener process
+ *
+ * @param r Pointer to the gsl_rng object for generating standard normal distributed numbers
+ * @param T Time period of simulated process
+ * @param delta_t Step of discretisation
+ * @param w Pointer to the vector with values of wiener process ar discretisation points
+ * @param s0 Value of brownian_motion at time = 0
+ * @param mu Drift
+ * @param sigma Volatility
+ *
+ * @return Pointer to the vector of values at discretisation points
+ *
+ */
+    
+std::vector<double>* brownian_motion(gsl_rng* r, double T, double delta_t, std::vector<double>* w, double s0, double mu, double sigma)
+{
+    int M = (int)(T/delta_t);
+    std::vector<double> *s = new std::vector<double>(M+1);
+    (*s)[0] = s0;
+    for(int i=0; i<M; i++)
+    {
+        (*s)[i+1] = s0*exp((mu-0.5*pow(sigma, 2.0))*(i+1)*delta_t+sigma*(*w)[i+1]);
+    }
+    
+    return s;
+}
 
 
