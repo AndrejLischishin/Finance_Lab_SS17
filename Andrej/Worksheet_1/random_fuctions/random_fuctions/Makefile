@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-Wall -Wshadow
+CFLAGS=-Wall -Wshadow -std=c++11
 LDFLAGS=-lgsl -lgslcblas -lm
 
 OBJ = main.o random_functions.o

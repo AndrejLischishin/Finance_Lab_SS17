@@ -1,11 +1,9 @@
 //
 //  random_functions.cpp
-//  test
 //
 //  Created by WhoAmI on 28.04.17.
 //  Copyright © 2017 Andrei. All rights reserved.
 //
-
 
 /** @file */
 #include "random_functions.hpp"
@@ -32,38 +30,19 @@ double random_number_01_GSL(gsl_rng* r)
     return gsl_rng_uniform(r);
 }
 
-// enable doxygen processing for this header:
-/** @file */
-
-/**
- * Main function for random number evaluation.
- * A first random number \f$x_1\f$ is drawn via rand.
- * A second random number \f$x_2\f$ is drawn via gsl_rng_uniform.
- *
- * Furthermore, an array of 10 doubles is allocated. However, someone
- * seems to have forgotten to free the allocated space again in the end...
- *
- * @param argc The number of arguments provided.
- * @param argv An array of arguments (argv[0] is the name of the
- * executable).
- *
- * @return If everything worked fine, 0 is returned.
- */
-
-
 /**
  * Rejection Sampling Algorithm
  *
- * The algorithm produces standard normal distributed value
+ * The algorithm produces a standard normal distributed value.
  *
- * @param r a pointer to gsl_rng object
- * @return x returns double value, which is standard normal distributed
+ * @param r A pointer to gsl_rng object
+ * @return x Returns double value, which is standard normal distributed
  *
  */
 
 //rejection sampling algorithm
-double rejection_sampl_algo(gsl_rng* r){
-    
+double rejection_sampl_algo(gsl_rng* r)
+{    
     /**
      * interval bounds \f$[a,b]\f$, s.t. \f$\int ^{b}_{a}p\left(x\right) dx = 1\f$,
      * p(x) density for a standard normal distribution
@@ -74,7 +53,7 @@ double rejection_sampl_algo(gsl_rng* r){
     double sigma = 1;
     
     double x;
-    double y ;
+    double y;
     
     //computing max_p(x),xє[a;b], max will be reached at x = 0, because normal distributed
     double max_px = gsl_ran_gaussian_pdf(0,sigma);
@@ -90,7 +69,7 @@ double rejection_sampl_algo(gsl_rng* r){
         y = gsl_ran_flat(r,0,max_px);
         
         //check if the sampled point is under p(x), if so then return
-    }while(y<p_x||y==p_x);
+    }while(y<=p_x);
     
     return x;
     
@@ -98,9 +77,9 @@ double rejection_sampl_algo(gsl_rng* r){
 
 /**
  * Moro's algorithm is an approximation to the c.d.f. of the 
- * standard normal distribution with an accurancy of 8 digits
+ * standard normal distribution with an accurancy of 8 digits.
  *
- * @param x double value, point at which \f$p(x)\f$ will be calculated
+ * @param x Double value, point at which \f$p(x)\f$ will be calculated
  *
  * @return If everything worked fine returns \f$p(x)\f$
  */
@@ -157,7 +136,8 @@ double normal_inverse_cdf(double x){
 }
 
 /**
- * Box Mueller Algorithm
+ * Box Muller Algorithm.
+ *
  * @param mu It is mean for the normal distribution
  * @param sigma It is sigma for the normal distribution
  *
@@ -165,27 +145,18 @@ double normal_inverse_cdf(double x){
  *
  */
 
-std::vector<double>* mueller_box_algo(double mu, double sigma){
-    
-    const double epsilon = std::numeric_limits<double>::min();
-    const double two_pi = 2.0 * 3.14159265358979323846;
-    
+std::vector<double>* box_muller_algo(gsl_rng *r)
+{        
     std::vector<double>* z;
     z = new std::vector<double>;
     
     
     double z0, z1;
+    double u1 = random_number_01_GSL(r);
+    double u2 = random_number_01_GSL(r);
     
-    double u1, u2;
-    do
-    {
-        u1 = rand() * (1.0 / RAND_MAX);
-        u2 = rand() * (1.0 / RAND_MAX);
-    }
-    while ( u1 <= epsilon );
-    
-    z0 = (sqrt(-2.0 * log(u1)) * cos(two_pi * u2))*sigma+mu;
-    z1 = (sqrt(-2.0 * log(u1)) * sin(two_pi * u2))*sigma+mu;
+    z0 = sqrt(-2.0 * log(u1)) * cos(2 * M_PI * u2);
+    z1 = sqrt(-2.0 * log(u1)) * sin(2 * M_PI * u2);
     
     z->push_back(z0);
     z->push_back(z1);
@@ -204,11 +175,10 @@ std::vector<double>* mueller_box_algo(double mu, double sigma){
  * @return It returns sigma
  *
  */
-double sigma_naive(int N, std::vector<double>* sample){
-    
+double sigma_naive(std::vector<double>* sample, int N)
+{    
     double sigma = 0.0;
-    double mu = 0.0;
-    
+    double mu = 0.0;   
     
     for (int i = 0; i<N; i++) {
         mu += (*sample)[i];
@@ -245,7 +215,6 @@ double sigma_algorithm(std::vector<double>* sample, int N)
         double gamma = (*sample)[i]-alpha;
         alpha = alpha+gamma/(i+1);
         beta = beta+gamma*gamma*i/(i+1);
-        
     }
     
     sigma = sqrt(beta/i);
@@ -255,7 +224,7 @@ double sigma_algorithm(std::vector<double>* sample, int N)
 
 
 /**
- * Simulates a wiener process
+ * Simulates a wiener process.
  *
  * @param r Pointer to the gsl_rng object for generating standard normal distributed numbers
  * @param T Time period of simulated process
@@ -279,7 +248,7 @@ std::vector<double>* wiener_process(gsl_rng* r, double T, double delta_t)
 }
 
 /**
- * Simulates brownian_motion path for the given values of wiener process
+ * Simulates brownian motion path for the given values of wiener process.
  *
  * @param r Pointer to the gsl_rng object for generating standard normal distributed numbers
  * @param T Time period of simulated process
