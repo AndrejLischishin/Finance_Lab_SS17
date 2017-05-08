@@ -103,7 +103,7 @@ double standard_normal_density(double x)
 double rejection_sampling(gsl_rng* r)
 {
     double x;
-    double b = 1/sqrt(2.*M_PI);
+    double b = 1./sqrt(2.*M_PI);
     double y;
     do
     {

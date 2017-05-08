@@ -22,9 +22,9 @@ int main(int argc, char* argv[]){
     ///////////////////Task_1//////////////////
     ///////////////////////////////////////////
     
-    printf("%lf\n", random_number_01());
+    std::cout << "Random number created by rand(): " << random_number_01() << std::endl;
     
-    printf("%lf\n", random_number_01_GSL(r));
+    std::cout << "Random number created by GSL: " << random_number_01_GSL(r) << std::endl;
     
     ///////////////////////////////////////////
     ///////////////////Task_2//////////////////
@@ -61,7 +61,7 @@ int main(int argc, char* argv[]){
     // It computes inverse c.d.f. for standard normal distribution 
     // at x in order to get a standard normal distributed value.
     //
-    normal_inverse_cdf(random_number_01_GSL(r));
+    std::cout << "Result of Moros Algorithm: " << normal_inverse_cdf(random_number_01_GSL(r)) << std::endl;
     
     ///////////////////////////////////////////
     ///////////////////Task_6_7////////////////
@@ -73,16 +73,16 @@ int main(int argc, char* argv[]){
     
     //opens a file and checks if it was successfully
     //when file will be opened previous content will be deleted
-    myfile.open("output/box_muller.txt",std::ios::trunc);
+    myfile.open("output/box_muller.txt", std::ios::trunc);
     if (!myfile.is_open()) {
-        std::cout<<"Error opening the file"<<std::endl;
+        std::cout << "Error opening the file" << std::endl;
     }
     
     // output of the mueller_box_algo in order to write it to the file
     std::vector<double>* output;
     for (int i = 0; i<num_sampl; i++) {
         output = box_muller_algo(r);
-        myfile<<(*output)[0]<<" "<<(*output)[1]<<std::endl;
+        myfile << (*output)[0] << " " << (*output)[1] << std::endl;
     }
         
     //closes file

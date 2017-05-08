@@ -1,15 +1,13 @@
 //
 //  random_functions.hpp
-//  test
 //
 //  Created by WhoAmI on 28.04.17.
 //  Copyright © 2017 Andrei. All rights reserved.
 //
-
+/** @file */
 #ifndef random_functions_hpp
 #define random_functions_hpp
 
-/** @file */
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
@@ -54,18 +52,10 @@
 #define G8 0.0000003960315187
 
 
-//
-//  random_functions.cpp
-//
-//  Created by WhoAmI on 28.04.17.
-//  Copyright © 2017 Andrei. All rights reserved.
-//
-
-
 /**
  * Draws a random number bewtween \f$[0,1]\f$ via rand.
  *
- * @return The drawn random number.
+ * @return The drawn random number
  */
 double random_number_01()
 {
@@ -75,9 +65,9 @@ double random_number_01()
 /**
  * Draws a random number in \f$[0,1]\f$ via the gsl.
  *
- * @param r A pointer to the random number generator which is used.
+ * @param r A pointer to the random number generator which is used
  *
- * @return The drawn random number.
+ * @return The drawn random number
  */
 double random_number_01_GSL(gsl_rng* r)
 {
@@ -93,8 +83,6 @@ double random_number_01_GSL(gsl_rng* r)
  * @return x Returns double value, which is standard normal distributed
  *
  */
-
-//rejection sampling algorithm
 double rejection_sampl_algo(gsl_rng* r)
 {    
     /**
@@ -110,28 +98,27 @@ double rejection_sampl_algo(gsl_rng* r)
     double y;
     
     //computing max_p(x),xє[a;b], max will be reached at x = 0, because normal distributed
-    double max_px = gsl_ran_gaussian_pdf(0,sigma);
+    double max_px = 1./sqrt(2.*M_PI);
     double p_x;
     
     //until y>p(x), so until we are above the maximum of probability density function
     do{
         //draws uniformly distributed x'є[a,b]
-        x = gsl_ran_flat(r,a,b);
+        x = gsl_ran_flat(r, a, b);
         //computes density value at point x
-        p_x = gsl_ran_gaussian_pdf(x,sigma);
+        p_x = gsl_ran_gaussian_pdf(x, sigma);
         //draws uniformly distributed yє[0,max_px]
-        y = gsl_ran_flat(r,0,max_px);
-        
+        y = gsl_ran_flat(r, 0, max_px);
+
         //check if the sampled point is under p(x), if so then return
-    }while(y<=p_x);
+    }while(y>p_x);
     
     return x;
     
 }
 
 /**
- * Moro's algorithm is an approximation to the c.d.f. of the 
- * standard normal distribution with an accurancy of 8 digits.
+ * Moro's algorithm is an approximation to the c.d.f. of the standard normal distribution with an accurancy of 8 digits.
  *
  * @param x Double value, point at which \f$p(x)\f$ will be calculated
  *
@@ -158,9 +145,9 @@ double normal_cdf(double x){
 /**
  * Calculates the inverse CDF of the standard normal distribution for a parameter x.
  *
- * @param x The parameter for the inverse CDF of the standard normal distribution.
+ * @param x The parameter for the inverse CDF of the standard normal distribution
  *
- * @return The value of the inverse CDF at x.
+ * @return The value of the inverse CDF at x
  */
 
 double normal_inverse_cdf(double x){
@@ -204,7 +191,6 @@ std::vector<double>* box_muller_algo(gsl_rng *r)
     std::vector<double>* z;
     z = new std::vector<double>;
     
-    
     double z0, z1;
     double u1 = random_number_01_GSL(r);
     double u2 = random_number_01_GSL(r);
@@ -220,13 +206,12 @@ std::vector<double>* box_muller_algo(gsl_rng *r)
 }
 
 /**
- * naively computing mean mu and sigma of a collection
- * of normal distributed samples
- * @param N Number of given samples
- * @param sample Pointer to the vector of double valued
- * normal distributed samples
+ * Naively computing sigma of given samples.
  *
- * @return It returns sigma
+ * @param N Number of given samples
+ * @param sample Pointer to the vector of double valued normal distributed samples
+ *
+ * @return The calculated variance of the samples
  *
  */
 double sigma_naive(std::vector<double>* sample, int N)
@@ -253,10 +238,10 @@ double sigma_naive(std::vector<double>* sample, int N)
 /**
  * Calculates the variance for N given values.
  *
- * @param sample Samples to calculate the variance of.
- * @param N Number of samples.
+ * @param sample Samples to calculate the variance of
+ * @param N Number of samples
  *
- * @return The calculated variance of the samples.
+ * @return The calculated variance of the samples
  */
 double sigma_algorithm(std::vector<double>* sample, int N)
 {
@@ -307,7 +292,7 @@ std::vector<double>* wiener_process(gsl_rng* r, double T, double delta_t)
  * @param r Pointer to the gsl_rng object for generating standard normal distributed numbers
  * @param T Time period of simulated process
  * @param delta_t Step of discretisation
- * @param w Pointer to the vector with values of wiener process ar discretisation points
+ * @param w Pointer to the vector with values of wiener process at discretisation points
  * @param s0 Value of brownian_motion at time = 0
  * @param mu Drift
  * @param sigma Volatility

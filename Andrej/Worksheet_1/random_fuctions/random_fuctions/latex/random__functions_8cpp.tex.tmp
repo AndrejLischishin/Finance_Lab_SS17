@@ -1,0 +1,228 @@
+\hypertarget{random__functions_8cpp}{}\section{random\+\_\+functions.\+cpp File Reference}
+\label{random__functions_8cpp}\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+{\ttfamily \#include \char`\"{}random\+\_\+functions.\+hpp\char`\"{}}\\*
+Include dependency graph for random\+\_\+functions.\+cpp\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{random__functions_8cpp_aa3e0bf590edce7b42c75b6b3766e6d82}{random\+\_\+number01} ()
+\item 
+double \hyperlink{random__functions_8cpp_a955b51c233f8992897ca5d6497d68c31}{random\+\_\+number\+\_\+01\+\_\+\+G\+SL} (gsl\+\_\+rng $\ast$r)
+\item 
+double \hyperlink{random__functions_8cpp_a89d0330238c925b3b5812b5e4583fe18}{rejection\+\_\+sampl\+\_\+algo} (gsl\+\_\+rng $\ast$r)
+\item 
+double \hyperlink{random__functions_8cpp_a5d04b4ea8492d9c10b6ba838b1c558a7}{normal\+\_\+cdf} (double x)
+\item 
+double \hyperlink{random__functions_8cpp_acf5555d3927b736febdd784e2cbae160}{normal\+\_\+inverse\+\_\+cdf} (double x)
+\item 
+std\+::vector$<$ double $>$ $\ast$ \hyperlink{random__functions_8cpp_a59006c8833ff05e4df50680d6b2d917a}{box\+\_\+muller\+\_\+algo} (gsl\+\_\+rng $\ast$r)
+\item 
+double \hyperlink{random__functions_8cpp_a290047380a1e258032960cf232cf7748}{sigma\+\_\+naive} (std\+::vector$<$ double $>$ $\ast$sample, int N)
+\item 
+double \hyperlink{random__functions_8cpp_abfd8c70069b425f7288f6ac20839c8d0}{sigma\+\_\+algorithm} (std\+::vector$<$ double $>$ $\ast$sample, int N)
+\item 
+std\+::vector$<$ double $>$ $\ast$ \hyperlink{random__functions_8cpp_a485ed93a0c324453196f4ca8ad9bfaa4}{wiener\+\_\+process} (gsl\+\_\+rng $\ast$r, double T, double delta\+\_\+t)
+\item 
+std\+::vector$<$ double $>$ $\ast$ \hyperlink{random__functions_8cpp_a4770d6cd7afcf77d63557fbeb7405558}{brownian\+\_\+motion} (gsl\+\_\+rng $\ast$r, double T, double delta\+\_\+t, std\+::vector$<$ double $>$ $\ast$w, double s0, double mu, double sigma)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}!box\+\_\+muller\+\_\+algo@{box\+\_\+muller\+\_\+algo}}
+\index{box\+\_\+muller\+\_\+algo@{box\+\_\+muller\+\_\+algo}!random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+\subsubsection[{\texorpdfstring{box\+\_\+muller\+\_\+algo(gsl\+\_\+rng $\ast$r)}{box_muller_algo(gsl_rng *r)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$double$>$$\ast$ box\+\_\+muller\+\_\+algo (
+\begin{DoxyParamCaption}
+\item[{gsl\+\_\+rng $\ast$}]{r}
+\end{DoxyParamCaption}
+)}\hypertarget{random__functions_8cpp_a59006c8833ff05e4df50680d6b2d917a}{}\label{random__functions_8cpp_a59006c8833ff05e4df50680d6b2d917a}
+Box Muller Algorithm.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mu} & It is mean for the normal distribution \\
+\hline
+{\em sigma} & It is sigma for the normal distribution\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+It returns pointer to the vector with 2 normal distributed values 
+\end{DoxyReturn}
+\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}!brownian\+\_\+motion@{brownian\+\_\+motion}}
+\index{brownian\+\_\+motion@{brownian\+\_\+motion}!random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+\subsubsection[{\texorpdfstring{brownian\+\_\+motion(gsl\+\_\+rng $\ast$r, double T, double delta\+\_\+t, std\+::vector$<$ double $>$ $\ast$w, double s0, double mu, double sigma)}{brownian_motion(gsl_rng *r, double T, double delta_t, std::vector< double > *w, double s0, double mu, double sigma)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$double$>$$\ast$ brownian\+\_\+motion (
+\begin{DoxyParamCaption}
+\item[{gsl\+\_\+rng $\ast$}]{r, }
+\item[{double}]{T, }
+\item[{double}]{delta\+\_\+t, }
+\item[{std\+::vector$<$ double $>$ $\ast$}]{w, }
+\item[{double}]{s0, }
+\item[{double}]{mu, }
+\item[{double}]{sigma}
+\end{DoxyParamCaption}
+)}\hypertarget{random__functions_8cpp_a4770d6cd7afcf77d63557fbeb7405558}{}\label{random__functions_8cpp_a4770d6cd7afcf77d63557fbeb7405558}
+Simulates brownian motion path for the given values of wiener process.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Pointer to the gsl\+\_\+rng object for generating standard normal distributed numbers \\
+\hline
+{\em T} & Time period of simulated process \\
+\hline
+{\em delta\+\_\+t} & Step of discretisation \\
+\hline
+{\em w} & Pointer to the vector with values of wiener process ar discretisation points \\
+\hline
+{\em s0} & Value of brownian\+\_\+motion at time = 0 \\
+\hline
+{\em mu} & Drift \\
+\hline
+{\em sigma} & Volatility\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the vector of values at discretisation points 
+\end{DoxyReturn}
+\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}!normal\+\_\+cdf@{normal\+\_\+cdf}}
+\index{normal\+\_\+cdf@{normal\+\_\+cdf}!random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+\subsubsection[{\texorpdfstring{normal\+\_\+cdf(double x)}{normal_cdf(double x)}}]{\setlength{\rightskip}{0pt plus 5cm}double normal\+\_\+cdf (
+\begin{DoxyParamCaption}
+\item[{double}]{x}
+\end{DoxyParamCaption}
+)}\hypertarget{random__functions_8cpp_a5d04b4ea8492d9c10b6ba838b1c558a7}{}\label{random__functions_8cpp_a5d04b4ea8492d9c10b6ba838b1c558a7}
+Moro\textquotesingle{}s algorithm is an approximation to the c.\+d.\+f. of the standard normal distribution with an accurancy of 8 digits.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Double value, point at which $p(x)$ will be calculated\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If everything worked fine returns $p(x)$ 
+\end{DoxyReturn}
+\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}!normal\+\_\+inverse\+\_\+cdf@{normal\+\_\+inverse\+\_\+cdf}}
+\index{normal\+\_\+inverse\+\_\+cdf@{normal\+\_\+inverse\+\_\+cdf}!random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+\subsubsection[{\texorpdfstring{normal\+\_\+inverse\+\_\+cdf(double x)}{normal_inverse_cdf(double x)}}]{\setlength{\rightskip}{0pt plus 5cm}double normal\+\_\+inverse\+\_\+cdf (
+\begin{DoxyParamCaption}
+\item[{double}]{x}
+\end{DoxyParamCaption}
+)}\hypertarget{random__functions_8cpp_acf5555d3927b736febdd784e2cbae160}{}\label{random__functions_8cpp_acf5555d3927b736febdd784e2cbae160}
+Calculates the inverse C\+DF of the standard normal distribution for a parameter x.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The parameter for the inverse C\+DF of the standard normal distribution.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value of the inverse C\+DF at x. 
+\end{DoxyReturn}
+\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}!random\+\_\+number01@{random\+\_\+number01}}
+\index{random\+\_\+number01@{random\+\_\+number01}!random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+\subsubsection[{\texorpdfstring{random\+\_\+number01()}{random_number01()}}]{\setlength{\rightskip}{0pt plus 5cm}double random\+\_\+number01 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{random__functions_8cpp_aa3e0bf590edce7b42c75b6b3766e6d82}{}\label{random__functions_8cpp_aa3e0bf590edce7b42c75b6b3766e6d82}
+Draws a random number bewtween $[0,1]$ via rand.
+
+\begin{DoxyReturn}{Returns}
+The drawn random number. 
+\end{DoxyReturn}
+\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}!random\+\_\+number\+\_\+01\+\_\+\+G\+SL@{random\+\_\+number\+\_\+01\+\_\+\+G\+SL}}
+\index{random\+\_\+number\+\_\+01\+\_\+\+G\+SL@{random\+\_\+number\+\_\+01\+\_\+\+G\+SL}!random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+\subsubsection[{\texorpdfstring{random\+\_\+number\+\_\+01\+\_\+\+G\+S\+L(gsl\+\_\+rng $\ast$r)}{random_number_01_GSL(gsl_rng *r)}}]{\setlength{\rightskip}{0pt plus 5cm}double random\+\_\+number\+\_\+01\+\_\+\+G\+SL (
+\begin{DoxyParamCaption}
+\item[{gsl\+\_\+rng $\ast$}]{r}
+\end{DoxyParamCaption}
+)}\hypertarget{random__functions_8cpp_a955b51c233f8992897ca5d6497d68c31}{}\label{random__functions_8cpp_a955b51c233f8992897ca5d6497d68c31}
+Draws a random number in $[0,1]$ via the gsl.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & A pointer to the random number generator which is used.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The drawn random number. 
+\end{DoxyReturn}
+\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}!rejection\+\_\+sampl\+\_\+algo@{rejection\+\_\+sampl\+\_\+algo}}
+\index{rejection\+\_\+sampl\+\_\+algo@{rejection\+\_\+sampl\+\_\+algo}!random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+\subsubsection[{\texorpdfstring{rejection\+\_\+sampl\+\_\+algo(gsl\+\_\+rng $\ast$r)}{rejection_sampl_algo(gsl_rng *r)}}]{\setlength{\rightskip}{0pt plus 5cm}double rejection\+\_\+sampl\+\_\+algo (
+\begin{DoxyParamCaption}
+\item[{gsl\+\_\+rng $\ast$}]{r}
+\end{DoxyParamCaption}
+)}\hypertarget{random__functions_8cpp_a89d0330238c925b3b5812b5e4583fe18}{}\label{random__functions_8cpp_a89d0330238c925b3b5812b5e4583fe18}
+Rejection Sampling Algorithm
+
+The algorithm produces a standard normal distributed value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & A pointer to gsl\+\_\+rng object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+x Returns double value, which is standard normal distributed 
+\end{DoxyReturn}
+interval bounds $[a,b]$, s.\+t. $\int ^{b}_{a}p\left(x\right) dx = 1$, p(x) density for a standard normal distribution\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}!sigma\+\_\+algorithm@{sigma\+\_\+algorithm}}
+\index{sigma\+\_\+algorithm@{sigma\+\_\+algorithm}!random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+\subsubsection[{\texorpdfstring{sigma\+\_\+algorithm(std\+::vector$<$ double $>$ $\ast$sample, int N)}{sigma_algorithm(std::vector< double > *sample, int N)}}]{\setlength{\rightskip}{0pt plus 5cm}double sigma\+\_\+algorithm (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ double $>$ $\ast$}]{sample, }
+\item[{int}]{N}
+\end{DoxyParamCaption}
+)}\hypertarget{random__functions_8cpp_abfd8c70069b425f7288f6ac20839c8d0}{}\label{random__functions_8cpp_abfd8c70069b425f7288f6ac20839c8d0}
+Calculates the variance for N given values.
+
+
+\begin{DoxyParams}{Parameters}
+{\em sample} & Samples to calculate the variance of. \\
+\hline
+{\em N} & Number of samples.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The calculated variance of the samples. 
+\end{DoxyReturn}
+\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}!sigma\+\_\+naive@{sigma\+\_\+naive}}
+\index{sigma\+\_\+naive@{sigma\+\_\+naive}!random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+\subsubsection[{\texorpdfstring{sigma\+\_\+naive(std\+::vector$<$ double $>$ $\ast$sample, int N)}{sigma_naive(std::vector< double > *sample, int N)}}]{\setlength{\rightskip}{0pt plus 5cm}double sigma\+\_\+naive (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ double $>$ $\ast$}]{sample, }
+\item[{int}]{N}
+\end{DoxyParamCaption}
+)}\hypertarget{random__functions_8cpp_a290047380a1e258032960cf232cf7748}{}\label{random__functions_8cpp_a290047380a1e258032960cf232cf7748}
+naively computing mean mu and sigma of a collection of normal distributed samples 
+\begin{DoxyParams}{Parameters}
+{\em N} & Number of given samples \\
+\hline
+{\em sample} & Pointer to the vector of double valued normal distributed samples\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+It returns sigma 
+\end{DoxyReturn}
+\index{random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}!wiener\+\_\+process@{wiener\+\_\+process}}
+\index{wiener\+\_\+process@{wiener\+\_\+process}!random\+\_\+functions.\+cpp@{random\+\_\+functions.\+cpp}}
+\subsubsection[{\texorpdfstring{wiener\+\_\+process(gsl\+\_\+rng $\ast$r, double T, double delta\+\_\+t)}{wiener_process(gsl_rng *r, double T, double delta_t)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$double$>$$\ast$ wiener\+\_\+process (
+\begin{DoxyParamCaption}
+\item[{gsl\+\_\+rng $\ast$}]{r, }
+\item[{double}]{T, }
+\item[{double}]{delta\+\_\+t}
+\end{DoxyParamCaption}
+)}\hypertarget{random__functions_8cpp_a485ed93a0c324453196f4ca8ad9bfaa4}{}\label{random__functions_8cpp_a485ed93a0c324453196f4ca8ad9bfaa4}
+Simulates a wiener process.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Pointer to the gsl\+\_\+rng object for generating standard normal distributed numbers \\
+\hline
+{\em T} & Time period of simulated process \\
+\hline
+{\em delta\+\_\+t} & Step of discretisation\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the vector of values at discretisation points 
+\end{DoxyReturn}
