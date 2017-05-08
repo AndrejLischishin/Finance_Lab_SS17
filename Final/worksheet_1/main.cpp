@@ -1,11 +1,10 @@
 //
 //  main.cpp
-//  test
 //
 //  Created by WhoAmI on 28.04.17.
 //  Copyright © 2017 Andrei. All rights reserved.
 //
-
+/** @file */
 #include "../header_files/random_functions.hpp"
 #include <string>
 
@@ -23,7 +22,7 @@ int main(int argc, char* argv[]){
     ///////////////////Task_1//////////////////
     ///////////////////////////////////////////
     
-    printf("%lf\n", random_number01());
+    printf("%lf\n", random_number_01());
     
     printf("%lf\n", random_number_01_GSL(r));
     
@@ -36,9 +35,8 @@ int main(int argc, char* argv[]){
     std::ofstream myfile;
     
     //opens a file and checks if it was successfully
-    //when file will be opened previous content will be deleted
-    
-    myfile.open("rejection_sampl.txt",std::ios::trunc);
+    //when file will be opened previous content will be deleted  
+    myfile.open("output/rejection_sampl.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
@@ -50,8 +48,6 @@ int main(int argc, char* argv[]){
     //closes file
     myfile.close();
     
-    
-    
     ///////////////////////////////////////////
     ///////////////////Task_3_matlab///////////
     ///////////////////////////////////////////
@@ -60,13 +56,12 @@ int main(int argc, char* argv[]){
     ///////////////////Task_4_5////////////////
     ///////////////////////////////////////////
     
-    /**
-     * Beasley_Springer_Moro Algorithm
-     * it computes inverse c.d.f. for standard normal distribution 
-     * at x in order to become a standard normal distributed value
-     *
-     */
-    normal_inverse_cdf(gsl_ran_flat(r, 0, 1));
+    //
+	// Moros Algorithm
+    // It computes inverse c.d.f. for standard normal distribution 
+    // at x in order to get a standard normal distributed value.
+    //
+    normal_inverse_cdf(random_number_01_GSL(r));
     
     ///////////////////////////////////////////
     ///////////////////Task_6_7////////////////
@@ -78,7 +73,7 @@ int main(int argc, char* argv[]){
     
     //opens a file and checks if it was successfully
     //when file will be opened previous content will be deleted
-    myfile.open("mueller_box.txt",std::ios::trunc);
+    myfile.open("output/box_muller.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
@@ -97,7 +92,6 @@ int main(int argc, char* argv[]){
     ///////////////////Task_8_9////////////////
     ///////////////////////////////////////////
     
-    
     int N_max = 10000000;
     
     //Three different values for sigma a
@@ -115,16 +109,16 @@ int main(int argc, char* argv[]){
     
     double output_2;
     
-    for (int j = 0; j<num_of_sigmas; j++) {
+    for(int j=0; j<num_of_sigmas; j++) {
         //opens a file and checks if it was successfully
         //when file will be opened previous content will be deleted
-        myfile.open("sigma_err_"+files[j]+".txt",std::ios::trunc);
+        myfile.open("output/sigma_err_"+files[j]+".txt",std::ios::trunc);
         if (!myfile.is_open()) {
             std::cout<<"Error opening the file"<<std::endl;
         }
         
-        for (int N = 10,k = 0; N<=N_max; N = 10*N, k++) {
-            for (int i = 0; i<N; i++) {
+        for(int N=10,k=0; N<=N_max; N=10*N, k++) {
+            for(int i=0; i<N; i++) {
                 output_2 = gsl_ran_gaussian(r, sigma_s[j])+mean;
                 samples.push_back(output_2);
             }
@@ -137,7 +131,6 @@ int main(int argc, char* argv[]){
         
         //closes file
         myfile.close();
-        
     }
     
     
@@ -154,13 +147,11 @@ int main(int argc, char* argv[]){
     std::ofstream wiener_file;
     std::ofstream asset_file;
     
-    
-    
     std::vector<double>* w_1 = wiener_process(r, T_w, delta_t[0]);
     std::vector<double>* w_2 = wiener_process(r, T_w, delta_t[0]);
     std::vector<double>* w_3 = wiener_process(r, T_w, delta_t[0]);
     
-    wiener_file.open("wiener_process_points_0.5.txt",std::ios::trunc);
+    wiener_file.open("output/wiener_process_points_0.5.txt",std::ios::trunc);
     if (!wiener_file.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
@@ -175,7 +166,7 @@ int main(int argc, char* argv[]){
     std::vector<double>* w_5 = wiener_process(r, T_w, delta_t[1]);
     std::vector<double>* w_6 = wiener_process(r, T_w, delta_t[1]);
     
-    wiener_file.open("wiener_process_points_0.01.txt",std::ios::trunc);
+    wiener_file.open("output/wiener_process_points_0.01.txt",std::ios::trunc);
     if (!wiener_file.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
@@ -185,7 +176,7 @@ int main(int argc, char* argv[]){
     wiener_file.close();
     
     
-    asset_file.open("correspond_asset_prices_points_0.5.txt",std::ios::trunc);
+    asset_file.open("output/correspond_asset_prices_points_0.5.txt",std::ios::trunc);
     if (!asset_file.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
@@ -200,11 +191,10 @@ int main(int argc, char* argv[]){
         
     asset_file.close();
     
-    asset_file.open("correspond_asset_prices_points_0.01.txt",std::ios::trunc);
+    asset_file.open("output/correspond_asset_prices_points_0.01.txt",std::ios::trunc);
     if (!asset_file.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
-
     
     M = (int)(T_w/delta_t[1]);
     std::vector<double>* s_4 = brownian_motion(r, T_w, delta_t[1], w_4, s0, mu_w, sigma_w);
