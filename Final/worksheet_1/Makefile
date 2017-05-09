@@ -2,24 +2,26 @@ CC=g++
 CFLAGS=-Wall -Wshadow -std=c++11
 LDFLAGS=-lgsl -lgslcblas -lm
 
-SRC = main.cpp
-OBJ = main.o
-DEPS = ../header_files/random_functions.hpp
+OBJ = main.o random_functions.o
 
-all: $(OBJ) $(DEPS) doc
-	$(CC) $(CFLAGS) $(OBJ) $(LDFLAGS) -o worksheet1
+all: $(OBJ) doc 
+	$(CC) $(CFLAGS) $(OBJ) $(LDFLAGS) -o myProg
 
-main.o: main.cpp
-	$(CC) $(CFLAGS) -g -c main.cpp $(DEPS)
+main.o:main.cpp
+	$(CC) $(CFLAGS) -g -c main.cpp ../header_files/random_functions.hpp
+random_functions.o:../header_files/random_functions.cpp
+	$(CC) $(CFLAGS) -g -c ../header_files/random_functions.cpp ../header_files/random_functions.hpp
+
 
 doc:
 	doxygen doxygenConfig.cfg
 
+
 clean:
-	rm -f *.o worksheet1
+	rm -f *.o myProg
 
 clean_all:
-	rm -f *.o worksheet1
+	rm -f *.o myProg
 	rm -rf html/
 	rm -rf latex/
-
+	

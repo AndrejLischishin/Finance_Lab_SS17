@@ -69,7 +69,7 @@ double rejection_sampl_algo(gsl_rng* r)
         y = gsl_ran_flat(r,0,max_px);
         
         //check if the sampled point is under p(x), if so then return
-    }while(y<=p_x);
+    }while(y>p_x);
     
     return x;
     
@@ -137,9 +137,6 @@ double normal_inverse_cdf(double x){
 
 /**
  * Box Muller Algorithm.
- *
- * @param mu It is mean for the normal distribution
- * @param sigma It is sigma for the normal distribution
  *
  * @return It returns pointer to the vector with 2 normal distributed values
  *
