@@ -1,13 +1,11 @@
 //
-//  random_functions.hpp
+//  random_functions.cpp
 //
 //  Created by WhoAmI on 28.04.17.
 //  Copyright © 2017 Andrei. All rights reserved.
 //
-
-#include "random_functions.hpp"
 /** @file */
-
+#include "random_functions.hpp"
 
 /**
  * Draws a random number bewtween \f$[0,1]\f$ via rand.
@@ -37,8 +35,8 @@ double random_number_01_GSL(gsl_rng* r)
  * The algorithm produces a standard normal distributed value.
  *
  * @param r A pointer to gsl_rng object
- * @return x Returns double value, which is standard normal distributed
  *
+ * @return x Returns double value, which is standard normal distributed
  */
 double rejection_sampl_algo(gsl_rng* r)
 {    
@@ -106,7 +104,6 @@ double normal_cdf(double x){
  *
  * @return The value of the inverse CDF at x
  */
-
 double normal_inverse_cdf(double x){
     
     double p = x-0.5;
@@ -136,13 +133,10 @@ double normal_inverse_cdf(double x){
 /**
  * Box Muller Algorithm.
  *
- * @param mu It is mean for the normal distribution
- * @param sigma It is sigma for the normal distribution
+ * @param r A pointer to gsl_rng object
  *
  * @return It returns pointer to the vector with 2 normal distributed values
- *
  */
-
 std::vector<double>* box_muller_algo(gsl_rng *r)
 {        
     std::vector<double>* z;
@@ -169,7 +163,6 @@ std::vector<double>* box_muller_algo(gsl_rng *r)
  * @param sample Pointer to the vector of double valued normal distributed samples
  *
  * @return The calculated variance of the samples
- *
  */
 double sigma_naive(std::vector<double>* sample, int N)
 {    
@@ -228,7 +221,6 @@ double sigma_algorithm(std::vector<double>* sample, int N)
  *
  * @return Pointer to the vector of values at discretisation points
  */
-
 std::vector<double>* wiener_process(gsl_rng* r, double T, double delta_t)
 {
     int M = (int)(T/delta_t);
@@ -255,9 +247,7 @@ std::vector<double>* wiener_process(gsl_rng* r, double T, double delta_t)
  * @param sigma Volatility
  *
  * @return Pointer to the vector of values at discretisation points
- *
  */
-    
 std::vector<double>* brownian_motion(gsl_rng* r, double T, double delta_t, std::vector<double>* w, double s0, double mu, double sigma)
 {
     int M = (int)(T/delta_t);
@@ -270,5 +260,3 @@ std::vector<double>* brownian_motion(gsl_rng* r, double T, double delta_t, std::
     
     return s;
 }
-
-

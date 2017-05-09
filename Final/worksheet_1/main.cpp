@@ -8,6 +8,15 @@
 #include "../header_files/random_functions.hpp"
 #include <string>
 
+/**
+ * Main function to run all exercises of worksheet 1.
+ *
+ * @param argc Integer argument for main
+ * @param argv Char array argument for main
+ *
+ * @return Returns 0 if everything worked fine
+ *
+ */
 int main(int argc, char* argv[]){
     
     gsl_rng* r;
