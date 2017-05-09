@@ -1,1 +1,0 @@
-fid = fopen('/Users/andrei/Desktop/Finanzpraktikum_W1/Finance_Lab_SS17/Andrej/Worksheet_1/random_fuctions/Build/Products/Debug/mueller_box.txt', 'r');data = fscanf(fid, '%f');fclose(fid);[vals, bins] = hist(data, 100);plot(bins,vals / trapz(bins,vals), '*', bins, 1/sqrt(2*pi)*exp(-bins.^2 /2), '-');legend('box mueller', 'p(x)');xlabel('x');ylabel('density');
