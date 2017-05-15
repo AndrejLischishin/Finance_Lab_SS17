@@ -6,6 +6,7 @@
 //
 /** @file */
 #include "../header_files/random_functions.hpp"
+#include "../header_files/simulation_functions.hpp"
 #include <string>
 
 /**
