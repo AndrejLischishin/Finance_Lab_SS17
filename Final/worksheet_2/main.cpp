@@ -21,10 +21,14 @@ double integrate_by_point_evaluation(double (*function_to_integrate)(double x, A
 	return result;
 }
 
-
 double function_to_integrate(double x)
 {
 	return x;
+}
+
+double f_gamma(double x, double gamma)
+{
+	return 1.0+gamma*exp(0.5*x);
 }
 
 /**
@@ -57,24 +61,28 @@ int main(int argc, char* argv[]){
 	trap_rule(nodes, weights, l);
 	std::cout << "Trapezoidal rule:" << std::endl;
 	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, pow(2,l)-1) << std::endl;
+	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, pow(2,l)-1, 1.) << std::endl;
 	std::cout << integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, 10., 0.1, 0.2, 1., 10.) << std::endl;
 	nodes->clear();
 	weights->clear();
 	clenshaw_curtis(nodes, weights, l);
 	std::cout << "Clenshaw curtis:" << std::endl;
 	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, pow(2,l)-1) << std::endl;
+	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, pow(2,l)-1, 1.) << std::endl;
 	std::cout << integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, 10., 0.1, 0.2, 1., 10.) << std::endl;
 	nodes->clear();
 	weights->clear();
 	monte_carlo(nodes, weights, pow(2,l)-1, r);
 	std::cout << "Monte Carlo:" << std::endl;
 	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, pow(2,l)-1) << std::endl;
+	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, pow(2,l)-1, 1.) << std::endl;
 	std::cout << integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, 10., 0.1, 0.2, 1., 10.) << std::endl;
 	nodes->clear();
 	weights->clear();
 	gauss_legendre(nodes, weights, pow(2,l)-1);
 	std::cout << "Gauss Legendre:" << std::endl;
 	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, pow(2,l)-1) << std::endl;
+	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, pow(2,l)-1, 1.) << std::endl;
 	std::cout << integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, 10., 0.1, 0.2, 1., 10.) << std::endl;
 	
     return 0;
