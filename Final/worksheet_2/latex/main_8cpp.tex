@@ -2,14 +2,45 @@
 \label{main_8cpp}\index{main.\+cpp@{main.\+cpp}}
 {\ttfamily \#include \char`\"{}../header\+\_\+files/random\+\_\+functions.\+hpp\char`\"{}}\\*
 {\ttfamily \#include \char`\"{}../header\+\_\+files/simulation\+\_\+functions.\+hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../header\+\_\+files/integration\+\_\+functions.\+hpp\char`\"{}}\\*
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\double \hyperlink{main_8cpp_a399d5e5451131f462dc2cd2cdd77c6f7}{integrate\+\_\+by\+\_\+point\+\_\+evaluation} (double($\ast$function\+\_\+to\+\_\+integrate)(double x, Args...\+rest), std\+::vector$<$ double $>$ $\ast$nodes, std\+::vector$<$ double $>$ $\ast$weights, int n, Args...\+rest)
+\item 
+double {\bfseries function\+\_\+to\+\_\+integrate} (double x)\hypertarget{main_8cpp_a216c2d282fecf821521c536f876335a9}{}\label{main_8cpp_a216c2d282fecf821521c536f876335a9}
+
 \item 
 int \hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
 \end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
+\index{main.\+cpp@{main.\+cpp}!integrate\+\_\+by\+\_\+point\+\_\+evaluation@{integrate\+\_\+by\+\_\+point\+\_\+evaluation}}
+\index{integrate\+\_\+by\+\_\+point\+\_\+evaluation@{integrate\+\_\+by\+\_\+point\+\_\+evaluation}!main.\+cpp@{main.\+cpp}}
+\subsubsection[{\texorpdfstring{integrate\+\_\+by\+\_\+point\+\_\+evaluation(double($\ast$function\+\_\+to\+\_\+integrate)(double x, Args...\+rest), std\+::vector$<$ double $>$ $\ast$nodes, std\+::vector$<$ double $>$ $\ast$weights, int n, Args...\+rest)}{integrate_by_point_evaluation(double(*function_to_integrate)(double x, Args...rest), std::vector< double > *nodes, std::vector< double > *weights, int n, Args...rest)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename... Args$>$ double integrate\+\_\+by\+\_\+point\+\_\+evaluation (
+\begin{DoxyParamCaption}
+\item[{double($\ast$)(double x, Args...\+rest)}]{function\+\_\+to\+\_\+integrate, }
+\item[{std\+::vector$<$ double $>$ $\ast$}]{nodes, }
+\item[{std\+::vector$<$ double $>$ $\ast$}]{weights, }
+\item[{int}]{n, }
+\item[{Args...}]{rest}
+\end{DoxyParamCaption}
+)}\hypertarget{main_8cpp_a399d5e5451131f462dc2cd2cdd77c6f7}{}\label{main_8cpp_a399d5e5451131f462dc2cd2cdd77c6f7}
+Simulates a wiener process.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Pointer to the gsl\+\_\+rng object for generating standard normal distributed numbers \\
+\hline
+{\em T} & Time period of simulated process \\
+\hline
+{\em delta\+\_\+t} & Step of discretisation\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the vector of values at discretisation points 
+\end{DoxyReturn}
 \index{main.\+cpp@{main.\+cpp}!main@{main}}
 \index{main@{main}!main.\+cpp@{main.\+cpp}}
 \subsubsection[{\texorpdfstring{main(int argc, char $\ast$argv[])}{main(int argc, char *argv[])}}]{\setlength{\rightskip}{0pt plus 5cm}int main (

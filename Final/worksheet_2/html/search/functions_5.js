@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['wiener_5fprocess',['wiener_process',['../simulation__functions_8cpp.html#a485ed93a0c324453196f4ca8ad9bfaa4',1,'simulation_functions.cpp']]]
+  ['sigma_5falgorithm',['sigma_algorithm',['../random__functions_8cpp.html#abfd8c70069b425f7288f6ac20839c8d0',1,'random_functions.cpp']]],
+  ['sigma_5fnaive',['sigma_naive',['../random__functions_8cpp.html#a290047380a1e258032960cf232cf7748',1,'random_functions.cpp']]]
 ];

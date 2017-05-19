@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['main_2ecpp',['main.cpp',['../main_8cpp.html',1,'']]]
+  ['integration_5ffunctions_2ecpp',['integration_functions.cpp',['../integration__functions_8cpp.html',1,'']]]
 ];

@@ -87,13 +87,76 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><code>#include &quot;../header_files/random_functions.hpp&quot;</code><br />
 <code>#include &quot;../header_files/simulation_functions.hpp&quot;</code><br />
+<code>#include &quot;../header_files/integration_functions.hpp&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a399d5e5451131f462dc2cd2cdd77c6f7"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:a399d5e5451131f462dc2cd2cdd77c6f7"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a399d5e5451131f462dc2cd2cdd77c6f7">integrate_by_point_evaluation</a> (double(*function_to_integrate)(double x, Args...rest), std::vector&lt; double &gt; *nodes, std::vector&lt; double &gt; *weights, int n, Args...rest)</td></tr>
+<tr class="separator:a399d5e5451131f462dc2cd2cdd77c6f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a216c2d282fecf821521c536f876335a9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a216c2d282fecf821521c536f876335a9"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>function_to_integrate</b> (double x)</td></tr>
+<tr class="separator:a216c2d282fecf821521c536f876335a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
 <tr class="separator:a0ddf1224851353fc92bfbff6f499fa97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a399d5e5451131f462dc2cd2cdd77c6f7"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">double integrate_by_point_evaluation </td>
+          <td>(</td>
+          <td class="paramtype">double(*)(double x, Args...rest)&#160;</td>
+          <td class="paramname"><em>function_to_integrate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; double &gt; *&#160;</td>
+          <td class="paramname"><em>nodes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; double &gt; *&#160;</td>
+          <td class="paramname"><em>weights</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args...&#160;</td>
+          <td class="paramname"><em>rest</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Simulates a wiener process.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>Pointer to the gsl_rng object for generating standard normal distributed numbers </td></tr>
+    <tr><td class="paramname">T</td><td>Time period of simulated process </td></tr>
+    <tr><td class="paramname">delta_t</td><td>Step of discretisation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the vector of values at discretisation points </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a0ddf1224851353fc92bfbff6f499fa97"></a>
 <div class="memitem">
 <div class="memproto">
