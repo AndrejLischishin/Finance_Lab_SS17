@@ -19,5 +19,6 @@ void clenshaw_curtis(std::vector<double>* nodes, std::vector<double>* weights, i
 void gauss_legendre(std::vector<double>* nodes, std::vector<double>* weights, size_t l);
 void monte_carlo(std::vector<double>* nodes, std::vector<double>* weights, int N, gsl_rng* r);
 double call_option_integrand(double x, double s0, double mu, double sigma, double T, double K);
+double calculate_relative_error(double exact_value, double calculated_value);
 
 #endif /* integration_functions_hpp */

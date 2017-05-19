@@ -45,7 +45,8 @@ int main(int argc, char* argv[]){
 	std::cout << "Prepared everything for worksheet 2." << std::endl;
 
 	int l = 10;
-	
+	int N_max = 10000;	
+
 	gsl_rng* r;
     
     //seeding
@@ -84,6 +85,49 @@ int main(int argc, char* argv[]){
 	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, pow(2,l)-1) << std::endl;
 	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, pow(2,l)-1, 1.) << std::endl;
 	std::cout << integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, 10., 0.1, 0.2, 1., 10.) << std::endl;
+
+	std::ofstream myfile;
+
+	myfile.open("output/relative_errors.txt",std::ios::trunc);
+    if (!myfile.is_open()) {
+        std::cout<<"Error opening the file"<<std::endl;
+    }
+
+	double exact_result = 2.*exp(0.5)-1.;
+	double calculated_result;
+	for(int N=1; N<=N_max; N=10*N)
+	{
+		myfile<<N<<"	";
+
+		nodes->clear();
+		weights->clear();
+		monte_carlo(nodes, weights, N, r);
+		calculated_result = integrate_by_point_evaluation(f_gamma, nodes, weights, N, 1.);
+		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
+		
+		nodes->clear();
+		weights->clear();
+		trap_rule(nodes, weights, N);
+		calculated_result = integrate_by_point_evaluation(f_gamma, nodes, weights, N, 1.);
+		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
+
+		nodes->clear();
+		weights->clear();
+		clenshaw_curtis(nodes, weights, N);
+		calculated_result = integrate_by_point_evaluation(f_gamma, nodes, weights, N, 1.);
+		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
+
+		nodes->clear();
+		weights->clear();
+		gauss_legendre(nodes, weights, N);
+		calculated_result = integrate_by_point_evaluation(f_gamma, nodes, weights, N, 1.);
+		myfile<<calculate_relative_error(exact_result, calculated_result)<<std::endl;
+	}	
 	
+    myfile.close();
+	
+	//frees memory
+    gsl_rng_free(r);
+
     return 0;
 }
