@@ -8,7 +8,7 @@
 #include "../header_files/random_functions.hpp"
 #include "../header_files/simulation_functions.hpp"
 #include "../header_files/integration_functions.hpp"
-
+#include "../header_files/matplotlibcpp.hpp"
 
 
 template<typename... Args>
@@ -45,6 +45,7 @@ namespace Task_1 {
   double T;
   double delta_t;
   double K;
+  double N;
 
 
 }
@@ -61,6 +62,7 @@ namespace Task_2 {
   std::vector<double>* s;
   double T;
   double K;
+  double N;
 
 }
 
@@ -73,10 +75,12 @@ namespace Task_2 {
  * @return Returns 0 if everything worked fine
  *
  */
+
+//for Plotting with Python2.7's matplotlib
+namespace plt = matplotlibcpp;
 int main(int argc, char* argv[]){
 
-
-	//std::cout << "Prepared everything for worksheet 2." << std::endl;
+  //std::cout << "Prepared everything for worksheet 2." << std::endl;
 
   gsl_rng* r;
 
@@ -98,17 +102,17 @@ int main(int argc, char* argv[]){
     Task_1::delta_t = 0.2;
     Task_1::K = 10;                               // strike price of the option
 
-    double N = 1000;                             // number of simulations
+    Task_1::N = 1000.;                             // number of simulations
 
 
     for (int i = 0; i < Task_1::sigma.size(); i++) {
-      for (int j = 0; j < N; j++) {
+      for (int j = 0; j < Task_1::N; j++) {
         Task_1::w = wiener_process(r,Task_1::T, Task_1::delta_t);
         Task_1::s = brownian_motion(r,Task_1::T, Task_1::delta_t,
            Task_1::w, Task_1::s0, Task_1::mu, Task_1::sigma[i]);
         Task_1::V_mean[i] += std::max((*Task_1::s).back()-Task_1::K,0.0);
       }
-      Task_1::V_mean[i] = Task_1::V_mean[i]/1000.0;
+      Task_1::V_mean[i] = Task_1::V_mean[i]/Task_1::N;
     }
 
 //Plot V aginst sigma
@@ -123,13 +127,15 @@ int main(int argc, char* argv[]){
     Task_2::mu = 0.1;
     Task_2::T = 2;                                // time intervall T
     Task_2::delta_t = {0.2,0.8,1.,2.};
-    Task_2::K = 10;                               // strike price of the option
+    Task_2::K = 10;
+
+    Task_2::N = 1000.;                              // strike price of the option
 
     std::vector<double>* helper_1 = new std::vector<double>;
     double helper_2;
 
     for (int i = 0; i < Task_2::delta_t.size(); i++) {
-      for (int j = 0; j < N; j++) {
+      for (int j = 0; j < Task_2::N; j++) {
         Task_2::w = wiener_process(r,Task_2::T, Task_2::delta_t[i]);
         Task_2::s = brownian_motion(r,Task_2::T, Task_2::delta_t[i],
            Task_2::w, Task_2::s0, Task_2::mu, Task_2::sigma);
@@ -137,8 +143,8 @@ int main(int argc, char* argv[]){
         Task_2::V_mean[i] += helper_2;
         helper_1->push_back(helper_2);
       }
-      Task_2::V_mean[i] = Task_2::V_mean[i]/1000.0;
-      Task_2::V_variance[i] = sigma_algorithm(helper_1,N);
+      Task_2::V_mean[i] = Task_2::V_mean[i]/Task_2::N;
+      Task_2::V_variance[i] = sigma_algorithm(helper_1,Task_2::N);
     }
 
 //Plot V_variance against delta_t
