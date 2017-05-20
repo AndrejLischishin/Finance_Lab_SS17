@@ -16,6 +16,7 @@
 #include <time.h>
 #include <math.h>
 #include <vector>
+#include <algorithm>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_cdf.h>
 #include <gsl/gsl_randist.h>
