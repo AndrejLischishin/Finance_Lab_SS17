@@ -8,7 +8,7 @@
 #include "../header_files/random_functions.hpp"
 #include "../header_files/simulation_functions.hpp"
 #include "../header_files/integration_functions.hpp"
-#include "../header_files/matplotlibcpp.hpp"
+
 
 
 template<typename... Args>
@@ -76,8 +76,7 @@ namespace Task_2 {
  *
  */
 
-//for Plotting with Python2.7's matplotlib
-namespace plt = matplotlibcpp;
+
 int main(int argc, char* argv[]){
   //std::cout << "Prepared everything for worksheet 2." << std::endl;
 
