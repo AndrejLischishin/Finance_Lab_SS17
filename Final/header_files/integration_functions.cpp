@@ -8,19 +8,30 @@
 #include "integration_functions.hpp"
 #include "random_functions.hpp"
 
+/**
+ * Returns the relative error between the given exact value and a calculated value.
+ *
+ * @param exact_value The exact value of a calculation
+ * @param calculated_value The calculated value of an algorithm
+ *
+ * @return The relative error of the algorithm
+ */
 double calculate_relative_error(double exact_value, double calculated_value)
 {
 	return fabs((exact_value-calculated_value)/exact_value);
 }
 
+
 /**
- * Simulates a wiener process.
+ * Evaluates a function at given points and multiplies every value with a given weight and sum all the results up.
  *
- * @param r Pointer to the gsl_rng object for generating standard normal distributed numbers
- * @param T Time period of simulated process
- * @param delta_t Step of discretisation
+ * @param (*function_to_integrate)(double x, Args... rest) The function with its additional parameters the will be integrated
+ * @param nodes The points on which the function will be evaluated
+ * @param weights The weights which will be multiplied with the values of the function at the different points
+ * @param n The number of evaluation-points
+ * @param Args... The additional arguments for the function
  *
- * @return Pointer to the vector of values at discretisation points
+ * @return The value of the sum (which approximates the integral of the function on a certain interval)
  */
 template<typename... Args>
 double integrate_by_point_evaluation(double (*function_to_integrate)(double x, Args... rest), std::vector<double>* nodes, std::vector<double>* weights, int n, Args... rest)
@@ -35,6 +46,13 @@ double integrate_by_point_evaluation(double (*function_to_integrate)(double x, A
 }
 
 
+/**
+ * Calculates nodes and weights by the trapezoidal rule on the interval \f$[0,1]\f$.
+ *
+ * @param nodes The vector that will include the points
+ * @param weights The vector that will include all the weights at the different points
+ * @param l The number of points will be calculated by \f$2^l-1\f$
+ */
 void trap_rule(std::vector<double>* nodes, std::vector<double>* weights, int l)
 {
 	int Nl = pow(2,l)-1;
@@ -52,6 +70,14 @@ void trap_rule(std::vector<double>* nodes, std::vector<double>* weights, int l)
 	weights->push_back(weight);
 }
 
+
+/**
+ * Calculates nodes and weights by the Clenshaw-Curtis-Rule on the interval \f$[0,1]\f$.
+ *
+ * @param nodes The vector that will include the points
+ * @param weights The vector that will include all the weights at the different points
+ * @param l The number of points will be calculated by \f$2^l-1\f$
+ */
 void clenshaw_curtis(std::vector<double>* nodes, std::vector<double>* weights, int l)
 {
 	int Nl = pow(2,l)-1;
@@ -68,6 +94,14 @@ void clenshaw_curtis(std::vector<double>* nodes, std::vector<double>* weights, i
 	}
 }
 
+
+/**
+ * Calculates nodes and weights by the Gauss-Legendre-Rule on the interval \f$[0,1]\f$.
+ *
+ * @param nodes The vector that will include the points
+ * @param weights The vector that will include all the weights at the different points
+ * @param l The number of points will be calculated by \f$2^l-1\f$
+ */
 void gauss_legendre(std::vector<double>* nodes, std::vector<double>* weights, size_t l)
 {	
 	int Nl = pow(2,l)-1;
@@ -91,6 +125,14 @@ void gauss_legendre(std::vector<double>* nodes, std::vector<double>* weights, si
 	gsl_integration_glfixed_table_free(table);
 }
 
+
+/**
+ * Calculates nodes and weights by the Monte-Carlo-Approach on the interval \f$[0,1]\f$.
+ *
+ * @param nodes The vector that will include the points
+ * @param weights The vector that will include all the weights at the different points
+ * @param l The number of points will be calculated by \f$2^l-1\f$
+ */
 void monte_carlo(std::vector<double>* nodes, std::vector<double>* weights, int l, gsl_rng* r)
 {		
 	int Nl = pow(2,l)-1;
@@ -101,6 +143,19 @@ void monte_carlo(std::vector<double>* nodes, std::vector<double>* weights, int l
 	}
 }
 
+
+/**
+ * Calculates the value of the integrand for european call options.
+ *
+ * @param x Point to evaluate the integrand at
+ * @param s0 Value of \f$S\f$ at point \f$0\f$
+ * @param mu Value of \f$\mu\f$
+ * @param sigma Value of \f$\sigma\f$
+ * @param T Right bound of the time interval
+ * @param K Strike price
+ *
+ * @return The calculated value
+ */
 double call_option_integrand(double x, double s0, double mu, double sigma, double T, double K)
 {
 	double result = (s0*exp(((mu-0.5*sigma*sigma)*T)+(sigma*sqrt(T)*x)))-K;
