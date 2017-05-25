@@ -79,8 +79,8 @@ double rejection_sampl_algo(gsl_rng* r)
  *
  * @return If everything worked fine returns \f$p(x)\f$
  */
-double normal_cdf(double x){
-    
+double normal_cdf(double x)
+{    
     double x2;
     if(x<0.0)
         return 1.0-normal_cdf(-x);
