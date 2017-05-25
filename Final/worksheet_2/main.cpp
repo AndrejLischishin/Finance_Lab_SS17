@@ -35,6 +35,12 @@ double f_gamma(double x, double gamma)
 	return 1.0+gamma*exp(0.5*x);
 }
 
+double call_option_exact_expected_value(double s0, double mu, double T, double sigma, double K)
+{
+	double chi = (log(K/s0)-((mu-sigma*sigma*0.5)*T))/(sigma*sqrt(T));
+	return s0*exp(mu*T)*normal_cdf(sigma*sqrt(T)-chi)-K*normal_cdf(-chi);
+}
+
 //using namespaces in order to be able to use same names more than once
 namespace Task_1 {
 
@@ -83,7 +89,6 @@ namespace Task_2 {
 
 
 int main(int argc, char* argv[]){
-
   //std::cout << "Prepared everything for worksheet 2." << std::endl;
 
   gsl_rng* r;
@@ -198,10 +203,8 @@ int main(int argc, char* argv[]){
 
 
 
-
-
 	int l = 10;
-	int N_max = 10000;
+	int l_max = 10;	
 
 
 	std::vector<double>* nodes;
@@ -210,69 +213,115 @@ int main(int argc, char* argv[]){
     weights = new std::vector<double>;
 	trap_rule(nodes, weights, l);
 	std::cout << "Trapezoidal rule:" << std::endl;
-	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, pow(2,l)-1) << std::endl;
-	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, pow(2,l)-1, 1.) << std::endl;
+	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, l) << std::endl;
+	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, l, 1.) << std::endl;
 	std::cout << integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, 10., 0.1, 0.2, 1., 10.) << std::endl;
 	nodes->clear();
 	weights->clear();
 	clenshaw_curtis(nodes, weights, l);
 	std::cout << "Clenshaw curtis:" << std::endl;
-	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, pow(2,l)-1) << std::endl;
-	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, pow(2,l)-1, 1.) << std::endl;
+	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, l) << std::endl;
+	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, l, 1.) << std::endl;
 	std::cout << integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, 10., 0.1, 0.2, 1., 10.) << std::endl;
 	nodes->clear();
 	weights->clear();
-	monte_carlo(nodes, weights, pow(2,l)-1, r);
+	monte_carlo(nodes, weights, l, r);
 	std::cout << "Monte Carlo:" << std::endl;
-	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, pow(2,l)-1) << std::endl;
-	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, pow(2,l)-1, 1.) << std::endl;
+	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, l) << std::endl;
+	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, l, 1.) << std::endl;
 	std::cout << integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, 10., 0.1, 0.2, 1., 10.) << std::endl;
 	nodes->clear();
 	weights->clear();
-	gauss_legendre(nodes, weights, pow(2,l)-1);
+	gauss_legendre(nodes, weights, l);
 	std::cout << "Gauss Legendre:" << std::endl;
-	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, pow(2,l)-1) << std::endl;
-	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, pow(2,l)-1, 1.) << std::endl;
+	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, l) << std::endl;
+	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, l, 1.) << std::endl;
 	std::cout << integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, 10., 0.1, 0.2, 1., 10.) << std::endl;
 
+	
 	std::ofstream myfile;
-
-	myfile.open("output/relative_errors.txt",std::ios::trunc);
+	myfile.open("output/relative_errors_f_gamma.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
 
 	double exact_result = 2.*exp(0.5)-1.;
 	double calculated_result;
-	for(int N=1; N<=N_max; N=10*N)
+	for(l=1; l<=l_max; l++)
 	{
-		myfile<<N<<"	";
+		myfile<<pow(2,l)-1<<"	";
 
 		nodes->clear();
 		weights->clear();
-		monte_carlo(nodes, weights, N, r);
-		calculated_result = integrate_by_point_evaluation(f_gamma, nodes, weights, N, 1.);
+		monte_carlo(nodes, weights, l, r);
+		calculated_result = integrate_by_point_evaluation(f_gamma, nodes, weights, pow(2,l)-1, 1.);
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
 
 		nodes->clear();
 		weights->clear();
-		trap_rule(nodes, weights, N);
-		calculated_result = integrate_by_point_evaluation(f_gamma, nodes, weights, N, 1.);
+		trap_rule(nodes, weights, l);
+		calculated_result = integrate_by_point_evaluation(f_gamma, nodes, weights, pow(2,l)-1, 1.);
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
 
 		nodes->clear();
 		weights->clear();
-		clenshaw_curtis(nodes, weights, N);
-		calculated_result = integrate_by_point_evaluation(f_gamma, nodes, weights, N, 1.);
+		clenshaw_curtis(nodes, weights, l);
+		calculated_result = integrate_by_point_evaluation(f_gamma, nodes, weights, pow(2,l)-1, 1.);
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
 
 		nodes->clear();
 		weights->clear();
-		gauss_legendre(nodes, weights, N);
-		calculated_result = integrate_by_point_evaluation(f_gamma, nodes, weights, N, 1.);
+		gauss_legendre(nodes, weights, l);
+		calculated_result = integrate_by_point_evaluation(f_gamma, nodes, weights, pow(2,l)-1, 1.);
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<std::endl;
 	}
+    myfile.close();
 
+
+	myfile.open("output/relative_errors_K_10.txt",std::ios::trunc);
+    if (!myfile.is_open()) {
+        std::cout<<"Error opening the file"<<std::endl;
+    }
+
+	double s0 = 10;
+	double mu = 0.1;
+	double T = 1;
+	double sigma = 0.2;
+	double K = 10;
+	exact_result = call_option_exact_expected_value(s0, mu, T, sigma, K);
+	std::cout << "Exact result: " << calculated_result << std::endl;
+	for(l=1; l<=l_max; l++)
+	{
+		myfile<<pow(2,l)-1<<"	";
+
+		nodes->clear();
+		weights->clear();
+		monte_carlo(nodes, weights, l, r);
+		calculated_result = integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, s0, mu, sigma, T, K);
+		std::cout << calculated_result << std::endl;
+		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
+
+		nodes->clear();
+		weights->clear();
+		trap_rule(nodes, weights, l);
+		calculated_result = integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, s0, mu, sigma, T, K);
+		std::cout << calculated_result << std::endl;
+		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
+
+		nodes->clear();
+		weights->clear();
+		clenshaw_curtis(nodes, weights, l);
+		calculated_result = integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, s0, mu, sigma, T, K);
+		std::cout << calculated_result << std::endl;
+		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
+
+		nodes->clear();
+		weights->clear();
+		gauss_legendre(nodes, weights, l);
+		calculated_result = integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, s0, mu, sigma, T, K);
+		std::cout << calculated_result << std::endl;
+		myfile<<calculate_relative_error(exact_result, calculated_result)<<std::endl;
+	}
     myfile.close();
 
 	//frees memory
