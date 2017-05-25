@@ -8,6 +8,8 @@
 #include "../header_files/random_functions.hpp"
 #include "../header_files/simulation_functions.hpp"
 #include "../header_files/integration_functions.hpp"
+//plot with Python in C++ programs
+//#include "../header_files/matplotlibcpp.hpp"
 
 
 
@@ -76,6 +78,9 @@ namespace Task_2 {
  *
  */
 
+//Plot, but because with Python and system depending, comented
+//namespace plt = matplotlibcpp;
+
 
 int main(int argc, char* argv[]){
 
@@ -94,61 +99,104 @@ int main(int argc, char* argv[]){
     //////////////////////////Task_1//////////////////////////
     //////////////////////////////////////////////////////////
 
-    Task_1::s0 = 10;
-    Task_1::mu = 0.1;
-    Task_1::sigma = {0.0, 0.2, 0.4, 0.6, 0.8};  // different sigmas
-    Task_1::T = 2;                                // time intervall T
-    Task_1::delta_t = 0.2;
-    Task_1::K = 10;                               // strike price of the option
+  Task_1::s0 = 10;
+  Task_1::mu = 0.1;
+	Task_1::sigma = {0.0, 0.2, 0.4, 0.6, 0.8};  // different sigmas
+  Task_1::T = 2;                              // time intervall T
+  Task_1::delta_t = 0.2;
+  Task_1::K = 10;                             // strike price of the option
 
-    Task_1::N = 1000.;                             // number of simulations
+  Task_1::N = 1000.; 										 			// number of simulations
+
+	//allocation of memmory
+	Task_1::w = new std::vector<double>;
+	Task_1::s = new std::vector<double>;
 
 
-    for (int i = 0; i < Task_1::sigma.size(); i++) {
-      for (int j = 0; j < Task_1::N; j++) {
-        Task_1::w = wiener_process(r,Task_1::T, Task_1::delta_t);
-        Task_1::s = brownian_motion(r,Task_1::T, Task_1::delta_t,
-           Task_1::w, Task_1::s0, Task_1::mu, Task_1::sigma[i]);
-        Task_1::V_mean[i] += std::max((*Task_1::s).back()-Task_1::K,0.0);
-      }
-      Task_1::V_mean[i] = Task_1::V_mean[i]/Task_1::N;
+  for (int i = 0; i < Task_1::sigma.size(); i++) {
+    for (int j = 0; j < Task_1::N; j++) {
+
+			//simulating wiener_process
+      Task_1::w = wiener_process(r,Task_1::T, Task_1::delta_t);
+			//simulating brownian_motion
+			Task_1::s = brownian_motion(r,Task_1::T, Task_1::delta_t,
+         Task_1::w, Task_1::s0, Task_1::mu, Task_1::sigma[i]);
+			//calculating of the Payoff on the maturity day
+			Task_1::V_mean[i] += std::max((*Task_1::s).back()-Task_1::K,0.0);
     }
 
-//Plot V aginst sigma
-//Want to use Python for this, but there are still some linker problems
-//Working no it
+		//calculating mean for different sigma
+    Task_1::V_mean[i] = Task_1::V_mean[i]/Task_1::N;
 
-    //////////////////////////////////////////////////////////
+		//clearing vectors for next iteration
+		Task_1::w->clear();
+		Task_1::s->clear();
+  }
+
+//Plot V aginst sigma, but because with Python and system depending, comented
+//plt::plot( Task_1::sigma, Task_1::V_mean, "r-");
+//plt::save("./Task_1.png");
+//plt::show();
+
+
+		//////////////////////////////////////////////////////////
     //////////////////////////Task_2//////////////////////////
     //////////////////////////////////////////////////////////
 
     Task_2::s0 = 10;
     Task_2::mu = 0.1;
-    Task_2::T = 2;                                // time intervall T
-    Task_2::delta_t = {0.2,0.8,1.,2.};
-    Task_2::K = 10;
+		Task_2::sigma = 0.2;
+    Task_2::T = 2;                      // time intervall T
+    Task_2::delta_t = {0.2,0.4,1.,2.};
+    Task_2::K = 10.;											// strike price of the option
 
-    Task_2::N = 1000.;                              // strike price of the option
+    Task_2::N = 1000.;									// number od simulations
 
+
+		// helpvector allocation of the memmory
     std::vector<double>* helper_1 = new std::vector<double>;
-    double helper_2;
+		// helpobject for some technicall further calculations
+		double helper_2 = 0;
+		//allocation of memmory
+		Task_2::w = new std::vector<double>;
+		Task_2::s = new std::vector<double>;
 
-    for (int i = 0; i < Task_2::delta_t.size(); i++) {
+
+		for (int i = 0; i < Task_2::delta_t.size(); i++) {
       for (int j = 0; j < Task_2::N; j++) {
-        Task_2::w = wiener_process(r,Task_2::T, Task_2::delta_t[i]);
-        Task_2::s = brownian_motion(r,Task_2::T, Task_2::delta_t[i],
-           Task_2::w, Task_2::s0, Task_2::mu, Task_2::sigma);
-        helper_2 = std::max((*Task_2::s).back()-Task_2::K,0.0);
-        Task_2::V_mean[i] += helper_2;
-        helper_1->push_back(helper_2);
-      }
-      Task_2::V_mean[i] = Task_2::V_mean[i]/Task_2::N;
-      Task_2::V_variance[i] = sigma_algorithm(helper_1,Task_2::N);
-    }
 
-//Plot V_variance against delta_t
-//Want to use Python for this, but there are still some linker problems
-//Working on it
+				// simulating wiener_process
+        Task_2::w = wiener_process(r,Task_2::T, Task_2::delta_t[i]);
+				//simulating brownian_motion
+        Task_2::s = brownian_motion(r,Task_2::T, Task_2::delta_t[i], Task_2::w, Task_2::s0, Task_2::mu, Task_2::sigma);
+				//calculating of the Payoff on the maturity day
+        helper_2 = std::max((*Task_2::s).back()-Task_2::K,0.0);
+				//helper for the calculating of the mean
+        Task_2::V_mean[i] += helper_2;
+				//vector v of Payoffs for fixed delta_t, simulated 1000times=>v.length=1000
+        helper_1->push_back(helper_2);
+			}
+
+
+			//calculating mean for different delta_t
+      Task_2::V_mean[i] = Task_2::V_mean[i]/Task_2::N;
+			// calculating sigma(variance) for different delta_t
+			Task_2::V_variance[i] = sigma_algorithm(helper_1,Task_2::N);
+
+ 			// clearing vectors for next iteration
+			Task_2::w->clear();
+			Task_2::s->clear();
+			helper_1->clear();
+		}
+
+
+//Plot V_variance against delta_t, same reason as above
+//plt::plot(Task_2::delta_t, Task_2::V_variance, "r-");
+//plt::save("./Task_2.png");
+//plt::show();
+
+
+
 
 
 
@@ -230,6 +278,5 @@ int main(int argc, char* argv[]){
 	//frees memory
     gsl_rng_free(r);
 
-
-    return 0;
+		return 0;
 }

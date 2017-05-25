@@ -26,7 +26,7 @@ std::vector<double>* wiener_process(gsl_rng* r, double T, double delta_t)
     {
         (*w)[i+1] = (*w)[i]+sqrt(delta_t)*gsl_ran_ugaussian(r);
     }
-    
+
     return w;
 }
 
@@ -46,12 +46,13 @@ std::vector<double>* wiener_process(gsl_rng* r, double T, double delta_t)
 std::vector<double>* brownian_motion(gsl_rng* r, double T, double delta_t, std::vector<double>* w, double s0, double mu, double sigma)
 {
     int M = (int)(T/delta_t);
+
     std::vector<double> *s = new std::vector<double>(M+1);
     (*s)[0] = s0;
     for(int i=0; i<M; i++)
     {
         (*s)[i+1] = s0*exp((mu-0.5*pow(sigma, 2.0))*(i+1)*delta_t+sigma*(*w)[i+1]);
     }
-    
+
     return s;
 }
