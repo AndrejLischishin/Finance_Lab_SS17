@@ -4,7 +4,7 @@ LDFLAGS=-lgsl -lgslcblas -lm
 
 OBJ = main.o random_functions.o simulation_functions.o integration_functions.o
 
-#-I /usr/local/lib/python2.7/site-packages/numpy/core/include -framework Python -I /System/Library/Frameworks/Python.framework/Headers  -lpython2.7
+#-I /usr/local/lib/python2.7/site-packages/numpy/core/include -framework Python -I /#System/Library/Frameworks/Python.framework/Headers  -lpython2.7
 #../header_files/matplotlibcpp.hpp
 all: $(OBJ) doc
 	$(CC) $(CFLAGS) $(OBJ) $(LDFLAGS)  -o myProg
