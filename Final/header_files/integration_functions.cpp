@@ -158,6 +158,7 @@ void monte_carlo(std::vector<double>* nodes, std::vector<double>* weights, int l
  */
 double call_option_integrand(double x, double s0, double mu, double sigma, double T, double K)
 {
+	x = normal_inverse_cdf(x);
 	double result = (s0*exp(((mu-0.5*sigma*sigma)*T)+(sigma*sqrt(T)*x)))-K;
 	if(result > 0.0)
 		return result;
