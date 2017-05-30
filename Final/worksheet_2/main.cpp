@@ -8,10 +8,6 @@
 #include "../header_files/random_functions.hpp"
 #include "../header_files/simulation_functions.hpp"
 #include "../header_files/integration_functions.hpp"
-//plot with Python in C++ programs
-//#include "../header_files/matplotlibcpp.hpp"
-
-
 
 template<typename... Args>
 double integrate_by_point_evaluation(double (*function_to_integrate)(double x, Args... rest), std::vector<double>* nodes, std::vector<double>* weights, int n, Args... rest)
@@ -104,13 +100,8 @@ namespace Task_10
  *
  * @return Returns 0 if everything worked fine
  */
-
-//Plot, but because with Python and system depending, comented
-//namespace plt = matplotlibcpp;
 int main(int argc, char* argv[])
 {
-	//std::cout << "Prepared everything for worksheet 2." << std::endl;
-
 	gsl_rng* r;
 
 	//seeding
@@ -158,17 +149,7 @@ int main(int argc, char* argv[])
 		Task_1::s->clear();
 	}
 
-//Plot V aginst sigma, but because with Python and system depending, comented
-//plt::plot( Task_1::sigma, Task_1::V_mean, "r-");
-//plt::named_plot("mean",Task_1::sigma,Task_1::V_mean);
-//plt::xlabel("sigma");
-//plt::ylabel("mean");
-//plt::legend();
-//plt::save("./Task_1.png");
-//plt::show();
-
-
-	  //////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////
     //////////////////////////Task_2//////////////////////////
     //////////////////////////////////////////////////////////
 
@@ -218,66 +199,57 @@ int main(int argc, char* argv[])
 	}
 
 
-//Plot V_variance against delta_t, same reason as above
-/*plt::plot(Task_2::delta_t, Task_2::V_variance, "r-");
-plt::named_plot("variance",Task_2::delta_t,Task_2::V_variance);
-plt::xlabel("delta_t");
-plt::ylabel("variance");
-plt::legend();
-//plt::save("./Task_2.png");
-plt::show();
-*/
+    //////////////////////////////////////////////////////////
+	//////////////////////////Task_4//////////////////////////
+	//////////////////////////////////////////////////////////
 
+	Task_4::s0 = 10;
+	Task_4::mu = 0.1;
+	Task_4::sigma = 0.2;
+	Task_4::T = 1;                      // time intervall T
+	Task_4::delta_t = 1;
+	Task_4::K = 10.;											// strike price of the option
 
-      //////////////////////////////////////////////////////////
-			//////////////////////////Task_4//////////////////////////
-			//////////////////////////////////////////////////////////
+	Task_4::N = 1;									// number od simulations
 
-			Task_4::s0 = 10;
-			Task_4::mu = 0.1;
-			Task_4::sigma = 0.2;
-			Task_4::T = 1;                      // time intervall T
-			Task_4::delta_t = 1;
-			Task_4::K = 10.;											// strike price of the option
+	Task_4::exact_result = call_option_exact_expected_value(Task_4::s0, Task_4::mu, Task_4::T, Task_4::sigma, Task_4::K);
 
-			Task_4::N = 1;									// number od simulations
+	std::ofstream file_task_4;
+	file_task_4.open("output/task_4.txt",std::ios::trunc);
+	if(!file_task_4.is_open()) {
+        std::cout<<"Error opening the file"<<std::endl;
+    }
 
+	for( Task_4::N = 1; Task_4::N <= 1000000; Task_4::N *=10) {
+		file_task_4<<Task_4::N<<" ";
+	}
+	file_task_4<<std::endl;
 
-			Task_4::exact_result = call_option_exact_expected_value(Task_4::s0, Task_4::mu, Task_4::T, Task_4::sigma, Task_4::K);
+	for(int k = 0; k < 5; k++) {
+		for(Task_4::N = 1; Task_4::N <= 1000000; Task_4::N *=10) {
 
-			std::ofstream file_task_4;
-			file_task_4.open("output/task_4.txt",std::ios::trunc);
-		    if(!file_task_4.is_open()) {
-		        std::cout<<"Error opening the file"<<std::endl;
-		    }
+			double sum = 0;
 
-			for( Task_4::N = 1; Task_4::N <= 1000000; Task_4::N *=10) {
-				file_task_4<<Task_4::N<<" ";
+			for(unsigned int j = 0; j < Task_4::N; j++) {
+				// simulating wiener_process
+				Task_4::w = wiener_process(r,Task_4::T, Task_4::delta_t);
+				//simulating brownian_motion
+				Task_4::s = brownian_motion(r,Task_4::T, Task_4::delta_t, Task_4::w, Task_4::s0, Task_4::mu, Task_4::sigma);
+
+				sum += std::max((*Task_4::s).back()-Task_4::K,0.0);
 			}
-			file_task_4<<std::endl;
+			sum = sum/(double)Task_4::N;
+			Task_4::error[Task_4::N] = fabs(sum-Task_4::exact_result);
+			file_task_4<< Task_4::error[Task_4::N] <<" ";
+		}
+		file_task_4<<std::endl;
+	}
 
-			for(int k = 0; k < 5; k++) {
-				for(Task_4::N = 1; Task_4::N <= 1000000; Task_4::N *=10) {
+	file_task_4.close();
 
-						double sum = 0;
-
-						for(unsigned int j = 0; j < Task_4::N; j++) {
-							// simulating wiener_process
-							Task_4::w = wiener_process(r,Task_4::T, Task_4::delta_t);
-							//simulating brownian_motion
-							Task_4::s = brownian_motion(r,Task_4::T, Task_4::delta_t, Task_4::w, Task_4::s0, Task_4::mu, Task_4::sigma);
-
-							sum += std::max((*Task_4::s).back()-Task_4::K,0.0);
-						}
-						sum = sum/(double)Task_4::N;
-						Task_4::error[Task_4::N] = fabs(sum-Task_4::exact_result);
-						file_task_4<< Task_4::error[Task_4::N] <<" ";
-				}
-				file_task_4<<std::endl;
-			}
-
-			file_task_4.close();
-
+	//////////////////////////////////////////////////////////
+	//////////////////////////Task_9//////////////////////////
+	//////////////////////////////////////////////////////////
 
 	int l = 10;
 	int l_max = 10;
@@ -286,35 +258,6 @@ plt::show();
     nodes = new std::vector<double>;
 	std::vector<double>* weights;
     weights = new std::vector<double>;
-
-/*
-	trap_rule(nodes, weights, l);
-	std::cout << "Trapezoidal rule:" << std::endl;
-	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, l) << std::endl;
-	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, l, 1.) << std::endl;
-	std::cout << integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, 10., 0.1, 0.2, 1., 10.) << std::endl;
-	nodes->clear();
-	weights->clear();
-	clenshaw_curtis(nodes, weights, l);
-	std::cout << "Clenshaw curtis:" << std::endl;
-	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, l) << std::endl;
-	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, l, 1.) << std::endl;
-	std::cout << integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, 10., 0.1, 0.2, 1., 10.) << std::endl;
-	nodes->clear();
-	weights->clear();
-	monte_carlo(nodes, weights, l, r);
-	std::cout << "Monte Carlo:" << std::endl;
-	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, l) << std::endl;
-	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, l, 1.) << std::endl;
-	std::cout << integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, 10., 0.1, 0.2, 1., 10.) << std::endl;
-	nodes->clear();
-	weights->clear();
-	gauss_legendre(nodes, weights, l);
-	std::cout << "Gauss Legendre:" << std::endl;
-	std::cout << integrate_by_point_evaluation(function_to_integrate, nodes, weights, l) << std::endl;
-	std::cout << integrate_by_point_evaluation(f_gamma, nodes, weights, l, 1.) << std::endl;
-	std::cout << integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, 10., 0.1, 0.2, 1., 10.) << std::endl;
-*/
 
 
 	/* Integration of f_gamma by different formulas */
@@ -356,9 +299,12 @@ plt::show();
 	}
     myfile.close();
 
+	//////////////////////////////////////////////////////////
+	//////////////////////////Task_10//////////////////////////
+	//////////////////////////////////////////////////////////
 
 	/* Integration of the call option integrand by different formulas with K=10 */
-	std::cout << "K=10:" << std::endl;
+	//std::cout << "K=10:" << std::endl;
 	myfile.open("output/relative_errors_K_10.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
@@ -370,7 +316,8 @@ plt::show();
 	Task_10::sigma = 0.2;
 	Task_10::K = 10.;
 	exact_result = call_option_exact_expected_value(Task_10::s0, Task_10::mu, Task_10::T, Task_10::sigma, Task_10::K);
-	std::cout << "Exact result: " << exact_result << std::endl;
+	//std::cout << "Exact result: " << exact_result << std::endl;
+
 	for(l=1; l<=l_max; l++)
 	{
 		myfile<<pow(2,l)-1<<"	";
@@ -380,7 +327,7 @@ plt::show();
 		weights->clear();
 		monte_carlo(nodes, weights, l, r);
 		calculated_result = integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, Task_10::s0, Task_10::mu, Task_10::sigma, Task_10::T, Task_10::K);
-		std::cout << calculated_result << std::endl;
+		//std::cout << calculated_result << std::endl;
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
 
 		/* Trapezoidal rule */
@@ -388,7 +335,7 @@ plt::show();
 		weights->clear();
 		trap_rule(nodes, weights, l);
 		calculated_result = integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, Task_10::s0, Task_10::mu, Task_10::sigma, Task_10::T, Task_10::K);
-		std::cout << calculated_result << std::endl;
+		//std::cout << calculated_result << std::endl;
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
 
 		/* Clenshaw Curtis */
@@ -396,7 +343,7 @@ plt::show();
 		weights->clear();
 		clenshaw_curtis(nodes, weights, l);
 		calculated_result = integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, Task_10::s0, Task_10::mu, Task_10::sigma, Task_10::T, Task_10::K);
-		std::cout << calculated_result << std::endl;
+		//std::cout << calculated_result << std::endl;
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
 
 		/* Gauss Legendre */
@@ -404,13 +351,13 @@ plt::show();
 		weights->clear();
 		gauss_legendre(nodes, weights, l);
 		calculated_result = integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, Task_10::s0, Task_10::mu, Task_10::sigma, Task_10::T, Task_10::K);
-		std::cout << calculated_result << std::endl;
+		//std::cout << calculated_result << std::endl;
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<std::endl;
 	}
     myfile.close();
 
 	/* Integration of the call option integrand by different formulas with K=0 */
-	std::cout << std::endl << "K=0:" << std::endl;
+	//std::cout << std::endl << "K=0:" << std::endl;
 	myfile.open("output/relative_errors_K_0.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
@@ -418,7 +365,8 @@ plt::show();
 
 	Task_10::K = 0.;
 	exact_result = call_option_exact_expected_value(Task_10::s0, Task_10::mu, Task_10::T, Task_10::sigma, Task_10::K);
-	std::cout << "Exact result: " << exact_result << std::endl;
+	//std::cout << "Exact result: " << exact_result << std::endl;
+
 	for(l=1; l<=l_max; l++)
 	{
 		myfile<<pow(2,l)-1<<"	";
@@ -428,7 +376,7 @@ plt::show();
 		weights->clear();
 		monte_carlo(nodes, weights, l, r);
 		calculated_result = integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, Task_10::s0, Task_10::mu, Task_10::sigma, Task_10::T, Task_10::K);
-		std::cout << calculated_result << std::endl;
+		//std::cout << calculated_result << std::endl;
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
 
 		/* Trapezoidal rule */
@@ -436,7 +384,7 @@ plt::show();
 		weights->clear();
 		trap_rule(nodes, weights, l);
 		calculated_result = integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, Task_10::s0, Task_10::mu, Task_10::sigma, Task_10::T, Task_10::K);
-		std::cout << calculated_result << std::endl;
+		//std::cout << calculated_result << std::endl;
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
 
 		/* Clenshaw Curtis */
@@ -444,7 +392,7 @@ plt::show();
 		weights->clear();
 		clenshaw_curtis(nodes, weights, l);
 		calculated_result = integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, Task_10::s0, Task_10::mu, Task_10::sigma, Task_10::T, Task_10::K);
-		std::cout << calculated_result << std::endl;
+		//std::cout << calculated_result << std::endl;
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
 
 		/* Gauss Legendre */
@@ -452,7 +400,7 @@ plt::show();
 		weights->clear();
 		gauss_legendre(nodes, weights, l);
 		calculated_result = integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, Task_10::s0, Task_10::mu, Task_10::sigma, Task_10::T, Task_10::K);
-		std::cout << calculated_result << std::endl;
+		//std::cout << calculated_result << std::endl;
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<std::endl;
 	}
     myfile.close();
