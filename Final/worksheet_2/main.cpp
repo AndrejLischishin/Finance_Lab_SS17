@@ -9,7 +9,7 @@
 #include "../header_files/simulation_functions.hpp"
 #include "../header_files/integration_functions.hpp"
 //plot with Python in C++ programs
-#include "../header_files/matplotlibcpp.hpp"
+//#include "../header_files/matplotlibcpp.hpp"
 
 
 
@@ -106,7 +106,7 @@ namespace Task_10
  */
 
 //Plot, but because with Python and system depending, comented
-namespace plt = matplotlibcpp;
+//namespace plt = matplotlibcpp;
 int main(int argc, char* argv[])
 {
 	//std::cout << "Prepared everything for worksheet 2." << std::endl;
@@ -219,14 +219,14 @@ int main(int argc, char* argv[])
 
 
 //Plot V_variance against delta_t, same reason as above
-plt::plot(Task_2::delta_t, Task_2::V_variance, "r-");
+/*plt::plot(Task_2::delta_t, Task_2::V_variance, "r-");
 plt::named_plot("variance",Task_2::delta_t,Task_2::V_variance);
 plt::xlabel("delta_t");
 plt::ylabel("variance");
 plt::legend();
 //plt::save("./Task_2.png");
 plt::show();
-
+*/
 
 
       //////////////////////////////////////////////////////////
@@ -247,21 +247,21 @@ plt::show();
 
 			std::ofstream file_task_4;
 			file_task_4.open("output/task_4.txt",std::ios::trunc);
-		    if (!file_task_4.is_open()) {
+		    if(!file_task_4.is_open()) {
 		        std::cout<<"Error opening the file"<<std::endl;
 		    }
 
-			for ( Task_4::N = 1; Task_4::N <= 1000000; Task_4::N *=10) {
+			for( Task_4::N = 1; Task_4::N <= 1000000; Task_4::N *=10) {
 				file_task_4<<Task_4::N<<" ";
 			}
 			file_task_4<<std::endl;
 
-			for (int k = 0; k < 5; k++) {
-				for ( Task_4::N = 1; Task_4::N <= 1000000; Task_4::N *=10) {
+			for(int k = 0; k < 5; k++) {
+				for(Task_4::N = 1; Task_4::N <= 1000000; Task_4::N *=10) {
 
 						double sum = 0;
 
-						for (int j = 0; j < Task_4::N; j++) {
+						for(unsigned int j = 0; j < Task_4::N; j++) {
 							// simulating wiener_process
 							Task_4::w = wiener_process(r,Task_4::T, Task_4::delta_t);
 							//simulating brownian_motion
