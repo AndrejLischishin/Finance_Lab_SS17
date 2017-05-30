@@ -42,7 +42,7 @@ double call_option_exact_expected_value(double s0, double mu, double T, double s
 }
 
 //using namespaces in order to be able to use same names more than once
-namespace Task_1 
+namespace Task_1
 {
   double s0;
   double mu;
@@ -56,7 +56,7 @@ namespace Task_1
   double N;
 }
 
-namespace Task_2 
+namespace Task_2
 {
   double s0;
   double mu;
@@ -69,6 +69,22 @@ namespace Task_2
   double T;
   double K;
   double N;
+}
+
+namespace Task_4
+{
+  double s0;
+  double mu;
+  double sigma;
+  double delta_t;
+  unsigned int N;
+	double exact_result;
+	std::vector<double> error(7);
+  std::vector<double>* w;
+  std::vector<double>* s;
+  double T;
+  double K;
+
 }
 
 namespace Task_10
@@ -148,13 +164,13 @@ int main(int argc, char* argv[])
 //plt::show();
 
 
-	//////////////////////////////////////////////////////////
+	  //////////////////////////////////////////////////////////
     //////////////////////////Task_2//////////////////////////
     //////////////////////////////////////////////////////////
 
     Task_2::s0 = 10;
     Task_2::mu = 0.1;
-	Task_2::sigma = 0.2;
+		Task_2::sigma = 0.2;
     Task_2::T = 2;                      // time intervall T
     Task_2::delta_t = {0.2,0.4,1.,2.};
     Task_2::K = 10.;											// strike price of the option
@@ -177,13 +193,13 @@ int main(int argc, char* argv[])
 			// simulating wiener_process
 			Task_2::w = wiener_process(r,Task_2::T, Task_2::delta_t[i]);
 			//simulating brownian_motion
-    	    Task_2::s = brownian_motion(r,Task_2::T, Task_2::delta_t[i], Task_2::w, Task_2::s0, Task_2::mu, Task_2::sigma);
+    	Task_2::s = brownian_motion(r,Task_2::T, Task_2::delta_t[i], Task_2::w, Task_2::s0, Task_2::mu, Task_2::sigma);
 			//calculating of the Payoff on the maturity day
-    	    helper_2 = std::max((*Task_2::s).back()-Task_2::K,0.0);
+    	helper_2 = std::max((*Task_2::s).back()-Task_2::K,0.0);
 			//helper for the calculating of the mean
-    	    Task_2::V_mean[i] += helper_2;
+    	Task_2::V_mean[i] += helper_2;
 			//vector v of Payoffs for fixed delta_t, simulated 1000times=>v.length=1000
-    	    helper_1->push_back(helper_2);
+    	helper_1->push_back(helper_2);
 		}
 
 		//calculating mean for different delta_t
@@ -205,9 +221,58 @@ int main(int argc, char* argv[])
 
 
 
+      //////////////////////////////////////////////////////////
+			//////////////////////////Task_4//////////////////////////
+			//////////////////////////////////////////////////////////
+
+			Task_4::s0 = 10;
+			Task_4::mu = 0.1;
+			Task_4::sigma = 0.2;
+			Task_4::T = 1;                      // time intervall T
+			Task_4::delta_t = 1;
+			Task_4::K = 10.;											// strike price of the option
+
+			Task_4::N = 1;									// number od simulations
+
+
+			Task_4::exact_result = call_option_exact_expected_value(Task_4::s0, Task_4::mu, Task_4::T, Task_4::sigma, Task_4::K);
+
+			std::ofstream file_task_4;
+			file_task_4.open("output/task_4.txt",std::ios::trunc);
+		    if (!file_task_4.is_open()) {
+		        std::cout<<"Error opening the file"<<std::endl;
+		    }
+
+			for ( Task_4::N = 1; Task_4::N <= 1000000; Task_4::N *=10) {
+				file_task_4<<Task_4::N<<" ";
+			}
+			file_task_4<<std::endl;
+
+			for (int k = 0; k < 5; k++) {
+				for ( Task_4::N = 1; Task_4::N <= 1000000; Task_4::N *=10) {
+
+						double sum = 0;
+
+						for (int j = 0; j < Task_4::N; j++) {
+							// simulating wiener_process
+							Task_4::w = wiener_process(r,Task_4::T, Task_4::delta_t);
+							//simulating brownian_motion
+							Task_4::s = brownian_motion(r,Task_4::T, Task_4::delta_t, Task_4::w, Task_4::s0, Task_4::mu, Task_4::sigma);
+
+							sum += std::max((*Task_4::s).back()-Task_4::K,0.0);
+						}
+						sum = sum/(double)Task_4::N;
+						Task_4::error[Task_4::N] = fabs(sum-Task_4::exact_result);
+						file_task_4<< Task_4::error[Task_4::N] <<" ";
+				}
+				file_task_4<<std::endl;
+			}
+
+			file_task_4.close();
+
 
 	int l = 10;
-	int l_max = 10;	
+	int l_max = 10;
 
 	std::vector<double>* nodes;
     nodes = new std::vector<double>;
@@ -243,7 +308,7 @@ int main(int argc, char* argv[])
 	std::cout << integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, 10., 0.1, 0.2, 1., 10.) << std::endl;
 */
 
-	
+
 	/* Integration of f_gamma by different formulas */
 	std::ofstream myfile;
 	myfile.open("output/relative_errors_f_gamma.txt",std::ios::trunc);
@@ -297,7 +362,7 @@ int main(int argc, char* argv[])
 	Task_10::sigma = 0.2;
 	Task_10::K = 10.;
 	exact_result = call_option_exact_expected_value(Task_10::s0, Task_10::mu, Task_10::T, Task_10::sigma, Task_10::K);
-	std::cout << "Exact result: " << calculated_result << std::endl;
+	std::cout << "Exact result: " << exact_result << std::endl;
 	for(l=1; l<=l_max; l++)
 	{
 		myfile<<pow(2,l)-1<<"	";
@@ -345,7 +410,7 @@ int main(int argc, char* argv[])
 
 	Task_10::K = 0.;
 	exact_result = call_option_exact_expected_value(Task_10::s0, Task_10::mu, Task_10::T, Task_10::sigma, Task_10::K);
-	std::cout << "Exact result: " << calculated_result << std::endl;
+	std::cout << "Exact result: " << exact_result << std::endl;
 	for(l=1; l<=l_max; l++)
 	{
 		myfile<<pow(2,l)-1<<"	";
