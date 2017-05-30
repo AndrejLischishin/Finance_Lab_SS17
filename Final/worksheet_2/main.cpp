@@ -9,7 +9,7 @@
 #include "../header_files/simulation_functions.hpp"
 #include "../header_files/integration_functions.hpp"
 //plot with Python in C++ programs
-//#include "../header_files/matplotlibcpp.hpp"
+#include "../header_files/matplotlibcpp.hpp"
 
 
 
@@ -106,7 +106,7 @@ namespace Task_10
  */
 
 //Plot, but because with Python and system depending, comented
-//namespace plt = matplotlibcpp;
+namespace plt = matplotlibcpp;
 int main(int argc, char* argv[])
 {
 	//std::cout << "Prepared everything for worksheet 2." << std::endl;
@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
 
   	Task_1::s0 = 10;
   	Task_1::mu = 0.1;
-	Task_1::sigma = {0.0, 0.2, 0.4, 0.6, 0.8};  // different sigmas
+		Task_1::sigma = {0.0, 0.2, 0.4, 0.6, 0.8};  // different sigmas
   	Task_1::T = 2;                              // time intervall T
   	Task_1::delta_t = 0.2;
   	Task_1::K = 10;                             // strike price of the option
@@ -142,15 +142,15 @@ int main(int argc, char* argv[])
     	for(int j = 0; j < Task_1::N; j++) {
 
 			//simulating wiener_process
-      		Task_1::w = wiener_process(r,Task_1::T, Task_1::delta_t);
+      Task_1::w = wiener_process(r,Task_1::T, Task_1::delta_t);
 			//simulating brownian_motion
 			Task_1::s = brownian_motion(r,Task_1::T, Task_1::delta_t,
-    		Task_1::w, Task_1::s0, Task_1::mu, Task_1::sigma[i]);
+    	Task_1::w, Task_1::s0, Task_1::mu, Task_1::sigma[i]);
 			//calculating of the Payoff on the maturity day
 			Task_1::V_mean[i] += std::max((*Task_1::s).back()-Task_1::K,0.0);
     	}
 
-		//calculating mean for different sigma
+			//calculating mean for different sigma
     	Task_1::V_mean[i] = Task_1::V_mean[i]/Task_1::N;
 
 		//clearing vectors for next iteration
@@ -160,6 +160,10 @@ int main(int argc, char* argv[])
 
 //Plot V aginst sigma, but because with Python and system depending, comented
 //plt::plot( Task_1::sigma, Task_1::V_mean, "r-");
+//plt::named_plot("mean",Task_1::sigma,Task_1::V_mean);
+//plt::xlabel("sigma");
+//plt::ylabel("mean");
+//plt::legend();
 //plt::save("./Task_1.png");
 //plt::show();
 
@@ -215,9 +219,13 @@ int main(int argc, char* argv[])
 
 
 //Plot V_variance against delta_t, same reason as above
-//plt::plot(Task_2::delta_t, Task_2::V_variance, "r-");
+plt::plot(Task_2::delta_t, Task_2::V_variance, "r-");
+plt::named_plot("variance",Task_2::delta_t,Task_2::V_variance);
+plt::xlabel("delta_t");
+plt::ylabel("variance");
+plt::legend();
 //plt::save("./Task_2.png");
-//plt::show();
+plt::show();
 
 
 
