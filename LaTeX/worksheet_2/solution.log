@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.5.21)  30 MAY 2017 18:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.5.21)  30 MAY 2017 20:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -627,42 +627,41 @@ r (name{equation.0.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.76 \begin{eqnarray}
-                      [4 <./task4.jpg>]
-<relative_errors_K0.png, id=47, 642.4pt x 481.8pt>
+                      [4 <./task4.jpg>] <Task_9.png, id=47, 642.4pt x 481.8pt>
+File: Task_9.png Graphic file (type png)
+
+<use Task_9.png>
+Package pdftex.def Info: Task_9.png used on input line 119.
+(pdftex.def)             Requested size: 321.19922pt x 240.8994pt.
+ [5] <relative_errors_K0.png, id=56, 642.4pt x 481.8pt>
 File: relative_errors_K0.png Graphic file (type png)
 
 <use relative_errors_K0.png>
-Package pdftex.def Info: relative_errors_K0.png used on input line 119.
+Package pdftex.def Info: relative_errors_K0.png used on input line 126.
 (pdftex.def)             Requested size: 321.19922pt x 240.8994pt.
- [5]
-File: relative_errors_K0.png Graphic file (type png)
- <use relative_errors_K0.png>
-Package pdftex.def Info: relative_errors_K0.png used on input line 125.
-(pdftex.def)             Requested size: 321.19922pt x 240.8994pt.
-
-<relative_errors_K10.png, id=56, 642.4pt x 481.8pt>
+ [6 <./Task_9.png (PNG copy)> <./relative_errors_K0.png (PNG copy)>] <relative_
+errors_K10.png, id=63, 642.4pt x 481.8pt>
 File: relative_errors_K10.png Graphic file (type png)
 
 <use relative_errors_K10.png>
-Package pdftex.def Info: relative_errors_K10.png used on input line 129.
+Package pdftex.def Info: relative_errors_K10.png used on input line 133.
 (pdftex.def)             Requested size: 321.19922pt x 240.8994pt.
- [6 <./relative_errors_K0.png (PNG copy)>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 132.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 136.
+ [7 <./relative_errors_K10.png (PNG copy)>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 136.
 
-[7 <./relative_errors_K10.png (PNG copy)>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 132.
- (./solution.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 132.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 132.
+(./solution.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 136.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 136.
 Package rerunfilecheck Info: File `solution.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 132.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 136.
  ) 
 Here is how much of TeX's memory you used:
- 7499 strings out of 493089
- 106529 string characters out of 6134842
+ 7504 strings out of 493089
+ 106598 string characters out of 6134842
  196287 words of memory out of 5000000
- 10887 multiletter control sequences out of 15000+600000
+ 10891 multiletter control sequences out of 15000+600000
  12434 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  29i,14n,32p,507b,389s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -681,10 +680,10 @@ ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/
 015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/201
 5/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2015/
 texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on solution.pdf (7 pages, 432609 bytes).
+Output written on solution.pdf (7 pages, 461157 bytes).
 PDF statistics:
- 122 PDF objects out of 1000 (max. 8388607)
+ 123 PDF objects out of 1000 (max. 8388607)
  90 compressed objects within 1 object stream
  19 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
