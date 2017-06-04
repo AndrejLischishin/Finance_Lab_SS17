@@ -55,19 +55,23 @@ double integrate_by_point_evaluation(double (*function_to_integrate)(double x, A
  */
 void trap_rule(std::vector<double>* nodes, std::vector<double>* weights, int l)
 {
-	int Nl = pow(2,l)-1;
-	double weight = (double) 3/(2*(Nl+1));
+
+	unsigned int Nl = pow(2,l)-1;
+	double weight = 3./(double)(2*(Nl+1));
 	double node;
     weights->push_back(weight);
 
 	for(int i=1; i<=Nl; i++){
-		node = (double) i/(Nl+1);
-		weight = (double) 1/(Nl+1);
+		node = (double)i/(double)(Nl+1);
 		nodes->push_back(node);
-		weights->push_back(weight);
+		if (i>=2&&i<Nl) {
+			weight = 1./(double)(Nl+1);
+			weights->push_back(weight);
+		}
 	}
-	weight = (double) 3/(2*(Nl+1));
+	weight = 3./(double)(2*(Nl+1));
 	weights->push_back(weight);
+	
 }
 
 

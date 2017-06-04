@@ -407,6 +407,13 @@ int main(int argc, char* argv[])
 		//std::cout << calculated_result << std::endl;
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
 
+		double sum = 0;
+		for (int i = 0; i <pow(2,l)-1; i++) {
+			//std::cout << "weights["<<i<<"] = "<< (*weights)[i] << '\n';
+			sum += (*weights)[i];
+
+		}
+
 		/* Clenshaw Curtis */
 
 		nodes->clear();
