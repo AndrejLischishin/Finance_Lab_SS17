@@ -1,1 +1,1 @@
-plot "../output/quadrature_points_clenshaw_curtis.txt"
+plot "../output/quadrature_points_clenshaw_curtis.txt" title ""

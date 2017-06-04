@@ -129,6 +129,84 @@ void write_quadrature_points_to_file(std::ofstream& myfile, int iteration, std::
 }
 
 
+//////////////////////////////////////////////////////////
+//////////////////////////Task_6//////////////////////////
+//////////////////////////////////////////////////////////
+std::vector<double> van_der_corput_sequence(int p, int n, double epsilon)
+{
+	std::vector<double> x;
+	double x_i_1 = 0;
+	double z;
+	double v;
+
+	for(int i=0; i<n; i++)
+	{
+		z = 1-x_i_1;
+		v=1./p;
+		while(z<v+epsilon)
+		{
+			v=v/p;
+		}
+		x_i_1 = x_i_1+(p+1.)*v-1.;
+		x.push_back(x_i_1);
+	}
+
+	return x;
+}
+
+bool is_prime(int number)
+{
+	for(int i=2; i<=sqrt(number); i++)
+	{
+		if(number%i == 0)
+			return false;
+	}
+	return true;
+}
+
+std::vector<int> first_prime_numbers(int n)
+{
+	std::vector<int> prime_numbers;
+	int i = 0;
+	int number = 2;
+
+	while(i<n)
+	{
+		if(is_prime(number))
+		{
+			prime_numbers.push_back(number);
+			i++;
+		}
+		number++;
+	}
+
+	return prime_numbers;
+}
+
+std::vector<std::vector<double>> d_dimensional_halton_sequence(int d, int n)
+{
+	std::vector<std::vector<double>> points;
+	std::vector<int> prime_numbers = first_prime_numbers(d);
+
+	for(int i=0; i<n; i++)
+	{
+		std::vector<double> single_point;
+		points.push_back(single_point);		
+	}
+	
+	for(int j=0; j<d; j++)
+	{
+		std::vector<double> van_der_corput_sequence_j = van_der_corput_sequence(prime_numbers[j], n, pow(10.,-12.));
+		for(int i=0; i<n; i++)
+		{
+			points[i].push_back(van_der_corput_sequence_j[i]);
+		}
+	}
+
+	return points;
+}
+
+
 
 
 
@@ -140,6 +218,12 @@ namespace Task_3
 	int M;
 	double K;
 	double sigma;
+}
+
+namespace Task_7
+{
+	int d;
+	int n;
 }
 
 namespace Task_8
@@ -340,6 +424,61 @@ int main(int argc, char* argv[])
         std::cout<<"Error opening the file"<<std::endl;
     }
 	write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
+	myfile.close();
+
+	//////////////////////////////////////////////////////////
+	//////////////////////////Task_7//////////////////////////
+	//////////////////////////////////////////////////////////
+	/*
+	std::cout << "Van der Corput Sequence" << std::endl;
+	std::vector<double> x = van_der_corput_sequence(3, 10, pow(10.,-12.));
+	for(int i=0; i<10; i++)
+		std::cout << x[i] << std::endl;
+
+	std::cout << "Prime numbers" << std::endl;
+	std::vector<int> prime_numbers = first_prime_numbers(20);
+	for(int i=0; i<20; i++)
+		std::cout << prime_numbers[i] << std::endl;
+	*/
+
+	Task_7::d = 2;
+	Task_7::n = 100;
+
+	myfile.open("output/uniform_random_numbers.txt",std::ios::trunc);
+    if (!myfile.is_open()) {
+        std::cout<<"Error opening the file"<<std::endl;
+    }
+
+	for(int i=0; i<Task_7::n; i++)
+	{
+		for(int j=0; j<Task_7::d; j++)
+		{
+			myfile << random_number_01() << "	";
+		}
+		myfile << std::endl;
+	}
+
+	myfile.close();
+
+	myfile.open("output/halton_sequence.txt",std::ios::trunc);
+    if (!myfile.is_open()) {
+        std::cout<<"Error opening the file"<<std::endl;
+    }
+
+	std::cout << "Halton sequence" << std::endl;
+	std::vector<std::vector<double>> halton_sequence;
+	halton_sequence = d_dimensional_halton_sequence(Task_7::d, Task_7::n);
+	for(int i=0; i<Task_7::n; i++)
+	{
+		for(int j=0; j<Task_7::d; j++)
+		{
+			//std::cout << halton_sequence[i][j] << "  ";
+			myfile << halton_sequence[i][j] << "	";
+		}
+		//std::cout << std::endl;
+		myfile << std::endl;
+	}
+
 	myfile.close();
 
 	return 0;
