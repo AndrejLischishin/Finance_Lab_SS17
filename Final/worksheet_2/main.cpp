@@ -416,16 +416,6 @@ int main(int argc, char* argv[])
 		//std::cout << calculated_result << std::endl;
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
 
-        double sum = 0;
-
-
-        //check if sum of the weights is 1
-        for (int i = 0; i<pow(2,l)-1;i++ ) {
-
-            sum += (*weights)[i];
-        }
-
-        std::cout<<"sum: "<<sum<<std::endl;
 
 		/* Gauss Legendre */
 		nodes->clear();
