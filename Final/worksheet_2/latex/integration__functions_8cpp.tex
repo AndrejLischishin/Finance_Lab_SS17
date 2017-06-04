@@ -1,0 +1,161 @@
+\hypertarget{integration__functions_8cpp}{}\section{/\+Users/andrei/\+Desktop/\+Finanzpraktikum\+\_\+\+W1/\+Finance\+\_\+\+Lab\+\_\+\+S\+S17/\+Final/header\+\_\+files/integration\+\_\+functions.cpp File Reference}
+\label{integration__functions_8cpp}\index{/\+Users/andrei/\+Desktop/\+Finanzpraktikum\+\_\+\+W1/\+Finance\+\_\+\+Lab\+\_\+\+S\+S17/\+Final/header\+\_\+files/integration\+\_\+functions.\+cpp@{/\+Users/andrei/\+Desktop/\+Finanzpraktikum\+\_\+\+W1/\+Finance\+\_\+\+Lab\+\_\+\+S\+S17/\+Final/header\+\_\+files/integration\+\_\+functions.\+cpp}}
+{\ttfamily \#include \char`\"{}integration\+\_\+functions.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}random\+\_\+functions.\+hpp\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{integration__functions_8cpp_aac44a52d083139460faa5c6cc5e72f80}{calculate\+\_\+relative\+\_\+error} (double exact\+\_\+value, double calculated\+\_\+value)
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\double \hyperlink{integration__functions_8cpp_ab4e5885b5cf28ff09b4cfbf603dfcb85}{integrate\+\_\+by\+\_\+point\+\_\+evaluation} (double($\ast$function\+\_\+to\+\_\+integrate)(double x, Args... rest), std\+::vector$<$ double $>$ $\ast$nodes, std\+::vector$<$ double $>$ $\ast$weights, int n, Args... rest)
+\item 
+void \hyperlink{integration__functions_8cpp_a7470d87d054fd1f74e59e5fd24852104}{trap\+\_\+rule} (std\+::vector$<$ double $>$ $\ast$nodes, std\+::vector$<$ double $>$ $\ast$weights, int l)
+\item 
+void \hyperlink{integration__functions_8cpp_ae585194e3730f14cd7c04271d888790d}{clenshaw\+\_\+curtis} (std\+::vector$<$ double $>$ $\ast$nodes, std\+::vector$<$ double $>$ $\ast$weights, int l)
+\item 
+void \hyperlink{integration__functions_8cpp_a36d9fe00edc89091746bc64896b99e8f}{gauss\+\_\+legendre} (std\+::vector$<$ double $>$ $\ast$nodes, std\+::vector$<$ double $>$ $\ast$weights, size\+\_\+t l)
+\item 
+void \hyperlink{integration__functions_8cpp_a998ae72f0dc21176f72dda169ee9e247}{monte\+\_\+carlo} (std\+::vector$<$ double $>$ $\ast$nodes, std\+::vector$<$ double $>$ $\ast$weights, int l, gsl\+\_\+rng $\ast$r)
+\item 
+double \hyperlink{integration__functions_8cpp_a1712dab6d0a06b1ee13a27a7997174b8}{call\+\_\+option\+\_\+integrand} (double x, double s0, double mu, double sigma, double T, double K)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{integration__functions_8cpp_aac44a52d083139460faa5c6cc5e72f80}\label{integration__functions_8cpp_aac44a52d083139460faa5c6cc5e72f80}} 
+\index{integration\+\_\+functions.\+cpp@{integration\+\_\+functions.\+cpp}!calculate\+\_\+relative\+\_\+error@{calculate\+\_\+relative\+\_\+error}}
+\index{calculate\+\_\+relative\+\_\+error@{calculate\+\_\+relative\+\_\+error}!integration\+\_\+functions.\+cpp@{integration\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{calculate\+\_\+relative\+\_\+error()}{calculate\_relative\_error()}}
+{\footnotesize\ttfamily double calculate\+\_\+relative\+\_\+error (\begin{DoxyParamCaption}\item[{double}]{exact\+\_\+value,  }\item[{double}]{calculated\+\_\+value }\end{DoxyParamCaption})}
+
+Returns the relative error between the given exact value and a calculated value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em exact\+\_\+value} & The exact value of a calculation \\
+\hline
+{\em calculated\+\_\+value} & The calculated value of an algorithm\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The relative error of the algorithm 
+\end{DoxyReturn}
+\mbox{\Hypertarget{integration__functions_8cpp_a1712dab6d0a06b1ee13a27a7997174b8}\label{integration__functions_8cpp_a1712dab6d0a06b1ee13a27a7997174b8}} 
+\index{integration\+\_\+functions.\+cpp@{integration\+\_\+functions.\+cpp}!call\+\_\+option\+\_\+integrand@{call\+\_\+option\+\_\+integrand}}
+\index{call\+\_\+option\+\_\+integrand@{call\+\_\+option\+\_\+integrand}!integration\+\_\+functions.\+cpp@{integration\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{call\+\_\+option\+\_\+integrand()}{call\_option\_integrand()}}
+{\footnotesize\ttfamily double call\+\_\+option\+\_\+integrand (\begin{DoxyParamCaption}\item[{double}]{x,  }\item[{double}]{s0,  }\item[{double}]{mu,  }\item[{double}]{sigma,  }\item[{double}]{T,  }\item[{double}]{K }\end{DoxyParamCaption})}
+
+Calculates the value of the integrand for european call options.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Point to evaluate the integrand at \\
+\hline
+{\em s0} & Value of $S$ at point $0$ \\
+\hline
+{\em mu} & Value of $\mu$ \\
+\hline
+{\em sigma} & Value of $\sigma$ \\
+\hline
+{\em T} & Right bound of the time interval \\
+\hline
+{\em K} & Strike price\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The calculated value 
+\end{DoxyReturn}
+\mbox{\Hypertarget{integration__functions_8cpp_ae585194e3730f14cd7c04271d888790d}\label{integration__functions_8cpp_ae585194e3730f14cd7c04271d888790d}} 
+\index{integration\+\_\+functions.\+cpp@{integration\+\_\+functions.\+cpp}!clenshaw\+\_\+curtis@{clenshaw\+\_\+curtis}}
+\index{clenshaw\+\_\+curtis@{clenshaw\+\_\+curtis}!integration\+\_\+functions.\+cpp@{integration\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{clenshaw\+\_\+curtis()}{clenshaw\_curtis()}}
+{\footnotesize\ttfamily void clenshaw\+\_\+curtis (\begin{DoxyParamCaption}\item[{std\+::vector$<$ double $>$ $\ast$}]{nodes,  }\item[{std\+::vector$<$ double $>$ $\ast$}]{weights,  }\item[{int}]{l }\end{DoxyParamCaption})}
+
+Calculates nodes and weights by the Clenshaw-\/\+Curtis-\/\+Rule on the interval $[0,1]$.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nodes} & The vector that will include the points \\
+\hline
+{\em weights} & The vector that will include all the weights at the different points \\
+\hline
+{\em l} & The number of points will be calculated by $2^l-1$ \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{integration__functions_8cpp_a36d9fe00edc89091746bc64896b99e8f}\label{integration__functions_8cpp_a36d9fe00edc89091746bc64896b99e8f}} 
+\index{integration\+\_\+functions.\+cpp@{integration\+\_\+functions.\+cpp}!gauss\+\_\+legendre@{gauss\+\_\+legendre}}
+\index{gauss\+\_\+legendre@{gauss\+\_\+legendre}!integration\+\_\+functions.\+cpp@{integration\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{gauss\+\_\+legendre()}{gauss\_legendre()}}
+{\footnotesize\ttfamily void gauss\+\_\+legendre (\begin{DoxyParamCaption}\item[{std\+::vector$<$ double $>$ $\ast$}]{nodes,  }\item[{std\+::vector$<$ double $>$ $\ast$}]{weights,  }\item[{size\+\_\+t}]{l }\end{DoxyParamCaption})}
+
+Calculates nodes and weights by the Gauss-\/\+Legendre-\/\+Rule on the interval $[0,1]$.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nodes} & The vector that will include the points \\
+\hline
+{\em weights} & The vector that will include all the weights at the different points \\
+\hline
+{\em l} & The number of points will be calculated by $2^l-1$ \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{integration__functions_8cpp_ab4e5885b5cf28ff09b4cfbf603dfcb85}\label{integration__functions_8cpp_ab4e5885b5cf28ff09b4cfbf603dfcb85}} 
+\index{integration\+\_\+functions.\+cpp@{integration\+\_\+functions.\+cpp}!integrate\+\_\+by\+\_\+point\+\_\+evaluation@{integrate\+\_\+by\+\_\+point\+\_\+evaluation}}
+\index{integrate\+\_\+by\+\_\+point\+\_\+evaluation@{integrate\+\_\+by\+\_\+point\+\_\+evaluation}!integration\+\_\+functions.\+cpp@{integration\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{integrate\+\_\+by\+\_\+point\+\_\+evaluation()}{integrate\_by\_point\_evaluation()}}
+{\footnotesize\ttfamily template$<$typename... Args$>$ \\
+double integrate\+\_\+by\+\_\+point\+\_\+evaluation (\begin{DoxyParamCaption}\item[{double($\ast$)(double x, Args... rest)}]{function\+\_\+to\+\_\+integrate,  }\item[{std\+::vector$<$ double $>$ $\ast$}]{nodes,  }\item[{std\+::vector$<$ double $>$ $\ast$}]{weights,  }\item[{int}]{n,  }\item[{Args...}]{rest }\end{DoxyParamCaption})}
+
+Evaluates a function at given points and multiplies every value with a given weight and sum all the results up.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ($\ast$function\+\_\+to\+\_\+integrate)(double} & x, Args... rest) The function with its additional parameters the will be integrated \\
+\hline
+{\em nodes} & The points on which the function will be evaluated \\
+\hline
+{\em weights} & The weights which will be multiplied with the values of the function at the different points \\
+\hline
+{\em n} & The number of evaluation-\/points \\
+\hline
+{\em Args...} & The additional arguments for the function\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value of the sum (which approximates the integral of the function on a certain interval) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{integration__functions_8cpp_a998ae72f0dc21176f72dda169ee9e247}\label{integration__functions_8cpp_a998ae72f0dc21176f72dda169ee9e247}} 
+\index{integration\+\_\+functions.\+cpp@{integration\+\_\+functions.\+cpp}!monte\+\_\+carlo@{monte\+\_\+carlo}}
+\index{monte\+\_\+carlo@{monte\+\_\+carlo}!integration\+\_\+functions.\+cpp@{integration\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{monte\+\_\+carlo()}{monte\_carlo()}}
+{\footnotesize\ttfamily void monte\+\_\+carlo (\begin{DoxyParamCaption}\item[{std\+::vector$<$ double $>$ $\ast$}]{nodes,  }\item[{std\+::vector$<$ double $>$ $\ast$}]{weights,  }\item[{int}]{l,  }\item[{gsl\+\_\+rng $\ast$}]{r }\end{DoxyParamCaption})}
+
+Calculates nodes and weights by the Monte-\/\+Carlo-\/\+Approach on the interval $[0,1]$.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nodes} & The vector that will include the points \\
+\hline
+{\em weights} & The vector that will include all the weights at the different points \\
+\hline
+{\em l} & The number of points will be calculated by $2^l-1$ \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{integration__functions_8cpp_a7470d87d054fd1f74e59e5fd24852104}\label{integration__functions_8cpp_a7470d87d054fd1f74e59e5fd24852104}} 
+\index{integration\+\_\+functions.\+cpp@{integration\+\_\+functions.\+cpp}!trap\+\_\+rule@{trap\+\_\+rule}}
+\index{trap\+\_\+rule@{trap\+\_\+rule}!integration\+\_\+functions.\+cpp@{integration\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{trap\+\_\+rule()}{trap\_rule()}}
+{\footnotesize\ttfamily void trap\+\_\+rule (\begin{DoxyParamCaption}\item[{std\+::vector$<$ double $>$ $\ast$}]{nodes,  }\item[{std\+::vector$<$ double $>$ $\ast$}]{weights,  }\item[{int}]{l }\end{DoxyParamCaption})}
+
+Calculates nodes and weights by the trapezoidal rule on the interval $[0,1]$.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nodes} & The vector that will include the points \\
+\hline
+{\em weights} & The vector that will include all the weights at the different points \\
+\hline
+{\em l} & The number of points will be calculated by $2^l-1$ \\
+\hline
+\end{DoxyParams}
