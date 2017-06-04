@@ -82,12 +82,12 @@ void clenshaw_curtis(std::vector<double>* nodes, std::vector<double>* weights, i
 {
 	unsigned int Nl = pow(2,l)-1;
 
-	for(int i=1; i<=Nl; i++)
+	for(unsigned int i=1; i<=Nl; i++)
 	{
 		nodes->push_back(.5*(1.-cos((double)(M_PI*i/(Nl+1.)))));
 		double sum = 0.;
 
-		for(int j=1; j<=(Nl+1)/2; j++)
+		for(unsigned int j=1; j<=(Nl+1)/2; j++)
 		{
 			sum = sum + (double) (1./(2.*j-1.)) * sin( (double)(2.*j-1.) * M_PI * (i/(double)(Nl+1.)) );
 		}
