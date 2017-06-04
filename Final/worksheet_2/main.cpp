@@ -187,13 +187,13 @@ int main(int argc, char* argv[])
 			// simulating wiener_process
 			Task_2::w = wiener_process(r,Task_2::T, Task_2::delta_t[i]);
 			//simulating brownian_motion
-    	Task_2::s = brownian_motion(r,Task_2::T, Task_2::delta_t[i], Task_2::w, Task_2::s0, Task_2::mu, Task_2::sigma);
+			Task_2::s = brownian_motion(r,Task_2::T, Task_2::delta_t[i], Task_2::w, Task_2::s0, Task_2::mu, Task_2::sigma);
 			//calculating of the Payoff on the maturity day
-    	helper_2 = std::max((*Task_2::s).back()-Task_2::K,0.0);
+			helper_2 = std::max((*Task_2::s).back()-Task_2::K,0.0);
 			//helper for the calculating of the mean
-    	Task_2::V_mean[i] += helper_2;
+			Task_2::V_mean[i] += helper_2;
 			//vector v of Payoffs for fixed delta_t, simulated 1000times=>v.length=1000
-    	helper_1->push_back(helper_2);
+			helper_1->push_back(helper_2);
 		}
 
 		//calculating mean for different delta_t

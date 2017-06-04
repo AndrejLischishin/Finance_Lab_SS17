@@ -18,7 +18,6 @@ double sum;
 //////////////////////////////////////////////////////////
 //////////////////////////Task_2//////////////////////////
 //////////////////////////////////////////////////////////
-
 double discrete_geometric_average_exact(double s0, double r, double T, int M, double K, double sigma)
 {
 	double delta_t = T/(double)M;
@@ -63,6 +62,34 @@ double discrete_geometric_average_simulation(gsl_rng* rng, double s0, double r, 
 	return result;
 }
 
+//////////////////////////////////////////////////////////
+//////////////////////////Task_8//////////////////////////
+//////////////////////////////////////////////////////////
+
+/*
+double payoff_discrete_arithmetic_average(gsl_rng* rng, double s0, double r, double T, int M, double K, double sigma)
+{
+	double sum = 0.0;
+	double delta_t = T/(double)M;
+	std::vector<double>* w;
+	std::vector<double>* s;
+
+	// Simulation of brownian motion
+	w = wiener_process(rng, T, delta_t);
+	s = brownian_motion(rng, T, delta_t, w, s0, r, sigma);
+
+	for(int i=0; i<M; i++)
+	{
+		sum += (*s)[i];
+	}
+	sum = sum/(double)M;
+
+	if(sum-K<0.0)
+		return 0.0;
+	else
+		return sum-K;
+}
+*/
 
 //////////////////////////////////////////////////////////
 //////////////////////////Task_8//////////////////////////
@@ -220,6 +247,15 @@ namespace Task_3
 	double sigma;
 }
 
+namespace Task_4
+{
+	double s0;
+	double r;
+	double T;
+	double K;
+	double sigma;
+}
+
 namespace Task_7
 {
 	int d;
@@ -268,7 +304,7 @@ int main(int argc, char* argv[])
   	rng = gsl_rng_alloc(gsl_rng_mt19937);
   	gsl_rng_set(rng, seed);
 
-	std::cout << "Prepared everything for worksheet 3." << std::endl;
+	std::ofstream myfile;
 
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_3//////////////////////////
@@ -276,21 +312,81 @@ int main(int argc, char* argv[])
 
 	Task_3::s0 = 10.;
     Task_3::r = 0.1;
-    Task_3::T = 1.;										
-    Task_3::M = 10;
+    Task_3::T = 1.;
     Task_3::K = 10.;	
 	Task_3::sigma = 0.25;
-	
-	int N = 1000000;
 
 	/* Convergence plot for different N has to be inserted! */
 
-	std::cout << discrete_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma) << std::endl;
+//	std::cout << discrete_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma) << std::endl;
 	
-	std::cout << discrete_geometric_average_simulation(rng, Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma, N) << std::endl;
+//	std::cout << discrete_geometric_average_simulation(rng, Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma, N) << std::endl;
 
-	std::cout << continuous_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::K, Task_3::sigma) << std::endl;
+//	std::cout << continuous_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::K, Task_3::sigma) << std::endl;
+										
+    Task_3::M = 10;
+	double calculated_result;
+	double exact_result;
+	double absolute_error;
 
+	myfile.open("output/error_task_3_M_10.txt",std::ios::trunc);
+    if (!myfile.is_open()) {
+        std::cout<<"Error opening the file"<<std::endl;
+    }
+
+	for(int N=1; N<=1000000; N*=10)
+	{
+		calculated_result = discrete_geometric_average_simulation(rng, Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma, N);
+		exact_result = discrete_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma);
+		absolute_error = fabs(calculated_result-exact_result);
+		myfile << N << " " << absolute_error << std::endl;
+	}
+
+	myfile.close();
+
+	myfile.open("output/error_task_3_M_200.txt",std::ios::trunc);
+    if (!myfile.is_open()) {
+        std::cout<<"Error opening the file"<<std::endl;
+    }
+
+	Task_3::M = 200;
+	for(int N=1; N<=1000000; N*=10)
+	{
+		calculated_result = discrete_geometric_average_simulation(rng, Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma, N);
+		exact_result = discrete_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma);
+		absolute_error = fabs(calculated_result-exact_result);
+		myfile << N << " " << absolute_error << std::endl;
+	}
+
+	myfile.close();
+
+	//////////////////////////////////////////////////////////
+	//////////////////////////Task_4//////////////////////////
+	//////////////////////////////////////////////////////////
+
+	Task_4::s0 = 10.;
+    Task_4::r = 0.1;
+    Task_4::T = 1.;
+    Task_4::K = 10.;	
+	Task_4::sigma = 0.25;
+
+	int M_max = pow(2,15);
+	double continuous_result = continuous_geometric_average_exact(Task_4::s0, Task_4::r, Task_4::T, Task_4::K, Task_4::sigma);
+	double discrete_result;
+
+	myfile.open("output/error_continuous_discrete.txt",std::ios::trunc);
+    if (!myfile.is_open()) {
+        std::cout<<"Error opening the file"<<std::endl;
+    }
+
+	for(int M=1; M<=M_max; M*=2)
+	{
+		discrete_result = discrete_geometric_average_exact(Task_4::s0, Task_4::r, Task_4::T, M, Task_4::K, Task_4::sigma);
+		absolute_error = fabs(continuous_result-discrete_result);
+		myfile << M << " " << absolute_error << std::endl;
+	}
+
+	myfile.close();
 
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_8//////////////////////////
@@ -356,7 +452,6 @@ int main(int argc, char* argv[])
 		}
 	}
 	
-	std::ofstream myfile;
 	myfile.open("output/quadrature_points_gauss_legendre.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
@@ -465,7 +560,7 @@ int main(int argc, char* argv[])
         std::cout<<"Error opening the file"<<std::endl;
     }
 
-	std::cout << "Halton sequence" << std::endl;
+	//std::cout << "Halton sequence" << std::endl;
 	std::vector<std::vector<double>> halton_sequence;
 	halton_sequence = d_dimensional_halton_sequence(Task_7::d, Task_7::n);
 	for(int i=0; i<Task_7::n; i++)
