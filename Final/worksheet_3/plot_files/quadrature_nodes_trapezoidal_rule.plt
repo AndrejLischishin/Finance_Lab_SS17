@@ -1,1 +1,1 @@
-plot "../output/quadrature_points_trapezoidal_rule.txt"
+plot "../output/quadrature_points_trapezoidal_rule.txt" title ""
