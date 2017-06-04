@@ -59,7 +59,7 @@ void trap_rule(std::vector<double>* nodes, std::vector<double>* weights, int l)
 	double weight = (double) 3/(2*(Nl+1));
 	double node;
     weights->push_back(weight);
-   
+
 	for(int i=1; i<=Nl; i++){
 		node = (double) i/(Nl+1);
 		weight = (double) 1/(Nl+1);
@@ -80,18 +80,21 @@ void trap_rule(std::vector<double>* nodes, std::vector<double>* weights, int l)
  */
 void clenshaw_curtis(std::vector<double>* nodes, std::vector<double>* weights, int l)
 {
-	int Nl = pow(2,l)-1;
-	for(int i=1; i<Nl; i++)
+	unsigned int Nl = pow(2,l)-1;
+
+	for(int i=1; i<=Nl; i++)
 	{
 		nodes->push_back(.5*(1.-cos((double)(M_PI*i/(Nl+1.)))));
 		double sum = 0.;
 
 		for(int j=1; j<=(Nl+1)/2; j++)
 		{
-			sum = sum + (double) 1./(2.*j-1.)*sin((double)(2.*j-1.)*M_PI*i/(Nl+1.));
+			sum = sum + (double) (1./(2.*j-1.)) * sin( (double)(2.*j-1.) * M_PI * (i/(double)(Nl+1.)) );
 		}
-		weights->push_back((double)2./(Nl+1.)*sin((double)M_PI*i/(Nl+1.))*sum);
+		weights->push_back( (double)(2./(Nl+1.)) * sin( M_PI * ((double)i/(double)(Nl+1.)) ) * sum );
 	}
+
+
 }
 
 
@@ -103,16 +106,16 @@ void clenshaw_curtis(std::vector<double>* nodes, std::vector<double>* weights, i
  * @param l The number of points will be calculated by \f$2^l-1\f$
  */
 void gauss_legendre(std::vector<double>* nodes, std::vector<double>* weights, size_t l)
-{	
+{
 	int Nl = pow(2,l)-1;
 
 	double* wi = new double[1];
 	double* xi = new double[1];
-	
-	double a=0.; 
+
+	double a=0.;
 	double b=1.;
-	
-	gsl_integration_glfixed_table* table;	
+
+	gsl_integration_glfixed_table* table;
 	table =	gsl_integration_glfixed_table_alloc(Nl);
 
 	for(int j=0; j<Nl; j++)
@@ -134,7 +137,7 @@ void gauss_legendre(std::vector<double>* nodes, std::vector<double>* weights, si
  * @param l The number of points will be calculated by \f$2^l-1\f$
  */
 void monte_carlo(std::vector<double>* nodes, std::vector<double>* weights, int l, gsl_rng* r)
-{		
+{
 	int Nl = pow(2,l)-1;
 	for(int i=1; i<=Nl; i++)
 	{

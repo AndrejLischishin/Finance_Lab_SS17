@@ -408,12 +408,14 @@ int main(int argc, char* argv[])
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
 
 		/* Clenshaw Curtis */
+
 		nodes->clear();
 		weights->clear();
 		clenshaw_curtis(nodes, weights, l);
 		calculated_result = integrate_by_point_evaluation(call_option_integrand, nodes, weights, pow(2,l)-1, Task_10::s0, Task_10::mu, Task_10::sigma, Task_10::T, Task_10::K);
 		//std::cout << calculated_result << std::endl;
 		myfile<<calculate_relative_error(exact_result, calculated_result)<<"	";
+
 
 		/* Gauss Legendre */
 		nodes->clear();
