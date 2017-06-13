@@ -3,6 +3,11 @@
 #include <math.h>
 #include <iostream>
 #include <vector>
+#include <gsl/gsl_rng.h>
+#include "integration_functions.hpp"
+#include "simulation_functions.hpp"
+#include "random_functions.hpp"
+
 
 double testfunction(std::vector<double> x){
 //	std::cout<<x[0]*x[0]+x[1]<<std::endl;
@@ -10,8 +15,54 @@ double testfunction(std::vector<double> x){
 	return x[0]*x[0]+x[1];
 }
 
+double function_task13(std::vector<double>* x, double gamma, int d){
+//	std::cout<<x[0]*x[0]+x[1]<<std::endl;
+//	std::cout<<x[1]<<"x0"<<std::endl;
+	double product = 1;
+	for(int i=1; i<=d; i++){
+		product = product*(1+gamma*exp((*x)[i-1]/2));
+	}
+	
+	return product;
+}
 
-void trap_rule_s(std::vector<double>* weights, int l){
+double function_task13_sparse(std::vector<double> x, double gamma, int d){
+//	std::cout<<x[0]*x[0]+x[1]<<std::endl;
+//	std::cout<<x[1]<<"x0"<<std::endl;
+	double product = 1;
+	for(int i=1; i<=d; i++){
+		product = product*(1+gamma*exp(x[i-1]/2));
+	}
+	
+	return product;
+}
+
+void monte_carlo(std::vector<std::vector<double>*>* nodes, std::vector<double>* weights, int l, int d, gsl_rng* r)
+{
+	int Nl = pow(2,l)-1;
+	for(int i=1; i<=Nl; i++)
+	{
+		for(int j=1;j<=d;j++){
+		(*nodes)[j-1]->push_back(random_number_01_GSL(r));
+		}	
+		(*weights)[i-1] = (1./(Nl));
+	}
+}
+
+template<typename... Args>
+double integrate_by_point_evaluation(double (*function_to_integrate)(std::vector<double>* x, Args... rest), std::vector<std::vector<double>*>* nodes, std::vector<double>* weights, int n, int d, Args... rest)
+{
+	double result = 0.0;
+	for(int i=0; i<n; i++)
+	{	
+		result += (*weights)[i]*function_to_integrate((*nodes)[i], rest...);
+	}
+
+	return result;
+}
+
+
+void trap_rule_weights(std::vector<double>* weights, int l){
 	int Nl = pow(2, l)-1;
 	int Nk = pow(2, l-1)-1;
 	for(int i=1; i<Nl-1; i++){
@@ -30,7 +81,7 @@ void trap_rule_s(std::vector<double>* weights, int l){
 	if(l==2) (*weights)[1]=-0.75;
 }
 
-void trap_rulen(std::vector<double> *nodes, int l){
+void trap_rule_nodes(std::vector<double> *nodes, int l){
 	int Nl = pow(2, l)-1;
 	
 	for(int i=1; i<=Nl; i++){
@@ -39,6 +90,54 @@ void trap_rulen(std::vector<double> *nodes, int l){
 //	std::cout<<(*nodes)[0]<<"nodes "<<std::endl;
 }
 
+void clenshaw_curtis_nodes(std::vector<double>* nodes, int l)
+{
+	unsigned int Nl = pow(2,l)-1;
+
+	for(unsigned int i=1; i<=Nl; i++)
+	{
+		(*nodes)[i-1]=(.5*(1.-cos((double)(M_PI*i/(Nl+1.)))));
+		double sum = 0.;
+
+	}
+}
+
+
+void clenshaw_curtis_weights(std::vector<double>* weights, int l){
+	int Nl = pow(2, l)-1;
+	int Nk = pow(2, l-1)-1;
+	double sum = 0.;
+	std::vector<double> weightstemp;
+
+	for(unsigned int i=1; i<=Nl; i++)
+	{
+		sum = 0.;
+		for(unsigned int j=1; j<=(Nl+1)/2; j++)
+		{
+			sum = sum + (double) (1./(2.*j-1.)) * sin( (double)(2.*j-1.) * M_PI * (i/(double)(Nl+1.)) );
+		}
+		(*weights)[i-1]=( (double)(2./(Nl+1.)) * sin( M_PI * ((double)i/(double)(Nl+1.)) ) * sum );
+	}
+	
+	for(unsigned int i=1; i<=Nk; i++)
+	{
+		sum = 0.;
+
+		for(unsigned int j=1; j<=(Nk+1)/2; j++)
+		{
+			sum = sum + (double) (1./(2.*j-1.)) * sin( (double)(2.*j-1.) * M_PI * (i/(double)(Nk+1.)) );
+		}
+		weightstemp.push_back( (double)(2./(Nk+1.)) * sin( M_PI * ((double)i/(double)(Nk+1.)) ) * sum );
+	}
+	
+	for(int i=1; i<=Nl; i++){
+		if((i)%2==0){
+			(*weights)[i-1]=((*weights)[i-1]-weightstemp[(int)i/2-1]);
+		//	(*weights)[i-1]=(*weights)[i-1]-;
+		}
+	//	std::cout<<(*weights)[i-1]<<" weightss "<<std::endl;
+	} 
+}
 
 
 int enumeration(int *k, int d, int l, std::vector<int>* diag){
@@ -130,18 +229,15 @@ void loop(int* vec, int* klevel, int d, int* finalvec){
 	}
 }
 
-void sparse_grid_nodes(int d, int product, int* allvec, 
-							double** nodes, std::vector<std::vector<double> > nodesv){
+void sparse_grid_nodes(int d, int product, int* allvec, std::vector<std::vector<double> > nodesv){
 	FILE *fp;
 	fp = fopen("stuetzstellen", "a");
 		for(int i=0; i<product*d; i=i+d){
 			for(int j=0; j<d; j++){
-				fprintf(fp,"%f ", nodes[j][allvec[i+j]]);
-				nodesv[j][allvec[i+j]]=nodes[j][allvec[i+j]];
+				fprintf(fp,"%f ", nodesv[j][allvec[i+j]]);
 			}
 		fprintf(fp,"\n");	
 		}
-	printf("\n");
 	fclose(fp);	
 }
 	
@@ -165,7 +261,15 @@ void sparse_grid_weights(int d, int product, int* allvec,
 template<typename... Args>
 double integrate_with_sparse_grid(double (*function_to_integrate)(std::vector<double> x, Args... rest), 
 			int d, int l, std::vector<std::vector<double> > nodes, 
-			std::vector<std::vector<double> > weights,  Args... rest){
+			std::vector<std::vector<double> > weights, bool write_in_file, bool use_trap_rule, Args... rest){
+	if(write_in_file==true) {
+		FILE *fp;
+	fp = fopen("stuetzstellen", "w");
+		fprintf(fp,"");	
+		
+	fclose(fp);
+	
+	}
 	int maxlevel = (int)pow(2,l)-1;
 	int* klevel = new int[d];
 	int* k = new int[d];
@@ -202,7 +306,7 @@ double integrate_with_sparse_grid(double (*function_to_integrate)(std::vector<do
 	// von diag auf k uebertragen
 		for(int i=0; i<d; i++){
 			k[i]=diag[i+K*d]+1;
-			printf("%i ki \n", k[i]);
+	//		printf("%i ki \n", k[i]);
 		}
 	
 	
@@ -228,11 +332,20 @@ double integrate_with_sparse_grid(double (*function_to_integrate)(std::vector<do
 			product = product * klevel[i];
 		}
 		
+		if(use_trap_rule== true){
 		for(int i=0; i<d; i++){
-		trap_rule_s(&weights[i], k[i]);
-		trap_rulen(&nodes[i], k[i]);
+		trap_rule_weights(&weights[i], k[i]);
+		trap_rule_nodes(&nodes[i], k[i]);
 		}
-		std::cout<<nodes[1][2]<<" nodes "<<std::endl;
+		}
+		else{
+		for(int i=0; i<d; i++){
+		clenshaw_curtis_weights(&weights[i], k[i]);
+		clenshaw_curtis_nodes(&nodes[i], k[i]);
+		}
+		}
+		
+//		std::cout<<nodes[1][2]<<" nodes "<<std::endl;
 		for(int i=0; i<product*d; i=i+d){
 			for(int j=0; j<d; j++){
 				product_w = product_w*weights[j][allvec[i+j]];
@@ -244,16 +357,22 @@ double integrate_with_sparse_grid(double (*function_to_integrate)(std::vector<do
 			point.clear();
 			for(int h=0; h<d; h++){
 				point.push_back(nodes[h][allvec[i+h]]);
-				std::cout<<point[h]<<" point "<<std::endl;
+		//		std::cout<<point[h]<<" point "<<std::endl;
 			}
 			final_value = final_value + product_w*(function_to_integrate(point, rest...));
 			product_w = 1;
 	//		std::cout<<product<<std::endl;
 	//		std::cout<<final_value<<std::endl;
+	
+	if(write_in_file==true) sparse_grid_nodes(d,product,allvec,nodes);
 			
 		}
 			
 	}
+	free(allvec);
+	free(k1);
+	free(k);
+	free(vec);	
 	
 	return final_value;		
 	
@@ -265,8 +384,8 @@ double integrate_with_sparse_grid(double (*function_to_integrate)(std::vector<do
 int main(){
 
 
-	int d=2;
-	int l=7;
+	int d=7;
+	int l=4;
 	int maxlevel = pow(2,l)-1;
 	
 	
@@ -292,8 +411,10 @@ int main(){
 //	sparse_grid_nodes(d, product, allvec, nodes, nodesv);
 //	sparse_grid_weights(d, product, allvec, weights, weightsv);
 	
-	double final_value = integrate_with_sparse_grid(testfunction, 
-			d, l, nodesv, weightsv);
+	double final_value = integrate_with_sparse_grid(function_task13_sparse, 
+			d, l, nodesv, weightsv, false, false, 0.1, d);
+	
+	
 	
 	printf("%f final sum\n", final_value);
 	
