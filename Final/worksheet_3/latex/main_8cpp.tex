@@ -1,0 +1,168 @@
+\hypertarget{main_8cpp}{}\section{main.\+cpp File Reference}
+\label{main_8cpp}\index{main.\+cpp@{main.\+cpp}}
+{\ttfamily \#include \char`\"{}../header\+\_\+files/random\+\_\+functions.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../header\+\_\+files/simulation\+\_\+functions.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../header\+\_\+files/integration\+\_\+functions.\+hpp\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{main_8cpp_abd452cd6662c4aa75c744be9c43db840}{discrete\+\_\+geometric\+\_\+average\+\_\+exact} (double s0, double r, double T, int M, double K, double sigma)
+\item 
+\mbox{\Hypertarget{main_8cpp_abaf8a874b5123aa89a8c6a3e0e73e884}\label{main_8cpp_abaf8a874b5123aa89a8c6a3e0e73e884}} 
+double {\bfseries continuous\+\_\+geometric\+\_\+average\+\_\+exact} (double s0, double r, double T, double K, double sigma)
+\item 
+\mbox{\Hypertarget{main_8cpp_a453dc42c2c1ca2f607a8ee814321c3f9}\label{main_8cpp_a453dc42c2c1ca2f607a8ee814321c3f9}} 
+double {\bfseries discrete\+\_\+geometric\+\_\+average\+\_\+simulation} (gsl\+\_\+rng $\ast$rng, double s0, double r, double T, int M, double K, double sigma, int N)
+\item 
+\mbox{\Hypertarget{main_8cpp_a8e1491cbd3dbad4f46029a593eccbc3c}\label{main_8cpp_a8e1491cbd3dbad4f46029a593eccbc3c}} 
+double {\bfseries function\+\_\+to\+\_\+integrate} (std\+::vector$<$ double $>$ x)
+\item 
+\mbox{\Hypertarget{main_8cpp_a430d871910c775657652980081c0745b}\label{main_8cpp_a430d871910c775657652980081c0745b}} 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries tensor\+\_\+product} (int iteration, std\+::vector$<$ std\+::vector$<$ double $>$$>$ nodes\+\_\+temp, std\+::vector$<$ std\+::vector$<$ double $>$$>$ weights\+\_\+temp, int d, std\+::vector$<$ int $>$ Nl, std\+::vector$<$ int $>$ ids, double($\ast$function\+\_\+to\+\_\+integrate)(std\+::vector$<$ double $>$ x, Args... rest), Args... rest)
+\item 
+\mbox{\Hypertarget{main_8cpp_a29d93b1c7ba9aa9156565bd06cd1e20f}\label{main_8cpp_a29d93b1c7ba9aa9156565bd06cd1e20f}} 
+{\footnotesize template$<$typename... Args$>$ }\\void {\bfseries write\+\_\+quadrature\+\_\+points\+\_\+to\+\_\+file} (std\+::ofstream \&myfile, int iteration, std\+::vector$<$ std\+::vector$<$ double $>$$>$ nodes\+\_\+temp, int d, std\+::vector$<$ int $>$ Nl, std\+::vector$<$ int $>$ ids)
+\item 
+\mbox{\Hypertarget{main_8cpp_a6a7c2c6f0bf397f22e71b0e66b2e12ad}\label{main_8cpp_a6a7c2c6f0bf397f22e71b0e66b2e12ad}} 
+std\+::vector$<$ double $>$ {\bfseries van\+\_\+der\+\_\+corput\+\_\+sequence} (int p, int n, double epsilon)
+\item 
+\mbox{\Hypertarget{main_8cpp_a9bd117bc1e668137fa7af832cca3e8ff}\label{main_8cpp_a9bd117bc1e668137fa7af832cca3e8ff}} 
+bool {\bfseries is\+\_\+prime} (int number)
+\item 
+\mbox{\Hypertarget{main_8cpp_a169d42825ba4f94ece28041b547635bf}\label{main_8cpp_a169d42825ba4f94ece28041b547635bf}} 
+std\+::vector$<$ int $>$ {\bfseries first\+\_\+prime\+\_\+numbers} (int n)
+\item 
+\mbox{\Hypertarget{main_8cpp_a79d1cf7d2d4f79b9fc68ed4fb9469173}\label{main_8cpp_a79d1cf7d2d4f79b9fc68ed4fb9469173}} 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ {\bfseries d\+\_\+dimensional\+\_\+halton\+\_\+sequence} (int d, int n)
+\item 
+\mbox{\Hypertarget{main_8cpp_a60db01be756f53c78ca63321fb5c1a3a}\label{main_8cpp_a60db01be756f53c78ca63321fb5c1a3a}} 
+std\+::vector$<$ double $>$ $\ast$ {\bfseries brownian\+\_\+bridge\+\_\+level} (std\+::vector$<$ double $>$ $\ast$prev\+\_\+level, double T, double level, gsl\+\_\+rng $\ast$r)
+\item 
+\mbox{\Hypertarget{main_8cpp_a5b7c7793abe5545504eb60be09717bed}\label{main_8cpp_a5b7c7793abe5545504eb60be09717bed}} 
+std\+::vector$<$ double $>$ $\ast$ {\bfseries brownian\+\_\+bridge} (gsl\+\_\+rng $\ast$r, double T, int M)
+\item 
+int \hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{main_8cpp_a2943e5895f5488ed44ed4a86e59dcf1b}\label{main_8cpp_a2943e5895f5488ed44ed4a86e59dcf1b}} 
+double {\bfseries sum}
+\item 
+\mbox{\Hypertarget{main_8cpp_a52903e5cbc7d40330593e195d22ed491}\label{main_8cpp_a52903e5cbc7d40330593e195d22ed491}} 
+double {\bfseries Task\+\_\+3\+::s0}
+\item 
+\mbox{\Hypertarget{main_8cpp_afffd9d7f2c58e8d320542f4f1553ae94}\label{main_8cpp_afffd9d7f2c58e8d320542f4f1553ae94}} 
+double {\bfseries Task\+\_\+3\+::r}
+\item 
+\mbox{\Hypertarget{main_8cpp_a28545c5dcaac8a81920b135a539d5924}\label{main_8cpp_a28545c5dcaac8a81920b135a539d5924}} 
+double {\bfseries Task\+\_\+3\+::T}
+\item 
+\mbox{\Hypertarget{main_8cpp_a361e82479fa95a67724a80f13966db38}\label{main_8cpp_a361e82479fa95a67724a80f13966db38}} 
+int {\bfseries Task\+\_\+3\+::M}
+\item 
+\mbox{\Hypertarget{main_8cpp_aae41edd04fb971f534ab582a5b1d65dd}\label{main_8cpp_aae41edd04fb971f534ab582a5b1d65dd}} 
+double {\bfseries Task\+\_\+3\+::K}
+\item 
+\mbox{\Hypertarget{main_8cpp_a31a38b9319acd327e9e936960adff2d1}\label{main_8cpp_a31a38b9319acd327e9e936960adff2d1}} 
+double {\bfseries Task\+\_\+3\+::sigma}
+\item 
+\mbox{\Hypertarget{main_8cpp_a00640b938bcd8d03b94406fd0ba49cb1}\label{main_8cpp_a00640b938bcd8d03b94406fd0ba49cb1}} 
+double {\bfseries Task\+\_\+4\+::s0}
+\item 
+\mbox{\Hypertarget{main_8cpp_a91d1d162a39daae7d1a422fd0d322eb8}\label{main_8cpp_a91d1d162a39daae7d1a422fd0d322eb8}} 
+double {\bfseries Task\+\_\+4\+::r}
+\item 
+\mbox{\Hypertarget{main_8cpp_ad8ab9f0266fe5d7d7c901bd4f35169d7}\label{main_8cpp_ad8ab9f0266fe5d7d7c901bd4f35169d7}} 
+double {\bfseries Task\+\_\+4\+::T}
+\item 
+\mbox{\Hypertarget{main_8cpp_a665874b2746af22c6ef3ad24f67cc077}\label{main_8cpp_a665874b2746af22c6ef3ad24f67cc077}} 
+double {\bfseries Task\+\_\+4\+::K}
+\item 
+\mbox{\Hypertarget{main_8cpp_a8e8e2c2e92481f611acfb3dfebb552ac}\label{main_8cpp_a8e8e2c2e92481f611acfb3dfebb552ac}} 
+double {\bfseries Task\+\_\+4\+::sigma}
+\item 
+\mbox{\Hypertarget{main_8cpp_a97aed402d22a3924705de16134276011}\label{main_8cpp_a97aed402d22a3924705de16134276011}} 
+int {\bfseries Task\+\_\+7\+::d}
+\item 
+\mbox{\Hypertarget{main_8cpp_ac8d042f483ba77a8d2dca0fcdd732cb2}\label{main_8cpp_ac8d042f483ba77a8d2dca0fcdd732cb2}} 
+int {\bfseries Task\+\_\+7\+::n}
+\item 
+\mbox{\Hypertarget{main_8cpp_a1dcae2f058931eb5770fc823cf6a200e}\label{main_8cpp_a1dcae2f058931eb5770fc823cf6a200e}} 
+int {\bfseries Task\+\_\+8\+::d}
+\item 
+\mbox{\Hypertarget{main_8cpp_a0e5fa9197257d812379d653c417e39d5}\label{main_8cpp_a0e5fa9197257d812379d653c417e39d5}} 
+int {\bfseries Task\+\_\+8\+::l}
+\item 
+\mbox{\Hypertarget{main_8cpp_a5d99c5230e9a9f4587a0a8c194aa380a}\label{main_8cpp_a5d99c5230e9a9f4587a0a8c194aa380a}} 
+std\+::vector$<$ int $>$ {\bfseries Task\+\_\+8\+::\+Nl}
+\item 
+\mbox{\Hypertarget{main_8cpp_a257e15f40c67f2ae82fcf38883f2b025}\label{main_8cpp_a257e15f40c67f2ae82fcf38883f2b025}} 
+std\+::vector$<$ double $>$ $\ast$ {\bfseries Task\+\_\+8\+::nodes}
+\item 
+\mbox{\Hypertarget{main_8cpp_aa5fc867ee6c887c5cfb274172a0c3bbc}\label{main_8cpp_aa5fc867ee6c887c5cfb274172a0c3bbc}} 
+std\+::vector$<$ double $>$ $\ast$ {\bfseries Task\+\_\+8\+::weights}
+\item 
+\mbox{\Hypertarget{main_8cpp_a070089be887a1282b2f8800d56320796}\label{main_8cpp_a070089be887a1282b2f8800d56320796}} 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ {\bfseries Task\+\_\+8\+::nodes\+\_\+temp}
+\item 
+\mbox{\Hypertarget{main_8cpp_a1ae9b14f49abfd63172467f4ef258c61}\label{main_8cpp_a1ae9b14f49abfd63172467f4ef258c61}} 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ {\bfseries Task\+\_\+8\+::weights\+\_\+temp}
+\item 
+\mbox{\Hypertarget{main_8cpp_a3fecbd72ac45b73cf6d5ebc423e45bc6}\label{main_8cpp_a3fecbd72ac45b73cf6d5ebc423e45bc6}} 
+std\+::vector$<$ int $>$ {\bfseries Task\+\_\+8\+::ids}
+\item 
+\mbox{\Hypertarget{main_8cpp_a4acedc51135c5904e5be26d91d9f61f0}\label{main_8cpp_a4acedc51135c5904e5be26d91d9f61f0}} 
+int {\bfseries Task\+\_\+9\+::d}
+\item 
+\mbox{\Hypertarget{main_8cpp_afb4eacf0fcd4b0bfcc6365a44919ddb8}\label{main_8cpp_afb4eacf0fcd4b0bfcc6365a44919ddb8}} 
+int {\bfseries Task\+\_\+9\+::l}
+\item 
+\mbox{\Hypertarget{main_8cpp_ac605c209f931accff4ce0d8551750d41}\label{main_8cpp_ac605c209f931accff4ce0d8551750d41}} 
+std\+::vector$<$ int $>$ {\bfseries Task\+\_\+9\+::\+Nl}
+\item 
+\mbox{\Hypertarget{main_8cpp_afe1421a29246e7d2ea45c88425319817}\label{main_8cpp_afe1421a29246e7d2ea45c88425319817}} 
+std\+::vector$<$ double $>$ $\ast$ {\bfseries Task\+\_\+9\+::nodes}
+\item 
+\mbox{\Hypertarget{main_8cpp_a437d1fde77b07ae7a11a290854e8b7d9}\label{main_8cpp_a437d1fde77b07ae7a11a290854e8b7d9}} 
+std\+::vector$<$ double $>$ $\ast$ {\bfseries Task\+\_\+9\+::weights}
+\item 
+\mbox{\Hypertarget{main_8cpp_a45936feacbbaa7ffca00242e6a88f10a}\label{main_8cpp_a45936feacbbaa7ffca00242e6a88f10a}} 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ {\bfseries Task\+\_\+9\+::nodes\+\_\+temp}
+\item 
+\mbox{\Hypertarget{main_8cpp_a8e38f6bff39e80ffb1007be1a398f694}\label{main_8cpp_a8e38f6bff39e80ffb1007be1a398f694}} 
+std\+::vector$<$ int $>$ {\bfseries Task\+\_\+9\+::ids}
+\item 
+\mbox{\Hypertarget{main_8cpp_ae4e6f145e815459f0b73f4245c35ea9b}\label{main_8cpp_ae4e6f145e815459f0b73f4245c35ea9b}} 
+double {\bfseries Task\+\_\+14\+::T}
+\item 
+\mbox{\Hypertarget{main_8cpp_ac44d8df07877b8c3030e821cb3925cf8}\label{main_8cpp_ac44d8df07877b8c3030e821cb3925cf8}} 
+int {\bfseries Task\+\_\+14\+::M}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{main_8cpp_abd452cd6662c4aa75c744be9c43db840}\label{main_8cpp_abd452cd6662c4aa75c744be9c43db840}} 
+\index{main.\+cpp@{main.\+cpp}!discrete\+\_\+geometric\+\_\+average\+\_\+exact@{discrete\+\_\+geometric\+\_\+average\+\_\+exact}}
+\index{discrete\+\_\+geometric\+\_\+average\+\_\+exact@{discrete\+\_\+geometric\+\_\+average\+\_\+exact}!main.\+cpp@{main.\+cpp}}
+\subsubsection{\texorpdfstring{discrete\+\_\+geometric\+\_\+average\+\_\+exact()}{discrete\_geometric\_average\_exact()}}
+{\footnotesize\ttfamily double discrete\+\_\+geometric\+\_\+average\+\_\+exact (\begin{DoxyParamCaption}\item[{double}]{s0,  }\item[{double}]{r,  }\item[{double}]{T,  }\item[{int}]{M,  }\item[{double}]{K,  }\item[{double}]{sigma }\end{DoxyParamCaption})}
+
+Put the functions into header files later on! \mbox{\Hypertarget{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\label{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}} 
+\index{main.\+cpp@{main.\+cpp}!main@{main}}
+\index{main@{main}!main.\+cpp@{main.\+cpp}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+Main function to run all exercises of worksheet 2.
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & Integer argument for main \\
+\hline
+{\em argv} & Char array argument for main\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns 0 if everything worked fine 
+\end{DoxyReturn}
