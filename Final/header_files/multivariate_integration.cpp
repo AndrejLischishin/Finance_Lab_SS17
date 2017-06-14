@@ -41,7 +41,6 @@ void clenshaw_curtis_nodes(std::vector<double>* nodes, int l)
 	for(unsigned int i=1; i<=Nl; i++)
 	{
 		(*nodes)[i-1]=(.5*(1.-cos((double)(M_PI*i/(Nl+1.)))));
-		double sum = 0.;
 
 	}
 }
@@ -317,7 +316,7 @@ double asian_option_call_integrand(std::vector<double> x,double S0,double K, dou
   //////////////////////////////////////////////////////////
   //////////////////////////Task_9//////////////////////////
   //////////////////////////////////////////////////////////
-  
+
   void write_quadrature_points_to_file(std::ofstream& myfile, int iteration, std::vector<std::vector<double>> nodes_temp, int d, std::vector<int> Nl, std::vector<int> ids)
   {
   	if(iteration==d)
