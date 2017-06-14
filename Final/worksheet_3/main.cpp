@@ -105,7 +105,7 @@ template<typename... Args>
 void tensor_product(int iteration, std::vector<std::vector<double>> nodes_temp, std::vector<std::vector<double>> weights_temp, int d, std::vector<int> Nl, std::vector<int> ids, double (*function_to_integrate)(std::vector<double> x, Args... rest), Args... rest)
 {
 	if(iteration==d)
-	{ 
+	{
 		std::vector<double> x;
 		x.clear();
 		double prod = 1.0;
@@ -124,7 +124,7 @@ void tensor_product(int iteration, std::vector<std::vector<double>> nodes_temp, 
 		for(int k=0; k<Nl[iteration]; k++)
 		{
 			ids[iteration] = k;
-			tensor_product(iteration+1, nodes_temp, weights_temp, d, Nl, ids, function_to_integrate, rest...);		
+			tensor_product(iteration+1, nodes_temp, weights_temp, d, Nl, ids, function_to_integrate, rest...);
 		}
 	}
 }
@@ -150,7 +150,7 @@ void write_quadrature_points_to_file(std::ofstream& myfile, int iteration, std::
 		for(int k=0; k<Nl[iteration]; k++)
 		{
 			ids[iteration] = k;
-			write_quadrature_points_to_file(myfile, iteration+1, nodes_temp, d, Nl, ids);		
+			write_quadrature_points_to_file(myfile, iteration+1, nodes_temp, d, Nl, ids);
 		}
 	}
 }
@@ -218,9 +218,9 @@ std::vector<std::vector<double>> d_dimensional_halton_sequence(int d, int n)
 	for(int i=0; i<n; i++)
 	{
 		std::vector<double> single_point;
-		points.push_back(single_point);		
+		points.push_back(single_point);
 	}
-	
+
 	for(int j=0; j<d; j++)
 	{
 		std::vector<double> van_der_corput_sequence_j = van_der_corput_sequence(prime_numbers[j], n, pow(10.,-12.));
@@ -233,8 +233,40 @@ std::vector<std::vector<double>> d_dimensional_halton_sequence(int d, int n)
 	return points;
 }
 
+std::vector<double>* brownian_bridge_level(std::vector<double>* prev_level, double T, double level, gsl_rng* r){
 
+	//definition of iterator
+	std::vector<double>::iterator it = prev_level->begin();
 
+	double new_point = 0;
+	for (int i = 0; i < pow(2,level); i+=2) {
+		//generating points of new level from thr previous one and inserting them inbetween
+		new_point = (1./2.) * ( (*prev_level)[i] + (*prev_level)[i+1]) + sqrt(T/pow(2,level))*gsl_ran_ugaussian(r);
+		prev_level->insert(it+i+1,new_point);
+
+	}
+	// returns pointer to the vector with points of next level
+	return prev_level;
+}
+
+std::vector<double>* brownian_bridge(gsl_rng* r, double T, int M)
+{
+		// computing number of levels
+		int max_level = log2(M);
+
+		// start settings
+		std::vector<double> *w = new std::vector<double>;
+		w->clear();
+		w->push_back(0.0);
+		w->push_back(gsl_ran_ugaussian(r));
+
+		// recursion similar call for computation of new levels
+		for(int i=1; i<=max_level; i++)
+		{
+			brownian_bridge_level(w,T,i,r);
+		}
+		return w;
+}
 
 
 namespace Task_3
@@ -285,6 +317,12 @@ namespace Task_9
 	std::vector<int> ids;
 }
 
+namespace Task_14{
+
+	double T;
+	int M;
+}
+
 /**
  * Main function to run all exercises of worksheet 2.
  *
@@ -313,17 +351,17 @@ int main(int argc, char* argv[])
 	Task_3::s0 = 10.;
     Task_3::r = 0.1;
     Task_3::T = 1.;
-    Task_3::K = 10.;	
+    Task_3::K = 10.;
 	Task_3::sigma = 0.25;
 
-	/* Convergence plot for different N has to be inserted! */
+	 /*Convergence plot for different N has to be inserted! */
 
 //	std::cout << discrete_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma) << std::endl;
-	
+
 //	std::cout << discrete_geometric_average_simulation(rng, Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma, N) << std::endl;
 
 //	std::cout << continuous_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::K, Task_3::sigma) << std::endl;
-										
+
     Task_3::M = 10;
 	double calculated_result;
 	double exact_result;
@@ -367,7 +405,7 @@ int main(int argc, char* argv[])
 	Task_4::s0 = 10.;
     Task_4::r = 0.1;
     Task_4::T = 1.;
-    Task_4::K = 10.;	
+    Task_4::K = 10.;
 	Task_4::sigma = 0.25;
 
 	int M_max = pow(2,15);
@@ -394,13 +432,13 @@ int main(int argc, char* argv[])
 
 	Task_8::d=3;
 	Task_8::l = 2;
-	
+
     Task_8::nodes = new std::vector<double>;
     Task_8::weights = new std::vector<double>;
 	gauss_legendre(Task_8::nodes, Task_8::weights, Task_8::l);
 
 	for(int i=0; i<Task_8::d; i++)
-    {	
+    {
 		Task_8::Nl.push_back((int)pow(2,Task_8::l)-1);
 		std::vector<double> row;
 		Task_8::nodes_temp.push_back(row);
@@ -417,10 +455,10 @@ int main(int argc, char* argv[])
 			Task_8::weights_temp[i].push_back((*Task_8::weights)[j]);
 		}
 	}
-	
-	sum = 0.0;	
 
-	tensor_product(0, Task_8::nodes_temp, Task_8::weights_temp, Task_8::d, Task_8::Nl, Task_8::ids, function_to_integrate);	
+	sum = 0.0;
+
+	tensor_product(0, Task_8::nodes_temp, Task_8::weights_temp, Task_8::d, Task_8::Nl, Task_8::ids, function_to_integrate);
 
 	std::cout << sum << std::endl;
 
@@ -435,9 +473,9 @@ int main(int argc, char* argv[])
 	Task_9::nodes = new std::vector<double>;
     Task_9::weights = new std::vector<double>;
 	gauss_legendre(Task_9::nodes, Task_9::weights, Task_9::l);
-	
+
 	for(int i=0; i<Task_9::d; i++)
-    {	
+    {
 		Task_9::Nl.push_back((int)pow(2,Task_9::l)-1);
 		std::vector<double> row;
 		Task_9::nodes_temp.push_back(row);
@@ -451,13 +489,13 @@ int main(int argc, char* argv[])
 			Task_9::nodes_temp[i].push_back((*Task_9::nodes)[j]);
 		}
 	}
-	
+
 	myfile.open("output/quadrature_points_gauss_legendre.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
 	write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
-	myfile.close();	
+	myfile.close();
 
 	/* Trapezoidal rule */
 	Task_9::nodes->clear();
@@ -466,9 +504,9 @@ int main(int argc, char* argv[])
 	Task_9::Nl.clear();
 	Task_9::nodes_temp.clear();
 	trap_rule(Task_9::nodes, Task_9::weights, Task_9::l);
-	
+
 	for(int i=0; i<Task_9::d; i++)
-    {	
+    {
 		Task_9::Nl.push_back((int)pow(2,Task_9::l)-1);
 		std::vector<double> row;
 		Task_9::nodes_temp.push_back(row);
@@ -482,7 +520,7 @@ int main(int argc, char* argv[])
 			Task_9::nodes_temp[i].push_back((*Task_9::nodes)[j]);
 		}
 	}
-	
+
 	myfile.open("output/quadrature_points_trapezoidal_rule.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
@@ -497,9 +535,9 @@ int main(int argc, char* argv[])
 	Task_9::Nl.clear();
 	Task_9::nodes_temp.clear();
 	clenshaw_curtis(Task_9::nodes, Task_9::weights, Task_9::l);
-	
+
 	for(int i=0; i<Task_9::d; i++)
-    {	
+    {
 		Task_9::Nl.push_back((int)pow(2,Task_9::l)-1);
 		std::vector<double> row;
 		Task_9::nodes_temp.push_back(row);
@@ -513,7 +551,7 @@ int main(int argc, char* argv[])
 			Task_9::nodes_temp[i].push_back((*Task_9::nodes)[j]);
 		}
 	}
-	
+
 	myfile.open("output/quadrature_points_clenshaw_curtis.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
@@ -575,6 +613,21 @@ int main(int argc, char* argv[])
 	}
 
 	myfile.close();
+
+	//////////////////////////////////////////////////////////
+	//////////////////////////Task_10/////////////////////////
+	//////////////////////////////////////////////////////////
+
+	
+
+	//////////////////////////////////////////////////////////
+	//////////////////////////Task_14/////////////////////////
+	//////////////////////////////////////////////////////////
+
+	Task_14::T = 1;
+	Task_14::M =16;
+	std::vector<double>* v = brownian_bridge(rng, Task_14::T, Task_14::M);
+
 
 	return 0;
 }
