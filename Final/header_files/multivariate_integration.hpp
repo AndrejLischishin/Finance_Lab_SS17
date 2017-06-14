@@ -106,10 +106,6 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 	int* vec = new int[d];
 	int sum = 1;
 
-
-//	int sz = (l*(l+1)*0.5)*d;
-//	sz = 6*d;
-//	int* diag = new int[sz];
 	std::vector<int> diag;
 	int K;
 	int J;
@@ -123,18 +119,14 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 		sum = sum * maxlevel;
 	}
 
-	printf("%i maxlevel \n", maxlevel);
 	int* allvec = new int[sum*d];
 
 	int sz = enumeration(k1,d,l,&diag);
-//	std::cout<<sz<<std::endl;
 	for(K=0; K<sz; K++)
-//	while(diag[K+d+1]!=-1)
 	{
 	// von diag auf k uebertragen
 		for(int i=0; i<d; i++){
 			k[i]=diag[i+K*d]+1;
-	//		printf("%i ki \n", k[i]);
 		}
 
 
@@ -142,8 +134,6 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 		for(int i=0; i<d; i++){
 			klevel[i]=pow(2,k[i])-1;
 		}
-
-
 
 	// vec auf 1 setzen
 		for(int i=0; i<d; i++){
@@ -172,24 +162,18 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 		}
 		}
 
-//		std::cout<<nodes[1][2]<<" nodes "<<std::endl;
 		for(int i=0; i<product*d; i=i+d){
 			for(int j=0; j<d; j++){
 				product_w = product_w*weights[j][allvec[i+j]];
 				J =j;
-			//	std::cout<<weights[j][allvec[i+j]]<<std::endl;
 			}
-		//nodes[J][allvec[i]]*nodes[J][allvec[i]]+nodes[J][allvec[i+1]]
 			std::vector<double> point;
 			point.clear();
 			for(int h=0; h<d; h++){
 				point.push_back(nodes[h][allvec[i+h]]);
-		//		std::cout<<point[h]<<" point "<<std::endl;
 			}
 			final_value = final_value + product_w*(multifunction_to_integrate(point, rest...));
 			product_w = 1;
-	//		std::cout<<product<<std::endl;
-	//		std::cout<<final_value<<std::endl;
 
 	if(write_in_file==true) sparse_grid_nodes(d,product,allvec,nodes);
 
