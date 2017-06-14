@@ -8,266 +8,37 @@
 #include "../header_files/random_functions.hpp"
 #include "../header_files/simulation_functions.hpp"
 #include "../header_files/integration_functions.hpp"
-
+#include "../header_files/multivariate_integration.hpp"
 
 double sum;
 
-/**
- * Put the functions into header files later on!
- */
-//////////////////////////////////////////////////////////
-//////////////////////////Task_2//////////////////////////
-//////////////////////////////////////////////////////////
-double discrete_geometric_average_exact(double s0, double r, double T, int M, double K, double sigma)
-{
-	double delta_t = T/(double)M;
-	double T1 = T-((M*(M-1.)*(4.*M+1.))/(6.*M*M))*delta_t;
-	double T2 = T-((M-1.)/2.)*delta_t;
-	double A = exp(-r*(T-T2)-(sigma*sigma*(T2-T1))/2);
-	double d = (log(s0/K)+(r-0.5*sigma*sigma)*T2)/(sigma*sqrt(T1));
-
-	return s0*A*normal_cdf(d+sigma*sqrt(T1))-K*exp(-r*T)*normal_cdf(d);
-}
-
-double continuous_geometric_average_exact(double s0, double r, double T, double K, double sigma)
-{
-	double d = (log(s0/K)+0.5*(r-0.5*sigma*sigma)*T)/(sigma*sqrt(T/3.));
-
-	return s0*exp(-0.5*(r+(sigma*sigma)/6.)*T)*normal_cdf(d+sigma*sqrt(T/3.))-K*exp(-r*T)*normal_cdf(d);
-}
-
-double discrete_geometric_average_simulation(gsl_rng* rng, double s0, double r, double T, int M, double K, double sigma, int N)
-{
-	double delta_t = T/(double)M;
-	double result = 0.0;
-	std::vector<double>* w;
-	std::vector<double>* s;
-
-	for(int i=0; i<N; i++)
-	{
-		/* Simulation of brownian motion */
-		w = wiener_process(rng, T, delta_t);
-		s = brownian_motion(rng, T, delta_t, w, s0, r, sigma);
-
-		double product = 1.0;
-		for(int j=0; j<M; j++)
-		{
-			product *= (*s)[j];
-		}
-		product = pow(product, 1./(double)M)-K;
-		if(product > 0)
-			result += product;
-	}
-	result = result/(double)N;
-	return result;
-}
-
-//////////////////////////////////////////////////////////
-//////////////////////////Task_8//////////////////////////
-//////////////////////////////////////////////////////////
-
-/*
-double payoff_discrete_arithmetic_average(gsl_rng* rng, double s0, double r, double T, int M, double K, double sigma)
-{
-	double sum = 0.0;
-	double delta_t = T/(double)M;
-	std::vector<double>* w;
-	std::vector<double>* s;
-
-	// Simulation of brownian motion
-	w = wiener_process(rng, T, delta_t);
-	s = brownian_motion(rng, T, delta_t, w, s0, r, sigma);
-
-	for(int i=0; i<M; i++)
-	{
-		sum += (*s)[i];
-	}
-	sum = sum/(double)M;
-
-	if(sum-K<0.0)
-		return 0.0;
-	else
-		return sum-K;
-}
-*/
-
-//////////////////////////////////////////////////////////
-//////////////////////////Task_8//////////////////////////
-//////////////////////////////////////////////////////////
-/* Nl has all the different N_l_1,....,N_l_d */
-double function_to_integrate(std::vector<double> x)
-{
-	return x[0]+x[1]+x[2];
-}
-
-
 template<typename... Args>
-void tensor_product(int iteration, std::vector<std::vector<double>> nodes_temp, std::vector<std::vector<double>> weights_temp, int d, std::vector<int> Nl, std::vector<int> ids, double (*function_to_integrate)(std::vector<double> x, Args... rest), Args... rest)
-{
-	if(iteration==d)
-	{
-		std::vector<double> x;
-		x.clear();
-		double prod = 1.0;
-		//std::cout << "Test" << std::endl;
-		for(int i=0; i<d; i++)
-		{
-			x.push_back(nodes_temp[i][ids[i]]);
-			prod *= weights_temp[i][ids[i]];
-			//std::cout << nodes_temp[i][ids[i]] << " ";
-		}
-		sum += prod*function_to_integrate(x, rest...);
-		//std::cout << sum << std::endl;
-	}
-	else
-	{
-		for(int k=0; k<Nl[iteration]; k++)
-		{
-			ids[iteration] = k;
-			tensor_product(iteration+1, nodes_temp, weights_temp, d, Nl, ids, function_to_integrate, rest...);
-		}
-	}
-}
-
-//////////////////////////////////////////////////////////
-//////////////////////////Task_9//////////////////////////
-//////////////////////////////////////////////////////////
-template<typename... Args>
-void write_quadrature_points_to_file(std::ofstream& myfile, int iteration, std::vector<std::vector<double>> nodes_temp, int d, std::vector<int> Nl, std::vector<int> ids)
-{
-	if(iteration==d)
-	{
-		for(int i=0; i<d; i++)
-		{
-			myfile << nodes_temp[i][ids[i]] << "	";
-			//std::cout << nodes_temp[i][ids[i]] << "	";
-		}
-		myfile << std::endl;
-		//std::cout << std::endl;
-	}
-	else
-	{
-		for(int k=0; k<Nl[iteration]; k++)
-		{
-			ids[iteration] = k;
-			write_quadrature_points_to_file(myfile, iteration+1, nodes_temp, d, Nl, ids);
-		}
-	}
-}
-
-
-//////////////////////////////////////////////////////////
-//////////////////////////Task_6//////////////////////////
-//////////////////////////////////////////////////////////
-std::vector<double> van_der_corput_sequence(int p, int n, double epsilon)
-{
-	std::vector<double> x;
-	double x_i_1 = 0;
-	double z;
-	double v;
-
-	for(int i=0; i<n; i++)
-	{
-		z = 1-x_i_1;
-		v=1./p;
-		while(z<v+epsilon)
-		{
-			v=v/p;
-		}
-		x_i_1 = x_i_1+(p+1.)*v-1.;
-		x.push_back(x_i_1);
-	}
-
-	return x;
-}
-
-bool is_prime(int number)
-{
-	for(int i=2; i<=sqrt(number); i++)
-	{
-		if(number%i == 0)
-			return false;
-	}
-	return true;
-}
-
-std::vector<int> first_prime_numbers(int n)
-{
-	std::vector<int> prime_numbers;
-	int i = 0;
-	int number = 2;
-
-	while(i<n)
-	{
-		if(is_prime(number))
-		{
-			prime_numbers.push_back(number);
-			i++;
-		}
-		number++;
-	}
-
-	return prime_numbers;
-}
-
-std::vector<std::vector<double>> d_dimensional_halton_sequence(int d, int n)
-{
-	std::vector<std::vector<double>> points;
-	std::vector<int> prime_numbers = first_prime_numbers(d);
-
-	for(int i=0; i<n; i++)
-	{
-		std::vector<double> single_point;
-		points.push_back(single_point);
-	}
-
-	for(int j=0; j<d; j++)
-	{
-		std::vector<double> van_der_corput_sequence_j = van_der_corput_sequence(prime_numbers[j], n, pow(10.,-12.));
-		for(int i=0; i<n; i++)
-		{
-			points[i].push_back(van_der_corput_sequence_j[i]);
-		}
-	}
-
-	return points;
-}
-
-std::vector<double>* brownian_bridge_level(std::vector<double>* prev_level, double T, double level, gsl_rng* r){
-
-	//definition of iterator
-	std::vector<double>::iterator it = prev_level->begin();
-
-	double new_point = 0;
-	for (int i = 0; i < pow(2,level); i+=2) {
-		//generating points of new level from thr previous one and inserting them inbetween
-		new_point = (1./2.) * ( (*prev_level)[i] + (*prev_level)[i+1]) + sqrt(T/pow(2,level))*gsl_ran_ugaussian(r);
-		prev_level->insert(it+i+1,new_point);
-
-	}
-	// returns pointer to the vector with points of next level
-	return prev_level;
-}
-
-std::vector<double>* brownian_bridge(gsl_rng* r, double T, int M)
-{
-		// computing number of levels
-		int max_level = log2(M);
-
-		// start settings
-		std::vector<double> *w = new std::vector<double>;
-		w->clear();
-		w->push_back(0.0);
-		w->push_back(gsl_ran_ugaussian(r));
-
-		// recursion similar call for computation of new levels
-		for(int i=1; i<=max_level; i++)
-		{
-			brownian_bridge_level(w,T,i,r);
-		}
-		return w;
-}
-
+ void tensor_product(int iteration, std::vector<std::vector<double>> nodes_temp, std::vector<std::vector<double>> weights_temp, int d, std::vector<int> Nl, std::vector<int> ids, double (*function_to_integrate)(std::vector<double> x, Args... rest), Args... rest)
+ {
+	 if(iteration==d)
+	 {
+		 std::vector<double> x;
+		 x.clear();
+		 double prod = 1.0;
+		 //std::cout << "Test" << std::endl;
+		 for(int i=0; i<d; i++)
+		 {
+			 x.push_back(nodes_temp[i][ids[i]]);
+			 prod *= weights_temp[i][ids[i]];
+			 //std::cout << nodes_temp[i][ids[i]] << " ";
+		 }
+		 sum += prod*function_to_integrate(x, rest...);
+		 //std::cout << sum << std::endl;
+	 }
+	 else
+	 {
+		 for(int k=0; k<Nl[iteration]; k++)
+		 {
+			 ids[iteration] = k;
+			 tensor_product(iteration+1, nodes_temp, weights_temp, d, Nl, ids, function_to_integrate, rest...);
+		 }
+	 }
+ }
 
 namespace Task_3
 {
@@ -323,6 +94,20 @@ namespace Task_14{
 	int M;
 }
 
+namespace Task_15{
+	double simulation_result_rw;
+	double simulation_result_bb;
+	int dimension_M;
+	int l;
+	double S0;
+	double mu;
+	double sigma;
+	double T;
+	double K;
+
+
+}
+
 /**
  * Main function to run all exercises of worksheet 2.
  *
@@ -344,15 +129,15 @@ int main(int argc, char* argv[])
 
 	std::ofstream myfile;
 
-	//////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////
     //////////////////////////Task_3//////////////////////////
     //////////////////////////////////////////////////////////
 
-	Task_3::s0 = 10.;
+		Task_3::s0 = 10.;
     Task_3::r = 0.1;
     Task_3::T = 1.;
     Task_3::K = 10.;
-	Task_3::sigma = 0.25;
+		Task_3::sigma = 0.25;
 
 	 /*Convergence plot for different N has to be inserted! */
 
@@ -362,7 +147,7 @@ int main(int argc, char* argv[])
 
 //	std::cout << continuous_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::K, Task_3::sigma) << std::endl;
 
-    Task_3::M = 10;
+  Task_3::M = 10;
 	double calculated_result;
 	double exact_result;
 	double absolute_error;
@@ -403,9 +188,9 @@ int main(int argc, char* argv[])
 	//////////////////////////////////////////////////////////
 
 	Task_4::s0 = 10.;
-    Task_4::r = 0.1;
-    Task_4::T = 1.;
-    Task_4::K = 10.;
+  Task_4::r = 0.1;
+  Task_4::T = 1.;
+  Task_4::K = 10.;
 	Task_4::sigma = 0.25;
 
 	int M_max = pow(2,15);
@@ -433,8 +218,8 @@ int main(int argc, char* argv[])
 	Task_8::d=3;
 	Task_8::l = 2;
 
-    Task_8::nodes = new std::vector<double>;
-    Task_8::weights = new std::vector<double>;
+  Task_8::nodes = new std::vector<double>;
+  Task_8::weights = new std::vector<double>;
 	gauss_legendre(Task_8::nodes, Task_8::weights, Task_8::l);
 
 	for(int i=0; i<Task_8::d; i++)
@@ -458,7 +243,7 @@ int main(int argc, char* argv[])
 
 	sum = 0.0;
 
-	tensor_product(0, Task_8::nodes_temp, Task_8::weights_temp, Task_8::d, Task_8::Nl, Task_8::ids, function_to_integrate);
+	//tensor_product(0, Task_8::nodes_temp, Task_8::weights_temp, Task_8::d, Task_8::Nl, Task_8::ids, function_to_integrate);
 
 	std::cout << sum << std::endl;
 
@@ -471,7 +256,7 @@ int main(int argc, char* argv[])
 
 	/* Gauss-Legendre */
 	Task_9::nodes = new std::vector<double>;
-    Task_9::weights = new std::vector<double>;
+  Task_9::weights = new std::vector<double>;
 	gauss_legendre(Task_9::nodes, Task_9::weights, Task_9::l);
 
 	for(int i=0; i<Task_9::d; i++)
@@ -494,12 +279,12 @@ int main(int argc, char* argv[])
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
-	write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
+	//write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
 	myfile.close();
 
 	/* Trapezoidal rule */
 	Task_9::nodes->clear();
-    Task_9::weights->clear();
+  Task_9::weights->clear();
 	Task_9::ids.clear();
 	Task_9::Nl.clear();
 	Task_9::nodes_temp.clear();
@@ -525,7 +310,7 @@ int main(int argc, char* argv[])
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
-	write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
+	//write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
 	myfile.close();
 
 	/* Clenshaw Curtis */
@@ -556,7 +341,7 @@ int main(int argc, char* argv[])
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
-	write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
+	//write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
 	myfile.close();
 
 	//////////////////////////////////////////////////////////
@@ -618,16 +403,50 @@ int main(int argc, char* argv[])
 	//////////////////////////Task_10/////////////////////////
 	//////////////////////////////////////////////////////////
 
-	
+
 
 	//////////////////////////////////////////////////////////
-	//////////////////////////Task_14/////////////////////////
+	//////////////////////////Task_13/////////////////////////
 	//////////////////////////////////////////////////////////
 
-	Task_14::T = 1;
-	Task_14::M =16;
-	std::vector<double>* v = brownian_bridge(rng, Task_14::T, Task_14::M);
+	//Task_14::T = 1;
+	//Task_14::M =16;
+	//std::vector<double>* v = brownian_bridge(rng, Task_14::T, Task_14::M);
 
+	int d = 4;
+	int l = 5;
+	double gamma = 0.1;
 
+	std::vector<std::vector<double>>* nodes = new std::vector<std::vector<double>>;
+	std::vector<double>* weights = new std::vector<double> ;
+
+	monte_carlo_multivariate(nodes, weights, l, d, rng);
+	//double rr = integrate_by_point_evaluation_multivariate(function_task13,l, d, nodes,weights, gamma, d);
+  //std::cout << "/* message */"<<rr << '\n';
+	//////////////////////////////////////////////////////////
+	//////////////////////////Task_14-18//////////////////////
+	//////////////////////////////////////////////////////////
+
+	Task_15::S0 = 10;
+	Task_15::T =1;
+	Task_15::dimension_M = 16;
+	Task_15::l = 2;
+	Task_15::sigma = 0.25;
+	Task_15::mu = 0.1;
+	Task_15::K = 0;
+
+	std::vector<std::vector<double> > nodesvv(Task_15::dimension_M);
+	for ( int i = 0 ; i < Task_15::dimension_M ; i++ ){
+			nodesvv[i].resize(pow(2,l)-1);
+	}
+
+	std::vector<std::vector<double> > weightsvv(Task_15::dimension_M);
+	for ( int i = 0 ; i < Task_15::dimension_M ; i++ ){
+			weightsvv[i].resize(pow(2,l)-1);
+	}
+
+ 	 Task_15::simulation_result_rw = integrate_with_sparse_grid(asian_option_call_integrand,Task_15::dimension_M,Task_15::l,nodesvv,weightsvv,false,false,Task_15::S0,Task_15::K,Task_15::sigma,Task_15::mu,Task_15::dimension_M,Task_15::T,false);
+	double final_value = integrate_with_sparse_grid(function_task13_sparse,
+	 			d, l, nodesvv, weightsvv, false, false, 0.1, d);
 	return 0;
 }

@@ -25,14 +25,14 @@ void trap_rule_s(std::vector<double>* weights, int l){
 	}
 	(*weights)[0] = (double) 3/(2*(Nl+1));
 	(*weights)[Nl-1] = (double) 3/(2*(Nl+1));
-	
+
 	if(l==1) (*weights)[0]=1;
 	if(l==2) (*weights)[1]=-0.75;
 }
 
 void trap_rulen(std::vector<double> *nodes, int l){
 	int Nl = pow(2, l)-1;
-	
+
 	for(int i=1; i<=Nl; i++){
 		 (*nodes)[i-1] = (double) i/(Nl+1);
 	}
@@ -46,17 +46,17 @@ int enumeration(int *k, int d, int l, std::vector<int>* diag){
 	int II = 0;
 	int counter=0;
 	while(1<2){
-	
+
 /*	FILE *fp;
 	fp = fopen("combinations", "a");
-	
+
 	for(int i = 0; i<pow(2,k[0])-1; i++){
 		for(int j=0; j<pow(2,k[1])-1; j++){
 			fprintf(fp,"%f  %f\n", nodes1[i], nodes2[j]);
 		}
 	}
 	fclose(fp);
-*/	
+*/
 	for(int j=0; j<d; j++){
 //		printf(" %i  enum ", k[j]);
 //		diag[II+j] = k[j]-1;
@@ -69,10 +69,10 @@ int enumeration(int *k, int d, int l, std::vector<int>* diag){
 	for(int i=0; i<d; i++){
 //		printf("%i ", k[i]);
 	}
-//	printf("end \n"); 
-	
+//	printf("end \n");
+
 	// Hier ist es wieder einfach der Algorithmus vom Arbeitsblatt
-	
+
 		for(int j=1; j<=d; j++){
 			k[j-1]=k[j-1]+1;
 			S_k = S_k +1;
@@ -83,9 +83,9 @@ int enumeration(int *k, int d, int l, std::vector<int>* diag){
 			}
 			else break;
 		}
-		
+
 	}
-	
+
 	return counter;
 }
 
@@ -96,9 +96,9 @@ void loop(int* vec, int* klevel, int d, int* finalvec){
 	int number=1;
 	int II = 0;
 	int last = d-1;
-	
+
 	while(last+1==d){
-	
+
 	for(int j=0; j<d; j++){
 //		printf(" %i", vec[j]);
 		finalvec[II+j] = vec[j]-1;
@@ -116,21 +116,21 @@ void loop(int* vec, int* klevel, int d, int* finalvec){
 			vec[i]++;
 			break;
 			}
-			
+
 			count = 0;
 			for(I=0; I<d; I++){
-			if(vec[I]==klevel[I]) { count++; 
+			if(vec[I]==klevel[I]) { count++;
 				}
 			}
-			if(count==d) d=-2; 
-			
+			if(count==d) d=-2;
+
 			if(vec[i]==klevel[i]) vec[i]=1;
 			}
 		}
 	}
 }
 
-void sparse_grid_nodes(int d, int product, int* allvec, 
+void sparse_grid_nodes(int d, int product, int* allvec,
 							double** nodes, std::vector<std::vector<double> > nodesv){
 	FILE *fp;
 	fp = fopen("stuetzstellen", "a");
@@ -139,13 +139,13 @@ void sparse_grid_nodes(int d, int product, int* allvec,
 				fprintf(fp,"%f ", nodes[j][allvec[i+j]]);
 				nodesv[j][allvec[i+j]]=nodes[j][allvec[i+j]];
 			}
-		fprintf(fp,"\n");	
+		fprintf(fp,"\n");
 		}
 	printf("\n");
-	fclose(fp);	
+	fclose(fp);
 }
-	
-void sparse_grid_weights(int d, int product, int* allvec, 
+
+void sparse_grid_weights(int d, int product, int* allvec,
 							double** weights, std::vector<std::vector<double> > weightsv){
 	double product_w=1;
 	FILE *fp;
@@ -156,15 +156,15 @@ void sparse_grid_weights(int d, int product, int* allvec,
 				weightsv[j][allvec[i+j]]=weights[j][allvec[i+j]];
 			}
 			fprintf(fp,"%f \n ", product_w);
-		fprintf(fp,"\n");	
+		fprintf(fp,"\n");
 		}
-	fclose(fp);	
+	fclose(fp);
 }
-	
-	
+
+
 template<typename... Args>
-double integrate_with_sparse_grid(double (*function_to_integrate)(std::vector<double> x, Args... rest), 
-			int d, int l, std::vector<std::vector<double> > nodes, 
+double integrate_with_sparse_grid(double (*function_to_integrate)(std::vector<double> x, Args... rest),
+			int d, int l, std::vector<std::vector<double> > nodes,
 			std::vector<std::vector<double> > weights,  Args... rest){
 	int maxlevel = (int)pow(2,l)-1;
 	int* klevel = new int[d];
@@ -172,7 +172,7 @@ double integrate_with_sparse_grid(double (*function_to_integrate)(std::vector<do
 	int* k1 = new int[d];
 	int* vec = new int[d];
 	int sum = 1;
-	
+
 
 //	int sz = (l*(l+1)*0.5)*d;
 //	sz = 6*d;
@@ -184,16 +184,16 @@ double integrate_with_sparse_grid(double (*function_to_integrate)(std::vector<do
 	double product_w=1;
 	int product = 1;
 	double final_value=0;
-	
+
 	for(int i=0; i<d; i++){
 		vec[i]=1;
 		k1[i]=1;
 		sum = sum * maxlevel;
 	}
-	
+
 	printf("%i maxlevel \n", maxlevel);
 	int* allvec = new int[sum*d];
-	
+
 	int sz = enumeration(k1,d,l,&diag);
 //	std::cout<<sz<<std::endl;
 	for(K=0; K<sz; K++)
@@ -204,30 +204,30 @@ double integrate_with_sparse_grid(double (*function_to_integrate)(std::vector<do
 			k[i]=diag[i+K*d]+1;
 			printf("%i ki \n", k[i]);
 		}
-	
-	
+
+
 	// klevel
 		for(int i=0; i<d; i++){
 			klevel[i]=pow(2,k[i])-1;
 		//	printf("%i klevel \n", klevel[i]);
 		}
-	
-	
-	
+
+
+
 	// vec auf 1 setzen
 		for(int i=0; i<d; i++){
 			vec[i]=1;
 		}
 
-		// Tensorprodukt 
+		// Tensorprodukt
 		loop(vec, klevel, d, allvec);
-	
+
 		// produkt berechnen
 		product = 1;
 		for(int i=0; i<d; i++){
 			product = product * klevel[i];
 		}
-		
+
 		for(int i=0; i<d; i++){
 		trap_rule_s(&weights[i], k[i]);
 		trap_rulen(&nodes[i], k[i]);
@@ -250,39 +250,39 @@ double integrate_with_sparse_grid(double (*function_to_integrate)(std::vector<do
 			product_w = 1;
 	//		std::cout<<product<<std::endl;
 	//		std::cout<<final_value<<std::endl;
-			
+
 		}
-			
+
 	}
-	
-	return final_value;		
-	
+
+	return final_value;
+
 }
 
 
 
-	
-int main(){
+
+/*int main(){
 
 
 	int d=2;
 	int l=7;
 	int maxlevel = pow(2,l)-1;
-	
-	
-/*	
+
+
+
 	double** nodes = new double*[d];
 	double** weights = new double*[d];
 	for(int i=0; i<d; i++) {
 		weights[i] =  new double[maxlevel];
 		nodes[i] = new double[maxlevel];
-	}	
-*/	
+	}
+
 	std::vector<std::vector<double> > nodesv(d);
 	for ( int i = 0 ; i < d ; i++ ){
    		nodesv[i].resize(maxlevel);
 	}
-	
+
 	std::vector<std::vector<double> > weightsv(d);
 	for ( int i = 0 ; i < d ; i++ ){
    		weightsv[i].resize(maxlevel);
@@ -291,18 +291,12 @@ int main(){
 
 //	sparse_grid_nodes(d, product, allvec, nodes, nodesv);
 //	sparse_grid_weights(d, product, allvec, weights, weightsv);
-	
-	double final_value = integrate_with_sparse_grid(testfunction, 
+
+	double final_value = integrate_with_sparse_grid(testfunction,
 			d, l, nodesv, weightsv);
-	
+
 	printf("%f final sum\n", final_value);
-	
+
 
 }
-
-
-
-
-
-
-
+*/
