@@ -88,6 +88,14 @@ namespace Task_9
 	std::vector<int> ids;
 }
 
+namespace Task_13{
+  int d;
+  int l;
+  double gamma;
+  std::vector<std::vector<double>>* nodes;
+  std::vector<double>* weights;
+}
+
 namespace Task_14{
 
 	double T;
@@ -104,8 +112,18 @@ namespace Task_15{
 	double sigma;
 	double T;
 	double K;
+}
 
-
+namespace Task_16{
+	double simulation_result_rw;
+	double simulation_result_bb;
+	int dimension_M;
+	int l;
+	double S0;
+	double mu;
+	double sigma;
+	double T;
+	double K;
 }
 
 /**
@@ -409,22 +427,25 @@ int main(int argc, char* argv[])
 	//////////////////////////Task_13/////////////////////////
 	//////////////////////////////////////////////////////////
 
-	//Task_14::T = 1;
-	//Task_14::M =16;
-	//std::vector<double>* v = brownian_bridge(rng, Task_14::T, Task_14::M);
+  Task_13::d = 4;
+	Task_13::l = 5;
+	Task_13::gamma = 0.1;
 
-	int d = 4;
-	int l = 5;
-	double gamma = 0.1;
+	Task_13::nodes = new std::vector<std::vector<double>>;
+	Task_13::weights = new std::vector<double> ;
 
-	std::vector<std::vector<double>>* nodes = new std::vector<std::vector<double>>;
-	std::vector<double>* weights = new std::vector<double> ;
+	monte_carlo_multivariate(Task_13::nodes, Task_13::weights, Task_13::l, Task_13::d, rng);
 
-	monte_carlo_multivariate(nodes, weights, l, d, rng);
-	//double rr = integrate_by_point_evaluation_multivariate(function_task13,l, d, nodes,weights, gamma, d);
-  //std::cout << "/* message */"<<rr << '\n';
+  //////////////////////////////////////////////////////////
+	//////////////////////////Task_14/////////////////////////
 	//////////////////////////////////////////////////////////
-	//////////////////////////Task_14-18//////////////////////
+
+
+
+
+
+	//////////////////////////////////////////////////////////
+	//////////////////////////Task_15/////////////////////////
 	//////////////////////////////////////////////////////////
 
 	Task_15::S0 = 10;
@@ -435,18 +456,14 @@ int main(int argc, char* argv[])
 	Task_15::mu = 0.1;
 	Task_15::K = 0;
 
-	std::vector<std::vector<double> > nodesvv(Task_15::dimension_M);
-	for ( int i = 0 ; i < Task_15::dimension_M ; i++ ){
-			nodesvv[i].resize(pow(2,l)-1);
-	}
 
-	std::vector<std::vector<double> > weightsvv(Task_15::dimension_M);
-	for ( int i = 0 ; i < Task_15::dimension_M ; i++ ){
-			weightsvv[i].resize(pow(2,l)-1);
-	}
 
- 	 Task_15::simulation_result_rw = integrate_with_sparse_grid(asian_option_call_integrand,Task_15::dimension_M,Task_15::l,nodesvv,weightsvv,false,false,Task_15::S0,Task_15::K,Task_15::sigma,Task_15::mu,Task_15::dimension_M,Task_15::T,false);
-	double final_value = integrate_with_sparse_grid(function_task13_sparse,
-	 			d, l, nodesvv, weightsvv, false, false, 0.1, d);
-	return 0;
+//////////////////////////////////////////////////////////
+//////////////////////////Task_16/////////////////////////
+//////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////
+//////////////////////////Task_17/////////////////////////
+//////////////////////////////////////////////////////////
 }
