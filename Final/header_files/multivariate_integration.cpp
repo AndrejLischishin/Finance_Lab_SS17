@@ -173,124 +173,6 @@ void sparse_grid_nodes(int d, int product, int* allvec, std::vector<std::vector<
 }
 
 
-template<typename... Args>
-double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vector<double> x, Args... rest),
-			int d, int l, std::vector<std::vector<double> > nodes,
-			std::vector<std::vector<double> > weights, bool write_in_file, bool use_trap_rule, Args... rest){
-	if(write_in_file==true) {
-		FILE *fp;
-	fp = fopen("stuetzstellen", "w");
-		fprintf(fp,"");
-
-	fclose(fp);
-
-	}
-	int maxlevel = (int)pow(2,l)-1;
-	int* klevel = new int[d];
-	int* k = new int[d];
-	int* k1 = new int[d];
-	int* vec = new int[d];
-	int sum = 1;
-
-
-//	int sz = (l*(l+1)*0.5)*d;
-//	sz = 6*d;
-//	int* diag = new int[sz];
-	std::vector<int> diag;
-	int K;
-	int J;
-	double product_w=1;
-	int product = 1;
-	double final_value=0;
-
-	for(int i=0; i<d; i++){
-		vec[i]=1;
-		k1[i]=1;
-		sum = sum * maxlevel;
-	}
-
-	printf("%i maxlevel \n", maxlevel);
-	int* allvec = new int[sum*d];
-
-	int sz = enumeration(k1,d,l,&diag);
-//	std::cout<<sz<<std::endl;
-	for(K=0; K<sz; K++)
-//	while(diag[K+d+1]!=-1)
-	{
-	// von diag auf k uebertragen
-		for(int i=0; i<d; i++){
-			k[i]=diag[i+K*d]+1;
-	//		printf("%i ki \n", k[i]);
-		}
-
-
-	// klevel
-		for(int i=0; i<d; i++){
-			klevel[i]=pow(2,k[i])-1;
-		}
-
-
-
-	// vec auf 1 setzen
-		for(int i=0; i<d; i++){
-			vec[i]=1;
-		}
-
-		// Tensorprodukt
-		loop(vec, klevel, d, allvec);
-
-		// produkt berechnen
-		product = 1;
-		for(int i=0; i<d; i++){
-			product = product * klevel[i];
-		}
-
-		if(use_trap_rule== true){
-		for(int i=0; i<d; i++){
-		trap_rule_weights(&weights[i], k[i]);
-		trap_rule_nodes(&nodes[i], k[i]);
-		}
-		}
-		else{
-		for(int i=0; i<d; i++){
-		clenshaw_curtis_weights(&weights[i], k[i]);
-		clenshaw_curtis_nodes(&nodes[i], k[i]);
-		}
-		}
-
-//		std::cout<<nodes[1][2]<<" nodes "<<std::endl;
-		for(int i=0; i<product*d; i=i+d){
-			for(int j=0; j<d; j++){
-				product_w = product_w*weights[j][allvec[i+j]];
-				J =j;
-			//	std::cout<<weights[j][allvec[i+j]]<<std::endl;
-			}
-		//nodes[J][allvec[i]]*nodes[J][allvec[i]]+nodes[J][allvec[i+1]]
-			std::vector<double> point;
-			point.clear();
-			for(int h=0; h<d; h++){
-				point.push_back(nodes[h][allvec[i+h]]);
-		//		std::cout<<point[h]<<" point "<<std::endl;
-			}
-			final_value = final_value + product_w*(multifunction_to_integrate(point, rest...));
-			product_w = 1;
-	//		std::cout<<product<<std::endl;
-	//		std::cout<<final_value<<std::endl;
-
-	if(write_in_file==true) sparse_grid_nodes(d,product,allvec,nodes);
-
-		}
-
-	}
-	free(allvec);
-	free(k1);
-	free(k);
-	free(vec);
-
-	return final_value;
-
-}
-
 double function_task13_sparse(std::vector<double> x, double gamma, int d){
 	double product = 1;
 	for(int i=1; i<=d; i++){
@@ -568,27 +450,32 @@ double asian_option_call_integrand(std::vector<double> x,double S0,double K, dou
 
   void monte_carlo_multivariate(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int l, int d, gsl_rng* r)
   {
+		weights->clear();
+		nodes->clear();
   	int Nl = pow(2,l)-1;
   	for(int i=1; i<=Nl; i++)
   	{
   		for(int j=1;j<=d;j++){
   		(*nodes)[i-1].push_back(random_number_01_GSL(r));
   		}
-  		(*weights)[i-1] = (1./(Nl));
+			weights->push_back((1./(double)Nl));
+
   	}
   }
 
- template<typename... Args>
-  double integrate_by_point_evaluation_multivariate(double (*function)(std::vector<double>* x, Args... rest),int n, int d, std::vector<std::vector<double>>* nodes, std::vector<double>* weights, Args... rest)
+	void quasi_monte_carlo_multivariate(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int l, int d)
   {
-  	double result = 0.0;
-  	for(int i=0; i<n; i++)
+		weights->clear();
+		nodes->clear();
+  	int Nl = pow(2,l)-1;
+  	for(int i=1; i<=Nl; i++)
   	{
-  		result += (*weights)[i]*function(&(*nodes)[i], rest...);
-  	}
-
-  	return result;
+  		weights->push_back((1./(double)Nl));
+		}
+		*nodes = d_dimensional_halton_sequence(d,Nl);
   }
+
+
 
   double function_task13(std::vector<double>* x, double gamma, int d){
   	double product = 1;

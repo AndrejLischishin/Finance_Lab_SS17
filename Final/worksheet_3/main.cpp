@@ -10,36 +10,6 @@
 #include "../header_files/integration_functions.hpp"
 #include "../header_files/multivariate_integration.hpp"
 
-double sum;
-
-template<typename... Args>
- void tensor_product(int iteration, std::vector<std::vector<double>> nodes_temp, std::vector<std::vector<double>> weights_temp, int d, std::vector<int> Nl, std::vector<int> ids, double (*function_to_integrate)(std::vector<double> x, Args... rest), Args... rest)
- {
-	 if(iteration==d)
-	 {
-		 std::vector<double> x;
-		 x.clear();
-		 double prod = 1.0;
-		 //std::cout << "Test" << std::endl;
-		 for(int i=0; i<d; i++)
-		 {
-			 x.push_back(nodes_temp[i][ids[i]]);
-			 prod *= weights_temp[i][ids[i]];
-			 //std::cout << nodes_temp[i][ids[i]] << " ";
-		 }
-		 sum += prod*function_to_integrate(x, rest...);
-		 //std::cout << sum << std::endl;
-	 }
-	 else
-	 {
-		 for(int k=0; k<Nl[iteration]; k++)
-		 {
-			 ids[iteration] = k;
-			 tensor_product(iteration+1, nodes_temp, weights_temp, d, Nl, ids, function_to_integrate, rest...);
-		 }
-	 }
- }
-
 namespace Task_3
 {
 	double s0;
@@ -94,6 +64,10 @@ namespace Task_13{
   double gamma;
   std::vector<std::vector<double>>* nodes;
   std::vector<double>* weights;
+  std::vector<double> dimension(4);
+  std::vector<double> level(5);
+  std::vector<std::vector<std::vector<double>>> results;
+
 }
 
 namespace Task_14{
@@ -150,13 +124,13 @@ int main(int argc, char* argv[])
 		//////////////////////////////////////////////////////////
     //////////////////////////Task_3//////////////////////////
     //////////////////////////////////////////////////////////
-
+/*
 		Task_3::s0 = 10.;
     Task_3::r = 0.1;
     Task_3::T = 1.;
     Task_3::K = 10.;
 		Task_3::sigma = 0.25;
-
+*/
 	 /*Convergence plot for different N has to be inserted! */
 
 //	std::cout << discrete_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma) << std::endl;
@@ -164,7 +138,7 @@ int main(int argc, char* argv[])
 //	std::cout << discrete_geometric_average_simulation(rng, Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma, N) << std::endl;
 
 //	std::cout << continuous_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::K, Task_3::sigma) << std::endl;
-
+/*
   Task_3::M = 10;
 	double calculated_result;
 	double exact_result;
@@ -271,9 +245,9 @@ int main(int argc, char* argv[])
 
 	Task_9::d = 2;
 	Task_9::l = 5;
-
+*/
 	/* Gauss-Legendre */
-	Task_9::nodes = new std::vector<double>;
+/*	Task_9::nodes = new std::vector<double>;
   Task_9::weights = new std::vector<double>;
 	gauss_legendre(Task_9::nodes, Task_9::weights, Task_9::l);
 
@@ -299,9 +273,9 @@ int main(int argc, char* argv[])
     }
 	//write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
 	myfile.close();
-
+*/
 	/* Trapezoidal rule */
-	Task_9::nodes->clear();
+/*	Task_9::nodes->clear();
   Task_9::weights->clear();
 	Task_9::ids.clear();
 	Task_9::Nl.clear();
@@ -330,9 +304,9 @@ int main(int argc, char* argv[])
     }
 	//write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
 	myfile.close();
-
+*/
 	/* Clenshaw Curtis */
-	Task_9::nodes->clear();
+/*	Task_9::nodes->clear();
     Task_9::weights->clear();
 	Task_9::ids.clear();
 	Task_9::Nl.clear();
@@ -365,7 +339,7 @@ int main(int argc, char* argv[])
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_7//////////////////////////
 	//////////////////////////////////////////////////////////
-	/*
+*/	/*
 	std::cout << "Van der Corput Sequence" << std::endl;
 	std::vector<double> x = van_der_corput_sequence(3, 10, pow(10.,-12.));
 	for(int i=0; i<10; i++)
@@ -376,7 +350,7 @@ int main(int argc, char* argv[])
 	for(int i=0; i<20; i++)
 		std::cout << prime_numbers[i] << std::endl;
 	*/
-
+/*
 	Task_7::d = 2;
 	Task_7::n = 100;
 
@@ -416,7 +390,7 @@ int main(int argc, char* argv[])
 	}
 
 	myfile.close();
-
+*/
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_10/////////////////////////
 	//////////////////////////////////////////////////////////
@@ -436,11 +410,25 @@ int main(int argc, char* argv[])
   Task_13::d = 4;
 	Task_13::l = 5;
 	Task_13::gamma = 0.1;
+  Task_13::dimension = {1,2,4,8};
+  Task_13::level = {1,2,3,4,5};
 
-	Task_13::nodes = new std::vector<std::vector<double>>;
-	Task_13::weights = new std::vector<double> ;
+	Task_13::nodes = new std::vector<std::vector<double>>(pow(2,Task_13::l)-1);
+	Task_13::weights = new std::vector<double>(pow(2,Task_13::l)-1);
 
-	monte_carlo_multivariate(Task_13::nodes, Task_13::weights, Task_13::l, Task_13::d, rng);
+	quasi_monte_carlo_multivariate(Task_13::nodes, Task_13::weights, Task_13::l, Task_13::d);
+  integrate_by_point_evaluation_multivariate(function_task13,Task_13::l,Task_13::d,Task_13::nodes, Task_13::weights, Task_13::gamma, Task_13::d);
+
+  //std::cout << "/* message */"<< << '\n';
+
+  //for (int i = 0; i < Task_13::dimension.size(); i++) {
+  //  for (int j = 0; j < Task_13::level.size(); j++) {
+  //    Task_13::results
+  //  }
+  //}
+
+  //QMC
+
 
 
   //////////////////////////////////////////////////////////
