@@ -311,7 +311,7 @@ double asian_option_call_integrand(std::vector<double> x,double S0,double K, dou
   //////////////////////////////////////////////////////////
   //////////////////////////Task_9//////////////////////////
   //////////////////////////////////////////////////////////
-  template<typename... Args>
+  
   void write_quadrature_points_to_file(std::ofstream& myfile, int iteration, std::vector<std::vector<double>> nodes_temp, int d, std::vector<int> Nl, std::vector<int> ids)
   {
   	if(iteration==d)
