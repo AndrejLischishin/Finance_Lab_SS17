@@ -15,14 +15,14 @@ void trap_rule_weights(std::vector<double>* weights, int l){
 	}
 	(*weights)[0] = (double) 3/(2*(Nl+1));
 	(*weights)[Nl-1] = (double) 3/(2*(Nl+1));
-	
+
 	if(l==1) (*weights)[0]=1;
 	if(l==2) (*weights)[1]=-0.75;
 }
 
 void trap_rule_nodes(std::vector<double> *nodes, int l){
 	int Nl = pow(2, l)-1;
-	
+
 	for(int i=1; i<=Nl; i++){
 		 (*nodes)[i-1] = (double) i/(Nl+1);
 	}
@@ -57,7 +57,7 @@ void clenshaw_curtis_weights(std::vector<double>* weights, int l){
 		}
 		(*weights)[i-1]=( (double)(2./(Nl+1.)) * sin( M_PI * ((double)i/(double)(Nl+1.)) ) * sum );
 	}
-	
+
 	for(unsigned int i=1; i<=Nk; i++)
 	{
 		sum = 0.;
@@ -68,13 +68,13 @@ void clenshaw_curtis_weights(std::vector<double>* weights, int l){
 		}
 		weightstemp.push_back( (double)(2./(Nk+1.)) * sin( M_PI * ((double)i/(double)(Nk+1.)) ) * sum );
 	}
-	
+
 	for(int i=1; i<=Nl; i++){
 		if((i)%2==0){
 			(*weights)[i-1]=((*weights)[i-1]-weightstemp[(int)i/2-1]);
 		}
 	//	std::cout<<(*weights)[i-1]<<" weights "<<std::endl;
-	} 
+	}
 }
 
 
@@ -163,8 +163,8 @@ void sparse_grid_nodes(int d, int product, int* allvec, std::vector<std::vector<
 	fp = fopen("stuetzstellen", "a");
 		for(int i=0; i<product*d; i=i+d){
 			for(int j=0; j<d; j++){
-				fprintf(fp,"%f ", nodes[j][allvec[i+j]]);
-				nodesv[j][allvec[i+j]]=nodes[j][allvec[i+j]];
+				fprintf(fp,"%f ", nodesv[j][allvec[i+j]]);
+				nodesv[j][allvec[i+j]]=nodesv[j][allvec[i+j]];
 			}
 		fprintf(fp,"\n");
 		}
@@ -174,16 +174,16 @@ void sparse_grid_nodes(int d, int product, int* allvec, std::vector<std::vector<
 
 
 template<typename... Args>
-double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vector<double> x, Args... rest), 
-			int d, int l, std::vector<std::vector<double> > nodes, 
+double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vector<double> x, Args... rest),
+			int d, int l, std::vector<std::vector<double> > nodes,
 			std::vector<std::vector<double> > weights, bool write_in_file, bool use_trap_rule, Args... rest){
 	if(write_in_file==true) {
 		FILE *fp;
 	fp = fopen("stuetzstellen", "w");
-		fprintf(fp,"");	
-		
+		fprintf(fp,"");
+
 	fclose(fp);
-	
+
 	}
 	int maxlevel = (int)pow(2,l)-1;
 	int* klevel = new int[d];
@@ -191,28 +191,27 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 	int* k1 = new int[d];
 	int* vec = new int[d];
 	int sum = 1;
-	
+
 
 //	int sz = (l*(l+1)*0.5)*d;
 //	sz = 6*d;
 //	int* diag = new int[sz];
 	std::vector<int> diag;
 	int K;
-	double final_sum;
 	int J;
 	double product_w=1;
 	int product = 1;
 	double final_value=0;
-	
+
 	for(int i=0; i<d; i++){
 		vec[i]=1;
 		k1[i]=1;
 		sum = sum * maxlevel;
 	}
-	
+
 	printf("%i maxlevel \n", maxlevel);
 	int* allvec = new int[sum*d];
-	
+
 	int sz = enumeration(k1,d,l,&diag);
 //	std::cout<<sz<<std::endl;
 	for(K=0; K<sz; K++)
@@ -223,29 +222,29 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 			k[i]=diag[i+K*d]+1;
 	//		printf("%i ki \n", k[i]);
 		}
-	
-	
+
+
 	// klevel
 		for(int i=0; i<d; i++){
 			klevel[i]=pow(2,k[i])-1;
 		}
-	
-	
-	
+
+
+
 	// vec auf 1 setzen
 		for(int i=0; i<d; i++){
 			vec[i]=1;
 		}
 
-		// Tensorprodukt 
+		// Tensorprodukt
 		loop(vec, klevel, d, allvec);
-	
+
 		// produkt berechnen
 		product = 1;
 		for(int i=0; i<d; i++){
 			product = product * klevel[i];
 		}
-		
+
 		if(use_trap_rule== true){
 		for(int i=0; i<d; i++){
 		trap_rule_weights(&weights[i], k[i]);
@@ -258,7 +257,7 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 		clenshaw_curtis_nodes(&nodes[i], k[i]);
 		}
 		}
-		
+
 //		std::cout<<nodes[1][2]<<" nodes "<<std::endl;
 		for(int i=0; i<product*d; i=i+d){
 			for(int j=0; j<d; j++){
@@ -277,19 +276,19 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 			product_w = 1;
 	//		std::cout<<product<<std::endl;
 	//		std::cout<<final_value<<std::endl;
-	
+
 	if(write_in_file==true) sparse_grid_nodes(d,product,allvec,nodes);
-			
+
 		}
-			
+
 	}
 	free(allvec);
 	free(k1);
 	free(k);
-	free(vec);	
-	
-	return final_value;		
-	
+	free(vec);
+
+	return final_value;
+
 }
 
 double function_task13_sparse(std::vector<double> x, double gamma, int d){
@@ -300,45 +299,6 @@ double function_task13_sparse(std::vector<double> x, double gamma, int d){
 
 	return product;
 }
-
-
-
-
-/*int main(){
-
-
-	int d=2;
-	int l=7;
-	int maxlevel = pow(2,l)-1;
-
-
-
-	double** nodes = new double*[d];
-	double** weights = new double*[d];
-	for(int i=0; i<d; i++) {
-		weights[i] =  new double[maxlevel];
-		nodes[i] = new double[maxlevel];
-	}
-
-	std::vector<std::vector<double> > nodesv(d);
-	for ( int i = 0 ; i < d ; i++ ){
-   		nodesv[i].resize(maxlevel);
-	}
-
-	std::vector<std::vector<double> > weightsv(d);
-	for ( int i = 0 ; i < d ; i++ ){
-   		weightsv[i].resize(maxlevel);
-	}
-	
-	double final_value = integrate_with_sparse_grid(testfunction,
-			d, l, nodesv, weightsv);
-
-	printf("%f final sum\n", final_value);
-
-
-}
-*/
-
 
 
 //////////////////////////////////////////////////////////
