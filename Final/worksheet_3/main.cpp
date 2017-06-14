@@ -465,25 +465,20 @@ int main(int argc, char* argv[])
 
 /////////////////////////////////////////////////////////
 
-	int d=3;
-	int l=2;
+	int d=8;
+	int l=5;
 	int maxlevel = pow(2,l)-1;
 	
-	std::vector<std::vector<double> > nodesv(d);
-	for ( int i = 0 ; i < d ; i++ ){
-   		nodesv[i].resize(maxlevel);
-	}
 	
-	std::vector<std::vector<double> > weightsv(d);
-	for ( int i = 0 ; i < d ; i++ ){
-   		weightsv[i].resize(maxlevel);
-	}
+	std::vector<std::vector<double> >* nodesv = new std::vector<std::vector<double> >(d);
+	std::vector<std::vector<double> >* weightsv = new std::vector<std::vector<double> >(d);
+
 	
 	
 	double final_value = integrate_with_sparse_grid(function_task13_sparse, 
 			d, l, nodesv, weightsv, true, false, 0.1, d);
 
 	
-	printf("%f final value\n", final_value);
+	std::cout<<"final value"<<final_value<<std::endl;
 	
 }

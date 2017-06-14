@@ -2,10 +2,12 @@
 #include "multivariate_integration.hpp"
 
 void trap_rule_weights(std::vector<double>* weights, int l){
+	weights->clear();
 	int Nl = pow(2, l)-1;
 	int Nk = pow(2, l-1)-1;
+	weights->push_back(double) 3/(2*(Nl+1));
 	for(int i=1; i<Nl-1; i++){
-		 (*weights)[i] = (double) 1/(Nl+1);
+		 weights->push_back((double)1/(Nl+1));
 		 if((i+1)%2==0){
 		 	if(i==1 || i==Nl-2){
 		 	(*weights)[i] = (*weights)[i]-(double) 3/(2*(Nk+1));
@@ -13,8 +15,10 @@ void trap_rule_weights(std::vector<double>* weights, int l){
 		 	else (*weights)[i] = (*weights)[i]-(double) 1/(Nk+1);
 		 }
 	}
-	(*weights)[0] = (double) 3/(2*(Nl+1));
-	(*weights)[Nl-1] = (double) 3/(2*(Nl+1));
+//	(*weights)[0] = (double) 3/(2*(Nl+1));
+
+//	(*weights)[Nl-1] = (double) 3/(2*(Nl+1));
+	weights->push_back(double) 3/(2*(Nl+1));
 
 	if(l==1) (*weights)[0]=1;
 	if(l==2) (*weights)[1]=-0.75;
@@ -24,11 +28,12 @@ void trap_rule_nodes(std::vector<double> *nodes, int l){
 	int Nl = pow(2, l)-1;
 
 	for(int i=1; i<=Nl; i++){
-		 (*nodes)[i-1] = (double) i/(Nl+1);
+	//	 (*nodes)[i-1] = (double) i/(Nl+1);
+		nodes->push_back((double) i/(Nl+1));
 	}
 //	std::cout<<(*nodes)[0]<<"nodes "<<std::endl;
 }
-
+/*
 void clenshaw_curtis_nodes(std::vector<double>* nodes, int l)
 {
 	unsigned int Nl = pow(2,l)-1;
@@ -76,23 +81,24 @@ void clenshaw_curtis_weights(std::vector<double>* weights, int l){
 	//	std::cout<<(*weights)[i-1]<<" weights "<<std::endl;
 	}
 }
+*/
 
 
 
 
-
-int enumeration(int *k, int d, int l, std::vector<int>* diag){
+int enumeration(std::vector<int>* k, int d, int l, std::vector<int>* diag){
+	std::cout<<"hier10 enm"<<std::endl;
 	int S_k=d;
 	int II = 0;
 	int counter=0;
-	while(1<2){
-
+	while(1){
+	std::cout<<"hier11 enm"<<std::endl;
 	for(int j=0; j<d; j++){
-		(*diag).push_back(k[j]-1);
+		diag->push_back(k[j]-1);
 	}
 	II = II+d;
 	counter++;
-
+	
 	// zur Kontrolle, damit man sehen kann, welche Kombinationen der Algorithmus erzeugt
 	for(int i=0; i<d; i++){
 //		printf("%i ", k[i]);
@@ -102,12 +108,12 @@ int enumeration(int *k, int d, int l, std::vector<int>* diag){
 	// Hier ist es wieder einfach der Algorithmus vom Arbeitsblatt
 
 		for(int j=1; j<=d; j++){
-			k[j-1]=k[j-1]+1;
+			(*k)[j-1]=(*k)[j-1]+1;
 			S_k = S_k +1;
 			if(S_k > d+l-1){
 				if(j==d){ return counter; }
-				S_k = S_k-k[j-1]+1;
-				k[j-1] = 1;
+				S_k = S_k-(*k)[j-1]+1;
+				(*k)[j-1] = 1;
 			}
 			else break;
 		}
@@ -118,7 +124,8 @@ int enumeration(int *k, int d, int l, std::vector<int>* diag){
 }
 
 
-void loop(int* vec, int* klevel, int d, int* finalvec){
+void loop(std::vector<int>* vec, std::vector<int>* klevel, int d, std::vector<int>* finalvec){
+	finalvec->clear;
 	int I;
 	int count;
 	int number=1;
@@ -129,54 +136,53 @@ void loop(int* vec, int* klevel, int d, int* finalvec){
 
 	for(int j=0; j<d; j++){
 //		printf(" %i", vec[j]);
-		finalvec[II+j] = vec[j]-1;
+//		finalvec[II+j] = vec[j]-1;
+		finalvec->push_back(vec[j]-1);
 	}
 	II = II+d;
 
 //	printf(" end \n");
 	number++;
-		if(vec[last]<klevel[last]){
-			vec[last]++;
+		if((*vec)[last]<(*klevel)[last]){
+			(*vec)[last]++;
 			}
 		else {
 		for(int i=d-1; i>=0; i--){
-			if(vec[i]<klevel[i]) {
-			vec[i]++;
+			if((*vec)[i]<(*klevel)[i]) {
+			(*vec)[i]++;
 			break;
 			}
 
 			count = 0;
 			for(I=0; I<d; I++){
-			if(vec[I]==klevel[I]) { count++;
+			if((*vec)[I]==(*klevel)[I]) { count++;
 				}
 			}
 			if(count==d) d=-2;
 
-			if(vec[i]==klevel[i]) vec[i]=1;
+			if((*vec)[i]==(*klevel)[i]) (*vec)[i]=1;
 			}
 		}
 	}
 }
 
-void sparse_grid_nodes(int d, int product, int* allvec, std::vector<std::vector<double> > nodesv){
+void sparse_grid_nodes(int d, int product, std::vector<int>* allvec, std::vector<std::vector<double> >* nodesv){
 	FILE *fp;
 	fp = fopen("stuetzstellen", "a");
 		for(int i=0; i<product*d; i=i+d){
 			for(int j=0; j<d; j++){
-				fprintf(fp,"%f ", nodesv[j][allvec[i+j]]);
-				nodesv[j][allvec[i+j]]=nodesv[j][allvec[i+j]];
+				fprintf(fp,"%f ", (*nodesv)[j][(*allvec)[i+j]]);
 			}
 		fprintf(fp,"\n");
 		}
-	printf("\n");
 	fclose(fp);
 }
 
 
-double function_task13_sparse(std::vector<double> x, double gamma, int d){
+double function_task13_sparse(std::vector<double>* x, double gamma, int d){
 	double product = 1;
 	for(int i=1; i<=d; i++){
-		product = product*(1+gamma*exp(x[i-1]/2));
+		product = product*(1+gamma*exp((*x)[i-1]/2));
 	}
 
 	return product;
