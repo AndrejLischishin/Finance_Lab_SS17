@@ -33,20 +33,45 @@ One can see that there are some regions in $(0,1)^2$ where no uniform random num
 
 \section*{Task 9}
 
-Qudrature nodes of the two-dimensional product rule for trapezoidal rule:
+Quadrature nodes of the two-dimensional product rule for trapezoidal rule:
 \begin{center}
 \includegraphics[scale=0.5]{quadrature_nodes_trapezoidal_rule.png}		
 \end{center}
 
-Qudrature nodes of the two-dimensional product rule for Gauss-Legendre:
+Quadrature nodes of the two-dimensional product rule for Gauss-Legendre:
 \begin{center}
 \includegraphics[scale=0.5]{quadrature_nodes_gauss_legendre.png}		
 \end{center}
 
-Qudrature nodes of the two-dimensional product rule for Clenshaw Curtis:
+Quadrature nodes of the two-dimensional product rule for Clenshaw Curtis:
 \begin{center}
 \includegraphics[scale=0.5]{quadrature_nodes_clenshaw_curtis.png}		
 \end{center}
 
+Both Gauß-Quadrature and Clenshaw-Curtis-Quadrature have an increased amount of nodes at the edges of the integration region. The trapeziodal rule distributes the nodes equidistantly over the integration region.
 
+\section*{Task 11}
+
+
+Two-dimensional Sparse Grid using Trapeziodal Rule for $l=5$:
+\begin{center}
+\includegraphics[scale=0.5]{sparse_grid_l5.png}	
+\end{center}
+
+Two-dimensional Sparse Grid using Trapezoidal Rule for $l=7$:
+\begin{center}
+\includegraphics[scale=0.5]{sparse_grid_l7.png}	
+\end{center}
+
+Two-dimensional Sparse Grid using Clenshaw-Curtis Quadrature Rule for $l=5$:
+\begin{center}
+\includegraphics[scale=0.5]{clenshaw_curtis_l5.png}	
+\end{center}
+
+Two-dimensional Sparse Grid using Clenshaw-Curtis Quadrature Rule for $l=7$:
+\begin{center}
+\includegraphics[scale=0.5]{clenshaw_curtis_l7.png}	
+\end{center}
 \end{document}
+
+For Clenshaw-Curtis Quadrature, with increasing level, more nodes are situated at the edges of the integration region. For Trapezoidal Rule, this is not the case.

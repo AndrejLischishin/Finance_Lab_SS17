@@ -18,12 +18,14 @@
 #include "simulation_functions.hpp"
 
 double testfunction(std::vector<double> x);
-void trap_rule_s(std::vector<double>* weights, int l);
-void trap_rulen(std::vector<double> *nodes, int l);
+void trap_rule_weights(std::vector<double>* weights, int l);
+void trap_rule_nodes(std::vector<double> *nodes, int l);
+void clenshaw_curtis_weights(std::vector<double>* weights, int l);
+void clenshaw_curtis_nodes(std::vector<double> *nodes, int l);
 int enumeration(int *k, int d, int l, std::vector<int>* diag);
 void loop(int* vec, int* klevel, int d, int* finalvec);
-void sparse_grid_nodes(int d, int product, int* allvec, double** nodes, std::vector<std::vector<double> > nodesv);
-void sparse_grid_weights(int d, int product, int* allvec, double** weights, std::vector<std::vector<double> > weightsv);
+void sparse_grid_nodes(int d, int product, int* allvec, std::vector<std::vector<double> > nodesv);
+double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vector<double> x, Args... rest), int d, int l, std::vector<std::vector<double> > nodes, std::vector<std::vector<double> > weights, bool write_in_file, bool use_trap_rule, Args... rest)
 double discrete_geometric_average_exact(double s0, double r, double T, int M, double K, double sigma);
 double continuous_geometric_average_exact(double s0, double r, double T, double K, double sigma);
 double discrete_geometric_average_simulation(gsl_rng* rng, double s0, double r, double T, int M, double K, double sigma, int N);
