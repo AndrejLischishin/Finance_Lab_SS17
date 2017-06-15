@@ -5,7 +5,7 @@ void trap_rule_weights(std::vector<double>* weights, int l){
 	weights->clear();
 	int Nl = pow(2, l)-1;
 	int Nk = pow(2, l-1)-1;
-	weights->push_back(double) 3/(2*(Nl+1));
+	weights->push_back((double)3./(2*(Nl+1)));
 	for(int i=1; i<Nl-1; i++){
 		 weights->push_back((double)1/(Nl+1));
 		 if((i+1)%2==0){
@@ -18,35 +18,38 @@ void trap_rule_weights(std::vector<double>* weights, int l){
 //	(*weights)[0] = (double) 3/(2*(Nl+1));
 
 //	(*weights)[Nl-1] = (double) 3/(2*(Nl+1));
-	weights->push_back(double) 3/(2*(Nl+1));
+	weights->push_back((double) 3/(2*(Nl+1)));
 
 	if(l==1) (*weights)[0]=1;
 	if(l==2) (*weights)[1]=-0.75;
 }
 
 void trap_rule_nodes(std::vector<double> *nodes, int l){
+	nodes->clear();
 	int Nl = pow(2, l)-1;
 
 	for(int i=1; i<=Nl; i++){
-	//	 (*nodes)[i-1] = (double) i/(Nl+1);
+
 		nodes->push_back((double) i/(Nl+1));
 	}
-//	std::cout<<(*nodes)[0]<<"nodes "<<std::endl;
+
 }
-/*
+
 void clenshaw_curtis_nodes(std::vector<double>* nodes, int l)
 {
+	nodes->clear();
 	unsigned int Nl = pow(2,l)-1;
 
 	for(unsigned int i=1; i<=Nl; i++)
 	{
-		(*nodes)[i-1]=(.5*(1.-cos((double)(M_PI*i/(Nl+1.)))));
+		nodes->push_back(.5*(1.-cos((double)(M_PI*i/(Nl+1.)))));
 
 	}
 }
 
 
 void clenshaw_curtis_weights(std::vector<double>* weights, int l){
+	weights->clear();
 	int Nl = pow(2, l)-1;
 	int Nk = pow(2, l-1)-1;
 	double sum = 0.;
@@ -59,7 +62,7 @@ void clenshaw_curtis_weights(std::vector<double>* weights, int l){
 		{
 			sum = sum + (double) (1./(2.*j-1.)) * sin( (double)(2.*j-1.) * M_PI * (i/(double)(Nl+1.)) );
 		}
-		(*weights)[i-1]=( (double)(2./(Nl+1.)) * sin( M_PI * ((double)i/(double)(Nl+1.)) ) * sum );
+		weights->push_back(( (double)(2./(Nl+1.)) * sin( M_PI * ((double)i/(double)(Nl+1.)) ) * sum ));
 	}
 
 	for(unsigned int i=1; i<=Nk; i++)
@@ -77,27 +80,24 @@ void clenshaw_curtis_weights(std::vector<double>* weights, int l){
 		if((i)%2==0){
 			(*weights)[i-1]=((*weights)[i-1]-weightstemp[(int)i/2-1]);
 		}
-	//	std::cout<<(*weights)[i-1]<<" weights "<<std::endl;
+
 	}
 }
-*/
-
-
 
 
 int enumeration(std::vector<int>* k, int d, int l, std::vector<int>* diag){
-	std::cout<<"hier10 enm"<<std::endl;
+
 	int S_k=d;
 	int II = 0;
 	int counter=0;
 	while(1){
-	std::cout<<"hier11 enm"<<std::endl;
+
 	for(int j=0; j<d; j++){
-		diag->push_back(k[j]-1);
+		diag->push_back((*k)[j]-1);
 	}
 	II = II+d;
 	counter++;
-	
+
 	// zur Kontrolle, damit man sehen kann, welche Kombinationen der Algorithmus erzeugt
 	for(int i=0; i<d; i++){
 //		printf("%i ", k[i]);
@@ -124,7 +124,7 @@ int enumeration(std::vector<int>* k, int d, int l, std::vector<int>* diag){
 
 
 void loop(std::vector<int>* vec, std::vector<int>* klevel, int d, std::vector<int>* finalvec){
-	finalvec->clear;
+	finalvec->clear();
 	int I;
 	int count;
 	int number=1;
@@ -136,7 +136,7 @@ void loop(std::vector<int>* vec, std::vector<int>* klevel, int d, std::vector<in
 	for(int j=0; j<d; j++){
 //		printf(" %i", vec[j]);
 //		finalvec[II+j] = vec[j]-1;
-		finalvec->push_back(vec[j]-1);
+		finalvec->push_back((*vec)[j]-1);
 	}
 	II = II+d;
 
