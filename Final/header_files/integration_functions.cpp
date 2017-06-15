@@ -55,7 +55,6 @@ double integrate_by_point_evaluation(double (*function_to_integrate)(double x, A
  */
 void trap_rule(std::vector<double>* nodes, std::vector<double>* weights, int l)
 {
-
 	unsigned int Nl = pow(2,l)-1;
 	double weight = 3./(double)(2*(Nl+1));
 	double node;
@@ -71,7 +70,6 @@ void trap_rule(std::vector<double>* nodes, std::vector<double>* weights, int l)
 	}
 	weight = 3./(double)(2*(Nl+1));
 	weights->push_back(weight);
-	
 }
 
 

@@ -55,21 +55,21 @@ void clenshaw_curtis_weights(std::vector<double>* weights, int l){
 	double sum = 0.;
 	std::vector<double> weightstemp;
 
-	for(unsigned int i=1; i<=Nl; i++)
+	for(int i=1; i<=Nl; i++)
 	{
 		sum = 0.;
-		for(unsigned int j=1; j<=(Nl+1)/2; j++)
+		for(int j=1; j<=(Nl+1)/2; j++)
 		{
 			sum = sum + (double) (1./(2.*j-1.)) * sin( (double)(2.*j-1.) * M_PI * (i/(double)(Nl+1.)) );
 		}
 		weights->push_back(( (double)(2./(Nl+1.)) * sin( M_PI * ((double)i/(double)(Nl+1.)) ) * sum ));
 	}
 
-	for(unsigned int i=1; i<=Nk; i++)
+	for(int i=1; i<=Nk; i++)
 	{
 		sum = 0.;
 
-		for(unsigned int j=1; j<=(Nk+1)/2; j++)
+		for(int j=1; j<=(Nk+1)/2; j++)
 		{
 			sum = sum + (double) (1./(2.*j-1.)) * sin( (double)(2.*j-1.) * M_PI * (i/(double)(Nk+1.)) );
 		}
@@ -178,16 +178,6 @@ void sparse_grid_nodes(int d, int product, std::vector<int>* allvec, std::vector
 }
 
 
-double function_task13_sparse(std::vector<double>* x, double gamma, int d){
-	double product = 1;
-	for(int i=1; i<=d; i++){
-		product = product*(1+gamma*exp((*x)[i-1]/2));
-	}
-
-	return product;
-}
-
-
 //////////////////////////////////////////////////////////
 //////////////////////////Task_2//////////////////////////
 //////////////////////////////////////////////////////////
@@ -267,7 +257,7 @@ double payoff_discrete_arithmetic_average(gsl_rng* rng, double s0, double r, dou
 
 double asian_option_call_integrand(std::vector<double> x,double S0,double K, double sigma, double mu,int M, double T, bool bb_not_rw){
   // computing num of levels;
-  int max_level = log2(M);
+  unsigned int max_level = log2(M);
   double result = S0;
   double delta_t = T/M;
 
@@ -453,40 +443,58 @@ double asian_option_call_integrand(std::vector<double> x,double S0,double K, dou
   }
 
 
-  void monte_carlo_multivariate(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int l, int d, gsl_rng* r)
-  {
+	void monte_carlo_multivariate(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int N, int d, gsl_rng* r)
+	{
 		weights->clear();
 		nodes->clear();
-  	int Nl = pow(2,l)-1;
-  	for(int i=1; i<=Nl; i++)
-  	{
-  		for(int j=1;j<=d;j++){
-  		(*nodes)[i-1].push_back(random_number_01_GSL(r));
-  		}
-			weights->push_back((1./(double)Nl));
-
-  	}
-  }
-
-	void quasi_monte_carlo_multivariate(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int l, int d)
-  {
-		weights->clear();
-		nodes->clear();
-  	int Nl = pow(2,l)-1;
-  	for(int i=1; i<=Nl; i++)
-  	{
-  		weights->push_back((1./(double)Nl));
+		for(int i=1; i<=N; i++)
+		{
+			for(int j=1;j<=d;j++)
+			{
+				(*nodes)[i-1].push_back(random_number_01_GSL(r));
+			}
+			weights->push_back((1./(double)N));
 		}
-		*nodes = d_dimensional_halton_sequence(d,Nl);
-  }
+	}
 
-
-
-  double function_task13(std::vector<double>* x, double gamma, int d){
-  	double product = 1;
-  	for(int i=1; i<=d; i++){
-  		product = product*(1+gamma*exp((*x)[i-1]/2));
+	void quasi_monte_carlo_multivariate(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int N, int d)
+  	{
+		weights->clear();
+		nodes->clear();
+  		for(int i=1; i<=N; i++)
+  		{
+  			weights->push_back((1./(double)N));
+		}
+		*nodes = d_dimensional_halton_sequence(d, N);
   	}
 
-  	return product;
-  }
+
+	double function_task13(std::vector<double>* x, double gamma, int d)
+	{
+		double product = 1.;
+		for(int i=1; i<=d; i++){
+  			product = product*(1.+gamma*exp((*x)[i-1]/2.));
+  		}
+
+  		return product;
+  	}
+
+	double function_task13_integral_exact_result(double gamma, int d)
+	{
+		return pow((1.0+2.0*gamma*(exp(0.5)-1.0)), d);
+	}
+
+
+	void full_grid_nodes_weights(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int Nl, int d, void (*function_to_create_nodes_and_weights)(std::vector<double>* nodes, std::vector<double>* weights, int l))
+	{
+		int l = (int)ceil(log2(Nl+1));
+
+			
+
+
+
+
+
+
+
+	}

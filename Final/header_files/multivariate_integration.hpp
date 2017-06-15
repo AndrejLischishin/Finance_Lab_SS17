@@ -43,14 +43,16 @@ std::vector<double>* brownian_bridge_level(std::vector<double>* prev_level, doub
 std::vector<double>* brownian_bridge(gsl_rng* r, double T, int M);
 //task 13
 double function_task13(std::vector<double>* x, double gamma, int d);
-double function_task13_sparse(std::vector<double>* x, double gamma, int d);
+double function_task13_integral_exact_result(double gamma, int d);
 //utility
 void write_quadrature_points_to_file(std::ofstream& myfile, int iteration, std::vector<std::vector<double>> nodes_temp, int d, std::vector<int> Nl, std::vector<int> ids);
 double function_to_integrate(std::vector<double> x);
 //Monte Carlo
-void monte_carlo_multivariate(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int l, int d, gsl_rng* r);
-void quasi_monte_carlo_multivariate(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int l, int d);
+void monte_carlo_multivariate(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int N, int d, gsl_rng* r);
+void quasi_monte_carlo_multivariate(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int N, int d);
 
+
+void full_grid_nodes_weights(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int Nl, int d, void (*function_to_create_nodes_and_weights)(std::vector<double>* nodes, std::vector<double>* weights, int l));
 //////////////////////////////////////////////////
 ///////////tensor_product/////////////////////////
 //////////////////////////////////////////////////
@@ -89,14 +91,14 @@ void quasi_monte_carlo_multivariate(std::vector<std::vector<double>>* nodes, std
 //////////////////////////////////////////////////
 template<typename... Args>
 double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vector<double>* x, Args... rest),int d, int l, std::vector<std::vector<double>>* nodes,std::vector<std::vector<double>>* weights, bool write_in_file, bool use_trap_rule, Args... rest){
-	if(write_in_file==true) {
+	if(write_in_file==true) 
+	{
 		FILE *fp;
-	fp = fopen("stuetzstellen", "w");
+		fp = fopen("stuetzstellen", "w");
 		fprintf(fp,"");
+		fclose(fp);
+	}
 
-	fclose(fp);
-
-	};
 	int maxlevel = (int)pow(2,l)-1;
 //	int* klevel = new int[d];
 	std::vector<int>* klevel = new std::vector<int>(d);
@@ -110,7 +112,6 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 	std::vector<int>* diag = new std::vector<int>;
 
 	int K;
-	int J;
 	double product_w=1;
 	int product = 1;
 	double final_value=0;
@@ -172,8 +173,6 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 		for(int i=0; i<product*d; i=i+d){
 			for(int j=0; j<d; j++){
 				product_w = product_w*(*weights)[j][(*allvec)[i+j]];
-
-				J =j;
 			}
 			std::vector<double>* point = new std::vector<double>;
 			point->clear();
@@ -204,16 +203,15 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 //////////////////////////////////////////////////
 
 template<typename... Args>
- double integrate_by_point_evaluation_multivariate(double (*function)(std::vector<double>* x, Args... rest),int n, int d, std::vector<std::vector<double>>* nodes, std::vector<double>* weights, Args... rest)
- {
-   double result = 0.0;
-   for(int i=0; i<pow(2,n)-1; i++)
-   {
-     result += (*weights)[i]*function(&(*nodes)[i], rest...);
-   }
+double integrate_by_point_evaluation_multivariate(double (*function)(std::vector<double>* x, Args... rest), int N, int d, std::vector<std::vector<double>>* nodes, std::vector<double>* weights, Args... rest)
+{
+	double result = 0.0;
+	for(int i=0; i<N; i++)
+	{
+		result += (*weights)[i]*function(&(*nodes)[i], rest...);
+	}
 
-   return result;
- }
-
+	return result;
+}
 
 #endif /* multivariate_integration_hpp */

@@ -59,15 +59,12 @@ namespace Task_9
 }
 
 namespace Task_13{
-  int d;
-  int l;
-  double gamma;
-  std::vector<std::vector<double>>* nodes;
-  std::vector<double>* weights;
-  std::vector<double> dimension(4);
-  std::vector<double> level(5);
-  std::vector<std::vector<std::vector<double>>> results;
-
+	int N;
+	double gamma;
+	std::vector<std::vector<double>>* nodes;
+	std::vector<double>* weights;
+	int max_l;
+	double exact_result;
 }
 
 namespace Task_14{
@@ -405,29 +402,43 @@ int main(int argc, char* argv[])
 	//////////////////////////Task_13/////////////////////////
 	//////////////////////////////////////////////////////////
 
-
-
-  Task_13::d = 4;
-	Task_13::l = 5;
+	Task_13::max_l = 5;
 	Task_13::gamma = 0.1;
-  Task_13::dimension = {1,2,4,8};
-  Task_13::level = {1,2,3,4,5};
 
-	Task_13::nodes = new std::vector<std::vector<double>>(pow(2,Task_13::l)-1);
-	Task_13::weights = new std::vector<double>(pow(2,Task_13::l)-1);
+	for(int d=1; d<=8; d*=2)
+	{
+		Task_13::exact_result = function_task13_integral_exact_result(Task_13::gamma, d);
+		std::cout << "Exact result: " << Task_13::exact_result << std::endl;
 
-	quasi_monte_carlo_multivariate(Task_13::nodes, Task_13::weights, Task_13::l, Task_13::d);
-  integrate_by_point_evaluation_multivariate(function_task13,Task_13::l,Task_13::d,Task_13::nodes, Task_13::weights, Task_13::gamma, Task_13::d);
+		for(int l=1; l<=Task_13::max_l; l++)
+		{
+			Task_13::N = pow(2,l)*pow(l,d-1);
 
-  //std::cout << "/* message */"<< << '\n';
+			// QMC
+			Task_13::nodes = new std::vector<std::vector<double>>(Task_13::N);
+			Task_13::weights = new std::vector<double>(Task_13::N);
 
-  //for (int i = 0; i < Task_13::dimension.size(); i++) {
-  //  for (int j = 0; j < Task_13::level.size(); j++) {
-  //    Task_13::results
-  //  }
-  //}
+			quasi_monte_carlo_multivariate(Task_13::nodes, Task_13::weights, Task_13::N, d);
+			std::cout << "QMC: " << integrate_by_point_evaluation_multivariate(function_task13, Task_13::N, d, Task_13::nodes, Task_13::weights, Task_13::gamma, d) << std::endl;
+		
 
-  //QMC
+			// MC
+			Task_13::nodes = new std::vector<std::vector<double>>(Task_13::N);
+			Task_13::weights = new std::vector<double>(Task_13::N);
+
+			monte_carlo_multivariate(Task_13::nodes, Task_13::weights, Task_13::N, d, rng);
+			std::cout << "MC: " << integrate_by_point_evaluation_multivariate(function_task13, Task_13::N, d, Task_13::nodes, Task_13::weights, Task_13::gamma, d) << std::endl;
+
+
+			// Full grid
+			Task_13::nodes = new std::vector<std::vector<double>>(Task_13::N);
+			Task_13::weights = new std::vector<double>(Task_13::N);
+
+			int Nl_temp = (int)ceil(pow(Task_13::N, 1/d));
+			full_grid_nodes_weights(Task_13::nodes, Task_13::weights, Nl_temp, d, trap_rule);
+
+		}
+	}
 
 
 
@@ -471,7 +482,7 @@ int main(int argc, char* argv[])
 	std::vector<std::vector<double> >* nodesv = new std::vector<std::vector<double> >(d);
 	std::vector<std::vector<double> >* weightsv = new std::vector<std::vector<double> >(d);
 
-	double final_value = integrate_with_sparse_grid(function_task13_sparse, d, l, nodesv, weightsv, true, false, 0.1, d);
+	double final_value = integrate_with_sparse_grid(function_task13, d, l, nodesv, weightsv, true, false, 0.1, d);
 	std::cout<<"final value"<<final_value<<std::endl;
 	free(nodesv);
 	free(weightsv);
