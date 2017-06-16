@@ -5,23 +5,37 @@ void trap_rule_weights(std::vector<double>* weights, int l){
 	weights->clear();
 	int Nl = pow(2, l)-1;
 	int Nk = pow(2, l-1)-1;
-	weights->push_back((double)3./(2*(Nl+1)));
-	for(int i=1; i<Nl-1; i++){
-		 weights->push_back((double)1/(Nl+1));
-		 if((i+1)%2==0){
-		 	if(i==1 || i==Nl-2){
-		 	(*weights)[i] = (*weights)[i]-(double) 3/(2*(Nk+1));
-		 	}
-		 	else (*weights)[i] = (*weights)[i]-(double) 1/(Nk+1);
-		 }
+
+	if(l==1){
+		 weights->push_back(1);
 	}
-//	(*weights)[0] = (double) 3/(2*(Nl+1));
+	else if(l==2){
+		weights->push_back((double)3./(2*(Nl+1)));
+	  weights->push_back(-0.75);
+		weights->push_back((double) 3./(2*(Nl+1)));
+	}
+	else{
 
-//	(*weights)[Nl-1] = (double) 3/(2*(Nl+1));
-	weights->push_back((double) 3/(2*(Nl+1)));
+		weights->push_back((double)3./(2*(Nl+1)));
 
-	if(l==1) (*weights)[0]=1;
-	if(l==2) (*weights)[1]=-0.75;
+		for(int i=2; i<Nl-1; i++){
+			 weights->push_back((double)1./(Nl+1));
+
+			 if(i%2==0){
+			 	if(i==2 || i==Nl-2){
+			 	(*weights)[i-1] = (*weights)[i-1]-(double) 3/(2*(Nk+1));
+			 	}
+			 	else (*weights)[i-1] = (*weights)[i-1]-(double) 1/(Nk+1);
+			 }
+		}
+
+		weights->push_back((double) 3/(2*(Nl+1)));
+
+
+	}
+
+
+
 }
 
 void trap_rule_nodes(std::vector<double> *nodes, int l){
@@ -98,11 +112,6 @@ int enumeration(std::vector<int>* k, int d, int l, std::vector<int>* diag){
 	II = II+d;
 	counter++;
 
-	// zur Kontrolle, damit man sehen kann, welche Kombinationen der Algorithmus erzeugt
-	for(int i=0; i<d; i++){
-//		printf("%i ", k[i]);
-	}
-//	printf("end \n");
 
 	// Hier ist es wieder einfach der Algorithmus vom Arbeitsblatt
 
@@ -125,44 +134,51 @@ int enumeration(std::vector<int>* k, int d, int l, std::vector<int>* diag){
 
 void loop(std::vector<int>* vec, std::vector<int>* klevel, int d, std::vector<int>* finalvec){
 	finalvec->clear();
+	
 	int I;
 	int count;
 	int number=1;
 	int II = 0;
 	int last = d-1;
-
-	while(last+1==d){
-
+	int helper = 0;
+	for (int i = 0; i < d; i++) {
+		
+		
+	}
+while(last+1==d){
+		
 	for(int j=0; j<d; j++){
-//		printf(" %i", vec[j]);
-//		finalvec[II+j] = vec[j]-1;
-		finalvec->push_back((*vec)[j]-1);
+		
+		helper = (*vec)[j]-1;
+        finalvec->push_back(helper);
 	}
 	II = II+d;
+		
 
-//	printf(" end \n");
 	number++;
-		if((*vec)[last]<(*klevel)[last]){
-			(*vec)[last]++;
-			}
-		else {
+	if((*vec)[last]<(*klevel)[last]){
+		(*vec)[last]++;
+	}
+	else {
 		for(int i=d-1; i>=0; i--){
 			if((*vec)[i]<(*klevel)[i]) {
-			(*vec)[i]++;
-			break;
+				(*vec)[i]++;
+				break;
 			}
-
+				
 			count = 0;
 			for(I=0; I<d; I++){
-			if((*vec)[I]==(*klevel)[I]) { count++;
-				}
+					if((*vec)[I]==(*klevel)[I]){
+						 count++;
+					}
 			}
 			if(count==d) d=-2;
-
+							
 			if((*vec)[i]==(*klevel)[i]) (*vec)[i]=1;
-			}
 		}
 	}
+}
+	
 }
 
 void sparse_grid_nodes(int d, int product, std::vector<int>* allvec, std::vector<std::vector<double> >* nodesv){
@@ -255,42 +271,50 @@ double payoff_discrete_arithmetic_average(gsl_rng* rng, double s0, double r, dou
 */
 
 
-double asian_option_call_integrand(std::vector<double> x,double S0,double K, double sigma, double mu,int M, double T, bool bb_not_rw){
-  // computing num of levels;
-  unsigned int max_level = log2(M);
-  double result = S0;
-  double delta_t = T/M;
+double asian_option_call_integrand(std::vector<double>* x,double S0,double K, double sigma, double mu,int M, double T, bool use_bb){
+    // computing num of levels;
+    unsigned int max_level = log2(M);
+    double result = S0;
+    double delta_t = T/M;
+    double helper = 0;
+	
 
-  std::vector<double>* w = new std::vector<double>(M);
-  std::vector<double>::iterator it = w->begin();
-  w->clear();
-
-  if (bb_not_rw==false) {
-    (*w)[0] = 0.0;
-    for (int i = 1; i < M; i++) {
-      result *= S0*exp((mu-0.5*sigma*sigma)*i*delta_t+sigma*((*w)[i-1]+delta_t*x[i]));
-      (*w)[i] = (*w)[i-1]+delta_t*x[i];
+    std::vector<double> w(2*(M+1),0);
+    
+    if (use_bb==false) {
+    w[0] = 0.0;
+        for (int i = 1; i < M; i++) {
+            result *= S0*exp((mu-0.5*sigma*sigma)*i*delta_t+sigma*(w[i-1]+delta_t*(*x)[i]));
+            w[i] = w[i-1]+delta_t*(*x)[i];
+        }
+        w.resize(M);
     }
-  }
-  else if(bb_not_rw==true){
-    for (size_t i = 1; i <= max_level; i++) {
-      for (size_t j = 0; j < pow(2,i); j++) {
-        result *= S0*exp((mu-0.5*sigma*sigma)*i*delta_t+sigma*(0.5*((*w)[i]+(*w)[i+1])+delta_t*x[i]));
-        w->insert(it+i+1, 0.5*((*w)[i]+(*w)[i+1])+delta_t*x[i]);
-      }
+    else if(use_bb==true){
+		w[0] = 0.0;
+		w[1]=sqrt(T)*(*x)[M-1];
+
+        for (int i = 1; i <= max_level; i++) {
+			for (int j = 0; j < pow(2,i); j+=2) {
+                if (j<pow(2,max_level)-2) {
+                    helper = 0.5*(w[j]+w[j+1])+delta_t*(*x)[j];
+                    result =result * S0*exp((mu-0.5*sigma*sigma)*j*delta_t+sigma*(helper));
+                    
+                    w.emplace(w.begin()+j+1, helper);
+                }
+                
+			 }
+         }
+        w.resize(M);
+    };
+
+    result = pow(result,1./M)-K;
+    if(result>0.0){
+        return result;
     }
-  };
-
-  result = pow(result,1./M)-K;
-  if(result>0.0){
-    return result;
-  }
-  else{
-    return 0.0;
-  }
-
-
-  }
+    else{
+        return 0.0;
+    };
+}
 
 
   //////////////////////////////////////////////////////////
@@ -314,10 +338,10 @@ double asian_option_call_integrand(std::vector<double> x,double S0,double K, dou
   		for(int i=0; i<d; i++)
   		{
   			myfile << nodes_temp[i][ids[i]] << "	";
-  			//std::cout << nodes_temp[i][ids[i]] << "	";
+  			
   		}
   		myfile << std::endl;
-  		//std::cout << std::endl;
+  		
   	}
   	else
   	{
@@ -489,7 +513,7 @@ double asian_option_call_integrand(std::vector<double> x,double S0,double K, dou
 	{
 		int l = (int)ceil(log2(Nl+1));
 
-			
+
 
 
 

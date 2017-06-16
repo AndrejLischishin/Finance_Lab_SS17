@@ -31,7 +31,7 @@ void loop(std::vector<int>* vec, std::vector<int>* klevel, int d, std::vector<in
 double discrete_geometric_average_exact(double s0, double r, double T, int M, double K, double sigma);
 double continuous_geometric_average_exact(double s0, double r, double T, double K, double sigma);
 double discrete_geometric_average_simulation(gsl_rng* rng, double s0, double r, double T, int M, double K, double sigma, int N);
-double asian_option_call_integrand(std::vector<double> x,double S0,double K, double sigma, double mu,int M, double T, bool bb_not_rw);
+double asian_option_call_integrand(std::vector<double>* x,double S0,double K, double sigma, double mu,int M, double T, bool bb_not_rw);
 //sequences
 std::vector<double> van_der_corput_sequence(int p, int n, double epsilon);
 bool is_prime(int number);
@@ -91,7 +91,7 @@ void full_grid_nodes_weights(std::vector<std::vector<double>>* nodes, std::vecto
 //////////////////////////////////////////////////
 template<typename... Args>
 double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vector<double>* x, Args... rest),int d, int l, std::vector<std::vector<double>>* nodes,std::vector<std::vector<double>>* weights, bool write_in_file, bool use_trap_rule, Args... rest){
-	if(write_in_file==true) 
+	if(write_in_file==true)
 	{
 		FILE *fp;
 		fp = fopen("stuetzstellen", "w");
@@ -100,16 +100,18 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 	}
 
 	int maxlevel = (int)pow(2,l)-1;
-//	int* klevel = new int[d];
+
 	std::vector<int>* klevel = new std::vector<int>(d);
-//	int* k = new int[d];
+
 	std::vector<int>* k = new std::vector<int>(d);
-//	int* k1 = new int[d];
+
 	std::vector<int>* k1 = new std::vector<int>(d);
-//	int* vec = new int[d];
+
 	std::vector<int>* vec = new std::vector<int>(d);
 	int sum = 1;
 	std::vector<int>* diag = new std::vector<int>;
+	std::vector<int>* allvec = new std::vector<int>();
+    std::vector<double>* point = new std::vector<double>;
 
 	int K;
 	double product_w=1;
@@ -122,39 +124,39 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 		sum = sum * maxlevel;
 	}
 
-	std::vector<int>* allvec = new std::vector<int>;
+
 
 	int sz = enumeration(k1,d,l,diag);
 
 	for(K=0; K<sz; K++)
 	{
-	// von diag auf k uebertragen
+		
+        // von diag auf k uebertragen
 		for(int i=0; i<d; i++){
 
 			(*k)[i]=(*diag)[i+K*d]+1;
 		}
-
-	// klevel
+		
+        // klevel
 		for(int i=0; i<d; i++){
 			(*klevel)[i]=pow(2,(*k)[i])-1;
 		}
-
-	// vec auf 1 setzen
+		
+        // vec auf 1 setzen
 		for(int i=0; i<d; i++){
 			(*vec)[i]=1;
 		}
 
-
+		
 		// Tensorprodukt
-
-		loop(vec, klevel, d, allvec);
-
+        loop(vec, klevel, d, allvec);
+		
 		// produkt berechnen
 		product = 1;
 		for(int i=0; i<d; i++){
 			product = product * (*klevel)[i];
 		}
-
+			
 		if(use_trap_rule== true){
 			for(int i=0; i<d; i++){
 				trap_rule_weights(&(*weights)[i], (*k)[i]);
@@ -168,27 +170,31 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 			}
 		}
 
-
-
+			
+		
 		for(int i=0; i<product*d; i=i+d){
-			for(int j=0; j<d; j++){
+            for(int j=0; j<d; j++){
+                
 				product_w = product_w*(*weights)[j][(*allvec)[i+j]];
 			}
-			std::vector<double>* point = new std::vector<double>;
-			point->clear();
+				
+			
+            point->clear();
 			for(int h=0; h<d; h++){
 				point->push_back((*nodes)[h][(*allvec)[i+h]]);
+                
 			}
+           
 			final_value = final_value + product_w*(multifunction_to_integrate(point, rest...));
+
 			product_w = 1;
 
-
-	if(write_in_file==true) sparse_grid_nodes(d,product,allvec,nodes);
-
+			if(write_in_file==true) sparse_grid_nodes(d,product,allvec,nodes);
 		}
-
-
+		
 	}
+
+	
 	free(allvec);
 	free(k1);
 	free(k);

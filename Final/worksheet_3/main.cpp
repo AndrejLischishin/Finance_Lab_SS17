@@ -5,6 +5,8 @@
 //  Copyright © 2017 Andrei. All rights reserved.
 //
 /** @file */
+
+
 #include "../header_files/random_functions.hpp"
 #include "../header_files/simulation_functions.hpp"
 #include "../header_files/integration_functions.hpp"
@@ -74,8 +76,13 @@ namespace Task_14{
 }
 
 namespace Task_15{
+    bool write_in_file;
+    bool use_trap_rule;
+    bool use_bb;
 	double simulation_result_rw;
 	double simulation_result_bb;
+	std::vector<std::vector<double> >* nodes;
+	std::vector<std::vector<double> >* weights;
 	int dimension_M;
 	int l;
 	double S0;
@@ -121,13 +128,13 @@ int main(int argc, char* argv[])
 		//////////////////////////////////////////////////////////
     //////////////////////////Task_3//////////////////////////
     //////////////////////////////////////////////////////////
-/*
-		Task_3::s0 = 10.;
+
+    Task_3::s0 = 10.;
     Task_3::r = 0.1;
     Task_3::T = 1.;
     Task_3::K = 10.;
-		Task_3::sigma = 0.25;
-*/
+    Task_3::sigma = 0.25;
+
 	 /*Convergence plot for different N has to be inserted! */
 
 //	std::cout << discrete_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma) << std::endl;
@@ -244,7 +251,7 @@ int main(int argc, char* argv[])
 	Task_9::l = 5;
 */
 	/* Gauss-Legendre */
-/*	Task_9::nodes = new std::vector<double>;
+	Task_9::nodes = new std::vector<double>;
   Task_9::weights = new std::vector<double>;
 	gauss_legendre(Task_9::nodes, Task_9::weights, Task_9::l);
 
@@ -270,10 +277,10 @@ int main(int argc, char* argv[])
     }
 	//write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
 	myfile.close();
-*/
+
 	/* Trapezoidal rule */
-/*	Task_9::nodes->clear();
-  Task_9::weights->clear();
+	Task_9::nodes->clear();
+    Task_9::weights->clear();
 	Task_9::ids.clear();
 	Task_9::Nl.clear();
 	Task_9::nodes_temp.clear();
@@ -301,9 +308,9 @@ int main(int argc, char* argv[])
     }
 	//write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
 	myfile.close();
-*/
+
 	/* Clenshaw Curtis */
-/*	Task_9::nodes->clear();
+	Task_9::nodes->clear();
     Task_9::weights->clear();
 	Task_9::ids.clear();
 	Task_9::Nl.clear();
@@ -336,7 +343,7 @@ int main(int argc, char* argv[])
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_7//////////////////////////
 	//////////////////////////////////////////////////////////
-*/	/*
+	/*
 	std::cout << "Van der Corput Sequence" << std::endl;
 	std::vector<double> x = van_der_corput_sequence(3, 10, pow(10.,-12.));
 	for(int i=0; i<10; i++)
@@ -347,7 +354,7 @@ int main(int argc, char* argv[])
 	for(int i=0; i<20; i++)
 		std::cout << prime_numbers[i] << std::endl;
 	*/
-/*
+
 	Task_7::d = 2;
 	Task_7::n = 100;
 
@@ -387,7 +394,7 @@ int main(int argc, char* argv[])
 	}
 
 	myfile.close();
-*/
+
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_10/////////////////////////
 	//////////////////////////////////////////////////////////
@@ -420,7 +427,7 @@ int main(int argc, char* argv[])
 
 			quasi_monte_carlo_multivariate(Task_13::nodes, Task_13::weights, Task_13::N, d);
 			std::cout << "QMC: " << integrate_by_point_evaluation_multivariate(function_task13, Task_13::N, d, Task_13::nodes, Task_13::weights, Task_13::gamma, d) << std::endl;
-		
+
 
 			// MC
 			Task_13::nodes = new std::vector<std::vector<double>>(Task_13::N);
@@ -457,17 +464,24 @@ int main(int argc, char* argv[])
 	Task_15::S0 = 10;
 	Task_15::T =1;
 	Task_15::dimension_M = 16;
-	Task_15::l = 2;
+	Task_15::l = 1;
 	Task_15::sigma = 0.25;
 	Task_15::mu = 0.1;
 	Task_15::K = 0;
-
-
+	Task_15::nodes = new std::vector<std::vector<double> >(Task_15::dimension_M);
+	Task_15::weights = new std::vector<std::vector<double> >(Task_15::dimension_M);
+    Task_15::write_in_file = false;
+    Task_15::use_trap_rule = false;
+    Task_15::use_bb = true;
+    
+	double t = integrate_with_sparse_grid(asian_option_call_integrand,Task_15::dimension_M,Task_15::l,Task_15::nodes, Task_15::weights,Task_15::write_in_file,Task_15::use_trap_rule,Task_15::S0, Task_15::K,Task_15::sigma,Task_15::mu,Task_15::dimension_M,Task_15::T,Task_15::use_bb);
+    	std::cout << "t= "<<t << '\n';
+    
+    
 
 //////////////////////////////////////////////////////////
 //////////////////////////Task_16/////////////////////////
 //////////////////////////////////////////////////////////
-
 
 //////////////////////////////////////////////////////////
 //////////////////////////Task_17/////////////////////////
@@ -475,7 +489,7 @@ int main(int argc, char* argv[])
 
 
 /////////////////////////////////////////////////////////
-
+/*
 	int d=10;
 	int l=3;
 
@@ -487,5 +501,5 @@ int main(int argc, char* argv[])
 	free(nodesv);
 	free(weightsv);
 	free(rng);
-
+*/
 }
