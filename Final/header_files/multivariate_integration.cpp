@@ -165,7 +165,7 @@ void loop(std::vector<int>* vec, std::vector<int>* klevel, int d, std::vector<in
 	}
 }
 
-void sparse_grid_nodes(int d, int product, std::vector<int>* allvec, std::vector<std::vector<double> >* nodesv){
+void sparse_grid_nodes(int d, int product, std::vector<int>* allvec, std::vector<std::vector<double>>* nodesv){
 	FILE *fp;
 	fp = fopen("stuetzstellen", "a");
 		for(int i=0; i<product*d; i=i+d){
@@ -485,16 +485,52 @@ double asian_option_call_integrand(std::vector<double> x,double S0,double K, dou
 	}
 
 
+	void tensor_product(int iteration, std::vector<double> nodes_temp, std::vector<double> weights_temp, std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int d, int Nl, std::vector<int> ids)
+	{
+		if(iteration==d)
+		{
+			std::vector<double> x;
+			x.clear();
+			double prod = 1.0;
+
+			for(int i=0; i<d; i++)
+			{
+				x.push_back(nodes_temp[ids[i]]);
+				prod *= weights_temp[ids[i]];
+			}
+			
+			(*nodes)[(*weights).size()] = x;
+			weights->push_back(prod);
+			(*weights)[(*weights).size()] = prod;
+		}
+		else
+		{
+			for(int k=0; k<Nl; k++)
+			{
+				ids[iteration] = k;
+				tensor_product(iteration+1, nodes_temp, weights_temp, nodes, weights, d, Nl, ids);
+			}
+		}
+	}
+
+
 	void full_grid_nodes_weights(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int Nl, int d, void (*function_to_create_nodes_and_weights)(std::vector<double>* nodes, std::vector<double>* weights, int l))
 	{
-		int l = (int)ceil(log2(Nl+1));
+		int l = (int)(log2(Nl+1));
 
-			
+		std::vector<double> nodes_one_dimension;
+		std::vector<double> weights_one_dimension;
+		std::vector<int> ids;
 
+		nodes->clear();
+		weights->clear();
 
+		function_to_create_nodes_and_weights(&nodes_one_dimension, &weights_one_dimension, l);
 
+		for(int i=0; i<d; i++)
+    	{
+			ids.push_back(0);
+    	}
 
-
-
-
+		tensor_product(0, nodes_one_dimension, weights_one_dimension, nodes, weights, d, Nl, ids);
 	}

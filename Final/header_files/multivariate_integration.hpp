@@ -53,39 +53,9 @@ void quasi_monte_carlo_multivariate(std::vector<std::vector<double>>* nodes, std
 
 
 void full_grid_nodes_weights(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int Nl, int d, void (*function_to_create_nodes_and_weights)(std::vector<double>* nodes, std::vector<double>* weights, int l));
-//////////////////////////////////////////////////
-///////////tensor_product/////////////////////////
-//////////////////////////////////////////////////
-//double sum;
+// Tensor product
+void tensor_product(int iteration, std::vector<std::vector<double>> nodes_temp, std::vector<std::vector<double>> weights_temp, std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int d, std::vector<int> Nl, std::vector<int> ids);
 
-/*template<typename... Args>
- void tensor_product(int iteration, std::vector<std::vector<double>> nodes_temp, std::vector<std::vector<double>> weights_temp, int d, std::vector<int> Nl, std::vector<int> ids, double (*function_to_integrate)(std::vector<double> x, Args... rest), Args... rest)
- {
-	 if(iteration==d)
-	 {
-		 std::vector<double> x;
-		 x.clear();
-		 double prod = 1.0;
-		 //std::cout << "Test" << std::endl;
-		 for(int i=0; i<d; i++)
-		 {
-			 x.push_back(nodes_temp[i][ids[i]]);
-			 prod *= weights_temp[i][ids[i]];
-			 //std::cout << nodes_temp[i][ids[i]] << " ";
-		 }
-		 sum += prod*function_to_integrate(x, rest...);
-		 //std::cout << sum << std::endl;
-	 }
-	 else
-	 {
-		 for(int k=0; k<Nl[iteration]; k++)
-		 {
-			 ids[iteration] = k;
-			 tensor_product(iteration+1, nodes_temp, weights_temp, d, Nl, ids, function_to_integrate, rest...);
-		 }
-	 }
- }
- */
 //////////////////////////////////////////////////
 ///integrate_with_sparse_grid/////////////////////
 //////////////////////////////////////////////////
@@ -203,7 +173,7 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 //////////////////////////////////////////////////
 
 template<typename... Args>
-double integrate_by_point_evaluation_multivariate(double (*function)(std::vector<double>* x, Args... rest), int N, int d, std::vector<std::vector<double>>* nodes, std::vector<double>* weights, Args... rest)
+double integrate_by_point_evaluation_multivariate(double (*function)(std::vector<double>* x, Args... rest), int N, std::vector<std::vector<double>>* nodes, std::vector<double>* weights, Args... rest)
 {
 	double result = 0.0;
 	for(int i=0; i<N; i++)

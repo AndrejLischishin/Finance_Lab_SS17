@@ -58,6 +58,10 @@ namespace Task_9
 	std::vector<int> ids;
 }
 
+namespace Task_12{
+	int l;
+}
+
 namespace Task_13{
 	int N;
 	double gamma;
@@ -65,6 +69,7 @@ namespace Task_13{
 	std::vector<double>* weights;
 	int max_l;
 	double exact_result;
+	double calculated_result;
 }
 
 namespace Task_14{
@@ -392,17 +397,41 @@ int main(int argc, char* argv[])
 	//////////////////////////Task_10/////////////////////////
 	//////////////////////////////////////////////////////////
 
-  //////////////////////////////////////////////////////////
+  	//////////////////////////////////////////////////////////
 	//////////////////////////Task_11/////////////////////////
 	//////////////////////////////////////////////////////////
 
-  //was done is already in pdf, latex
+  	//was done is already in pdf, latex
+
+	//////////////////////////////////////////////////////////
+	//////////////////////////Task_12/////////////////////////
+	//////////////////////////////////////////////////////////
+
+	myfile.open("output/number_of_points_SG_FG.txt",std::ios::trunc);
+    if (!myfile.is_open()) {
+       	std::cout<<"Error opening the file"<<std::endl;
+    }
+
+	Task_12::l = 4;
+
+	for(int d=1; d<=10; d++)
+	{
+		int num_of_points_SG = (pow(2,Task_12::l)-1)*pow(Task_12::l,d-1);
+		long int num_of_points_FG = pow((pow(2,Task_12::l)-1),d);
+
+		std::cout << "num_of_points_SG: " << num_of_points_SG << std::endl;
+		std::cout << "num_of_points_FG: " << num_of_points_FG << std::endl;
+
+		myfile << d << "	" << num_of_points_SG << "	" << num_of_points_FG << std::endl;
+	}
+
+	myfile.close();
 
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_13/////////////////////////
 	//////////////////////////////////////////////////////////
 
-	Task_13::max_l = 5;
+	Task_13::max_l = 4;
 	Task_13::gamma = 0.1;
 
 	for(int d=1; d<=8; d*=2)
@@ -410,34 +439,75 @@ int main(int argc, char* argv[])
 		Task_13::exact_result = function_task13_integral_exact_result(Task_13::gamma, d);
 		std::cout << "Exact result: " << Task_13::exact_result << std::endl;
 
+		myfile.open("output/testfunction_task13_error_d"+std::to_string(d)+".txt",std::ios::trunc);
+    	if (!myfile.is_open()) {
+        	std::cout<<"Error opening the file"<<std::endl;
+    	}
+
 		for(int l=1; l<=Task_13::max_l; l++)
 		{
 			Task_13::N = pow(2,l)*pow(l,d-1);
+
+			myfile << Task_13::N << "	";
 
 			// QMC
 			Task_13::nodes = new std::vector<std::vector<double>>(Task_13::N);
 			Task_13::weights = new std::vector<double>(Task_13::N);
 
 			quasi_monte_carlo_multivariate(Task_13::nodes, Task_13::weights, Task_13::N, d);
-			std::cout << "QMC: " << integrate_by_point_evaluation_multivariate(function_task13, Task_13::N, d, Task_13::nodes, Task_13::weights, Task_13::gamma, d) << std::endl;
-		
+			Task_13::calculated_result = integrate_by_point_evaluation_multivariate(function_task13, Task_13::N, Task_13::nodes, Task_13::weights, Task_13::gamma, d);
+			std::cout << "QMC: " << Task_13::calculated_result << std::endl;
+			myfile << fabs(Task_13::exact_result - Task_13::calculated_result) << "	";
 
 			// MC
 			Task_13::nodes = new std::vector<std::vector<double>>(Task_13::N);
 			Task_13::weights = new std::vector<double>(Task_13::N);
 
 			monte_carlo_multivariate(Task_13::nodes, Task_13::weights, Task_13::N, d, rng);
-			std::cout << "MC: " << integrate_by_point_evaluation_multivariate(function_task13, Task_13::N, d, Task_13::nodes, Task_13::weights, Task_13::gamma, d) << std::endl;
+			Task_13::calculated_result = integrate_by_point_evaluation_multivariate(function_task13, Task_13::N, Task_13::nodes, Task_13::weights, Task_13::gamma, d);
+			std::cout << "MC: " << Task_13::calculated_result << std::endl;
+			myfile << fabs(Task_13::exact_result - Task_13::calculated_result) << "	";
 
+			// Full grid with Trapezoidal rule
+			std::cout << "N " << Task_13::N << std::endl;
 
-			// Full grid
-			Task_13::nodes = new std::vector<std::vector<double>>(Task_13::N);
-			Task_13::weights = new std::vector<double>(Task_13::N);
+			Task_13::nodes = new std::vector<std::vector<double>>((int)pow(8,d));
+			Task_13::weights = new std::vector<double>((int)pow(8,d));
+			full_grid_nodes_weights(Task_13::nodes, Task_13::weights, 7, d, trap_rule);
+			
+			Task_13::calculated_result = integrate_by_point_evaluation_multivariate(function_task13, (int)pow(7,d), Task_13::nodes, Task_13::weights, Task_13::gamma, d);
+			std::cout << "Full grid trap rule: " << Task_13::calculated_result << std::endl;
+			myfile << fabs(Task_13::exact_result - Task_13::calculated_result) << "	";
 
-			int Nl_temp = (int)ceil(pow(Task_13::N, 1/d));
-			full_grid_nodes_weights(Task_13::nodes, Task_13::weights, Nl_temp, d, trap_rule);
+			// Full grid with Clenshaw Curtis
+			std::cout << "N " << Task_13::N << std::endl;
 
+			Task_13::nodes = new std::vector<std::vector<double>>((int)pow(8,d));
+			Task_13::weights = new std::vector<double>((int)pow(8,d));
+			full_grid_nodes_weights(Task_13::nodes, Task_13::weights, 7, d, clenshaw_curtis);
+			
+			Task_13::calculated_result = integrate_by_point_evaluation_multivariate(function_task13, (int)pow(7,d), Task_13::nodes, Task_13::weights, Task_13::gamma, d);
+			std::cout << "Full grid Clenshaw Curtis: " << Task_13::calculated_result << std::endl;
+			myfile << fabs(Task_13::exact_result - Task_13::calculated_result) << "	";
+
+			// Sparse Grid with Trapezoidal rule
+			std::vector<std::vector<double>>* nodesv = new std::vector<std::vector<double>>(d);
+			std::vector<std::vector<double>>* weightsv = new std::vector<std::vector<double>>(d);
+
+			Task_13::calculated_result = integrate_with_sparse_grid(function_task13, d, l, nodesv, weightsv, false, true, Task_13::gamma, d);
+			std::cout << "Sparse grid trap rule: " << Task_13::calculated_result << std::endl;
+			myfile << fabs(Task_13::exact_result - Task_13::calculated_result) << "	";
+
+			// Sparse Grid with Clenshaw Curtis
+			nodesv = new std::vector<std::vector<double>>(d);
+			weightsv = new std::vector<std::vector<double>>(d);
+
+			Task_13::calculated_result = integrate_with_sparse_grid(function_task13, d, l, nodesv, weightsv, false, false, Task_13::gamma, d);
+			std::cout << "Sparse grid Clenshaw Curtis: " << Task_13::calculated_result << std::endl;
+			myfile << fabs(Task_13::exact_result - Task_13::calculated_result) << std::endl;
 		}
+
+		myfile.close();
 	}
 
 
