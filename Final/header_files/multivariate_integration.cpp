@@ -134,7 +134,7 @@ int enumeration(std::vector<int>* k, int d, int l, std::vector<int>* diag){
 
 void loop(std::vector<int>* vec, std::vector<int>* klevel, int d, std::vector<int>* finalvec){
 	finalvec->clear();
-	
+
 	int I;
 	int count;
 	int number=1;
@@ -142,18 +142,18 @@ void loop(std::vector<int>* vec, std::vector<int>* klevel, int d, std::vector<in
 	int last = d-1;
 	int helper = 0;
 	for (int i = 0; i < d; i++) {
-		
-		
+
+
 	}
 while(last+1==d){
-		
+
 	for(int j=0; j<d; j++){
-		
+
 		helper = (*vec)[j]-1;
         finalvec->push_back(helper);
 	}
 	II = II+d;
-		
+
 
 	number++;
 	if((*vec)[last]<(*klevel)[last]){
@@ -165,7 +165,7 @@ while(last+1==d){
 				(*vec)[i]++;
 				break;
 			}
-				
+
 			count = 0;
 			for(I=0; I<d; I++){
 					if((*vec)[I]==(*klevel)[I]){
@@ -173,15 +173,15 @@ while(last+1==d){
 					}
 			}
 			if(count==d) d=-2;
-							
+
 			if((*vec)[i]==(*klevel)[i]) (*vec)[i]=1;
 		}
 	}
 }
-	
+
 }
 
-void sparse_grid_nodes(int d, int product, std::vector<int>* allvec, std::vector<std::vector<double> >* nodesv){
+void sparse_grid_nodes(int d, int product, std::vector<int>* allvec, std::vector<std::vector<double>>* nodesv){
 	FILE *fp;
 	fp = fopen("stuetzstellen", "a");
 		for(int i=0; i<product*d; i=i+d){
@@ -277,10 +277,10 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
     double result = S0;
     double delta_t = T/M;
     double helper = 0;
-	
+
 
     std::vector<double> w(2*(M+1),0);
-    
+
     if (use_bb==false) {
     w[0] = 0.0;
         for (int i = 1; i < M; i++) {
@@ -298,10 +298,10 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
                 if (j<pow(2,max_level)-2) {
                     helper = 0.5*(w[j]+w[j+1])+delta_t*(*x)[j];
                     result =result * S0*exp((mu-0.5*sigma*sigma)*j*delta_t+sigma*(helper));
-                    
+
                     w.emplace(w.begin()+j+1, helper);
                 }
-                
+
 			 }
          }
         w.resize(M);
@@ -338,10 +338,10 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
   		for(int i=0; i<d; i++)
   		{
   			myfile << nodes_temp[i][ids[i]] << "	";
-  			
+
   		}
   		myfile << std::endl;
-  		
+
   	}
   	else
   	{
@@ -509,16 +509,56 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
 	}
 
 
+	void tensor_product(int iteration, std::vector<double> nodes_temp, std::vector<double> weights_temp, std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int d, int Nl, std::vector<int> ids)
+	{
+		if(iteration==d)
+		{
+			std::vector<double> x;
+			x.clear();
+			double prod = 1.0;
+
+
+
+
+			for(int i=0; i<d; i++)
+			{
+				x.push_back(nodes_temp[ids[i]]);
+				prod *= weights_temp[ids[i]];
+			}
+
+			(*nodes)[(*weights).size()] = x;
+			weights->push_back(prod);
+			(*weights)[(*weights).size()] = prod;
+		}
+		else
+		{
+			for(int k=0; k<Nl; k++)
+			{
+				ids[iteration] = k;
+				tensor_product(iteration+1, nodes_temp, weights_temp, nodes, weights, d, Nl, ids);
+			}
+		}
+	}
+
+
+
 	void full_grid_nodes_weights(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int Nl, int d, void (*function_to_create_nodes_and_weights)(std::vector<double>* nodes, std::vector<double>* weights, int l))
 	{
-		int l = (int)ceil(log2(Nl+1));
+		int l = (int)(log2(Nl+1));
 
+		std::vector<double> nodes_one_dimension;
+		std::vector<double> weights_one_dimension;
+		std::vector<int> ids;
 
+		nodes->clear();
+		weights->clear();
 
+		function_to_create_nodes_and_weights(&nodes_one_dimension, &weights_one_dimension, l);
 
+		for(int i=0; i<d; i++)
+    	{
+			ids.push_back(0);
+    	}
 
-
-
-
-
+		tensor_product(0, nodes_one_dimension, weights_one_dimension, nodes, weights, d, Nl, ids);
 	}
