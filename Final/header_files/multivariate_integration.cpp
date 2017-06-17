@@ -284,19 +284,19 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
     if (use_bb==false) {
     w[0] = 0.0;
         for (int i = 1; i < M; i++) {
-            result *= S0*exp((mu-0.5*sigma*sigma)*i*delta_t+sigma*(w[i-1]+delta_t*(*x)[i]));
-            w[i] = w[i-1]+delta_t*(*x)[i];
+            result *= S0*exp((mu-0.5*sigma*sigma)*i*delta_t+sigma*(w[i-1]+delta_t*normal_inverse_cdf((*x)[i])));
+            w[i] = w[i-1]+delta_t*normal_inverse_cdf((*x)[i]);
         }
         w.resize(M);
     }
     else if(use_bb==true){
 		w[0] = 0.0;
-		w[1]=sqrt(T)*(*x)[M-1];
+		w[1]=sqrt(T)*normal_inverse_cdf((*x)[M-1]);
 
         for (int i = 1; i <= max_level; i++) {
 			for (int j = 0; j < pow(2,i); j+=2) {
                 if (j<pow(2,max_level)-2) {
-                    helper = 0.5*(w[j]+w[j+1])+delta_t*(*x)[j];
+                    helper = 0.5*(w[j]+w[j+1])+delta_t*normal_inverse_cdf((*x)[j]);
                     result =result * S0*exp((mu-0.5*sigma*sigma)*j*delta_t+sigma*(helper));
 
                     w.emplace(w.begin()+j+1, helper);
