@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.5.15)  16 JUN 2017 13:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.5.15)  17 JUN 2017 17:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -644,109 +644,132 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 19.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<uniform_random_numbers.png, id=4, 481.8pt x 361.35pt>
+<error_task_3.png, id=4, 481.8pt x 361.35pt>
+File: error_task_3.png Graphic file (type png)
+ <use error_task_3.png>
+Package pdftex.def Info: error_task_3.png used on input line 23.
+(pdftex.def)             Requested size: 240.8994pt x 180.67456pt.
+
+<error_continuous_discrete.png, id=5, 481.8pt x 361.35pt>
+File: error_continuous_discrete.png Graphic file (type png)
+
+<use error_continuous_discrete.png>
+Package pdftex.def Info: error_continuous_discrete.png used on input line 29.
+(pdftex.def)             Requested size: 240.8994pt x 180.67456pt.
+
+<payoff_discrete_arithmetic_average.png, id=6, 481.8pt x 361.35pt>
+File: payoff_discrete_arithmetic_average.png Graphic file (type png)
+
+<use payoff_discrete_arithmetic_average.png>
+Package pdftex.def Info: payoff_discrete_arithmetic_average.png used on input l
+ine 35.
+(pdftex.def)             Requested size: 240.8994pt x 180.67456pt.
+ [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./error_task_3.png (PNG co
+py)> <./error_continuous_discrete.png (PNG copy)>] <uniform_random_numbers.png,
+ id=19, 481.8pt x 361.35pt>
 File: uniform_random_numbers.png Graphic file (type png)
 
 <use uniform_random_numbers.png>
-Package pdftex.def Info: uniform_random_numbers.png used on input line 24.
+Package pdftex.def Info: uniform_random_numbers.png used on input line 42.
 (pdftex.def)             Requested size: 240.8994pt x 180.67456pt.
 
-<halton_sequence.png, id=5, 481.8pt x 361.35pt>
+<halton_sequence.png, id=20, 481.8pt x 361.35pt>
 File: halton_sequence.png Graphic file (type png)
  <use halton_sequence.png>
-Package pdftex.def Info: halton_sequence.png used on input line 29.
+Package pdftex.def Info: halton_sequence.png used on input line 47.
 (pdftex.def)             Requested size: 240.8994pt x 180.67456pt.
 
-[1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./uniform_random_numbers.p
-ng (PNG copy)> <./halton_sequence.png (PNG copy)>]
-<quadrature_nodes_trapezoidal_rule.png, id=19, 481.8pt x 361.35pt>
+[2 <./payoff_discrete_arithmetic_average.png (PNG copy)> <./uniform_random_numb
+ers.png (PNG copy)>]
+<quadrature_nodes_trapezoidal_rule.png, id=29, 481.8pt x 361.35pt>
 File: quadrature_nodes_trapezoidal_rule.png Graphic file (type png)
 
 <use quadrature_nodes_trapezoidal_rule.png>
 Package pdftex.def Info: quadrature_nodes_trapezoidal_rule.png used on input li
-ne 38.
+ne 56.
 (pdftex.def)             Requested size: 240.8994pt x 180.67456pt.
 
-<quadrature_nodes_gauss_legendre.png, id=20, 481.8pt x 361.35pt>
+<quadrature_nodes_gauss_legendre.png, id=30, 481.8pt x 361.35pt>
 File: quadrature_nodes_gauss_legendre.png Graphic file (type png)
 
 <use quadrature_nodes_gauss_legendre.png>
 Package pdftex.def Info: quadrature_nodes_gauss_legendre.png used on input line
- 43.
+ 61.
 (pdftex.def)             Requested size: 240.8994pt x 180.67456pt.
-
-<quadrature_nodes_clenshaw_curtis.png, id=21, 481.8pt x 361.35pt>
+ [3 <./halton_sequence.png (PNG copy)> <./quadrature_nodes_trapezoidal_rule.png
+ (PNG copy)>]
+<quadrature_nodes_clenshaw_curtis.png, id=36, 481.8pt x 361.35pt>
 File: quadrature_nodes_clenshaw_curtis.png Graphic file (type png)
 
 <use quadrature_nodes_clenshaw_curtis.png>
 Package pdftex.def Info: quadrature_nodes_clenshaw_curtis.png used on input lin
-e 48.
+e 66.
 (pdftex.def)             Requested size: 240.8994pt x 180.67456pt.
- [2 <./quadrature_nodes_trapezoidal_rule.png (PNG copy)> <./quadrature_nodes_ga
-uss_legendre.png (PNG copy)>]
-<sparse_grid_l5.png, id=27, 638.385pt x 447.6725pt>
+
+<sparse_grid_l5.png, id=37, 638.385pt x 447.6725pt>
 File: sparse_grid_l5.png Graphic file (type png)
  <use sparse_grid_l5.png>
-Package pdftex.def Info: sparse_grid_l5.png used on input line 57.
+Package pdftex.def Info: sparse_grid_l5.png used on input line 75.
 (pdftex.def)             Requested size: 319.19171pt x 223.8357pt.
 
-<sparse_grid_l7.png, id=29, 635.37375pt x 447.6725pt>
+[4 <./quadrature_nodes_gauss_legendre.png (PNG copy)> <./quadrature_nodes_clens
+haw_curtis.png (PNG copy)>]
+<sparse_grid_l7.png, id=44, 635.37375pt x 447.6725pt>
 File: sparse_grid_l7.png Graphic file (type png)
  <use sparse_grid_l7.png>
-Package pdftex.def Info: sparse_grid_l7.png used on input line 62.
+Package pdftex.def Info: sparse_grid_l7.png used on input line 80.
 (pdftex.def)             Requested size: 317.6861pt x 223.8357pt.
 
-[3 <./quadrature_nodes_clenshaw_curtis.png (PNG copy)> <./sparse_grid_l5.png>]
-<clenshaw_curtis_l5.png, id=36, 633.36626pt x 445.665pt>
+<clenshaw_curtis_l5.png, id=45, 633.36626pt x 445.665pt>
 File: clenshaw_curtis_l5.png Graphic file (type png)
 
 <use clenshaw_curtis_l5.png>
-Package pdftex.def Info: clenshaw_curtis_l5.png used on input line 67.
+Package pdftex.def Info: clenshaw_curtis_l5.png used on input line 85.
 (pdftex.def)             Requested size: 316.68236pt x 222.83195pt.
-
-<clenshaw_curtis_l7.png, id=37, 632.3625pt x 446.66875pt>
+ [5 <./sparse_grid_l5.png> <./sparse_grid_l7.png>]
+<clenshaw_curtis_l7.png, id=52, 632.3625pt x 446.66875pt>
 File: clenshaw_curtis_l7.png Graphic file (type png)
 
 <use clenshaw_curtis_l7.png>
-Package pdftex.def Info: clenshaw_curtis_l7.png used on input line 72.
+Package pdftex.def Info: clenshaw_curtis_l7.png used on input line 90.
 (pdftex.def)             Requested size: 316.18048pt x 223.33382pt.
- [4 <./sparse_grid_l7.png> <./clenshaw_curtis_l5.png>] <number_of_points_SG_FG.
-png, id=44, 578.16pt x 434.5836pt>
+
+<number_of_points_SG_FG.png, id=53, 578.16pt x 434.5836pt>
 File: number_of_points_SG_FG.png Graphic file (type png)
 
 <use number_of_points_SG_FG.png>
-Package pdftex.def Info: number_of_points_SG_FG.png used on input line 80.
+Package pdftex.def Info: number_of_points_SG_FG.png used on input line 98.
 (pdftex.def)             Requested size: 289.07928pt x 217.29126pt.
- [5 <./clenshaw_curtis_l7.png> <./number_of_points_SG_FG.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 88--89
+ [6 <./clenshaw_curtis_l5.png> <./clenshaw_curtis_l7.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 106--107
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 90--92
+Underfull \hbox (badness 10000) in paragraph at lines 108--110
 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 95.
-[6]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 95.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 113.
+[7 <./number_of_points_SG_FG.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 113.
  (./solution.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 95.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 95.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 113.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 113.
 Package rerunfilecheck Info: File `solution.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 95.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 113.
  ) 
 Here is how much of TeX's memory you used:
- 7611 strings out of 493029
- 107584 string characters out of 6136234
+ 7630 strings out of 493029
+ 108092 string characters out of 6136234
  191517 words of memory out of 5000000
- 11053 multiletter control sequences out of 15000+600000
+ 11065 multiletter control sequences out of 15000+600000
  12434 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,6n,32p,385b,387s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,6n,32p,385b,389s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texli
@@ -756,10 +779,10 @@ fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
 onts/cm/cmsy10.pfb>
-Output written on solution.pdf (6 pages, 265327 bytes).
+Output written on solution.pdf (7 pages, 397052 bytes).
 PDF statistics:
- 91 PDF objects out of 1000 (max. 8388607)
- 59 compressed objects within 1 object stream
- 12 named destinations out of 1000 (max. 500000)
- 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 104 PDF objects out of 1000 (max. 8388607)
+ 68 compressed objects within 1 object stream
+ 16 named destinations out of 1000 (max. 500000)
+ 66 words of extra memory for PDF output out of 10000 (max. 10000000)
 

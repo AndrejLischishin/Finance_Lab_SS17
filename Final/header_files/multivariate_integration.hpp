@@ -31,6 +31,7 @@ void loop(std::vector<int>* vec, std::vector<int>* klevel, int d, std::vector<in
 double discrete_geometric_average_exact(double s0, double r, double T, int M, double K, double sigma);
 double continuous_geometric_average_exact(double s0, double r, double T, double K, double sigma);
 double discrete_geometric_average_simulation(gsl_rng* rng, double s0, double r, double T, int M, double K, double sigma, int N);
+double payoff_discrete_arithmetic_average(std::vector<double> x, double s0, double r, double T, int M, double K, double sigma);
 double asian_option_call_integrand(std::vector<double>* x,double S0,double K, double sigma, double mu,int M, double T, bool bb_not_rw);
 //sequences
 std::vector<double> van_der_corput_sequence(int p, int n, double epsilon);

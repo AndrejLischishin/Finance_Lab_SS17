@@ -31,6 +31,19 @@ namespace Task_4
 	double sigma;
 }
 
+namespace Task_5
+{
+	double s0;
+	double r;
+	double T;
+	double K;
+	double sigma;
+	int M;
+	int plot_numbers;
+	std::vector<double> x;
+	double payoff;
+}
+
 namespace Task_7
 {
 	int d;
@@ -182,21 +195,22 @@ int main(int argc, char* argv[])
 		myfile << N << " " << absolute_error << std::endl;
 	}
 
-	myfile.close();
+	myfile.close();*/
 
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_4//////////////////////////
 	//////////////////////////////////////////////////////////
 
 	Task_4::s0 = 10.;
-  Task_4::r = 0.1;
-  Task_4::T = 1.;
-  Task_4::K = 10.;
+	Task_4::r = 0.1;
+	Task_4::T = 1.;
+	Task_4::K = 10.;
 	Task_4::sigma = 0.25;
 
 	int M_max = pow(2,15);
 	double continuous_result = continuous_geometric_average_exact(Task_4::s0, Task_4::r, Task_4::T, Task_4::K, Task_4::sigma);
 	double discrete_result;
+	double absolute_error;
 
 	myfile.open("output/error_continuous_discrete.txt",std::ios::trunc);
     if (!myfile.is_open()) {
@@ -212,6 +226,38 @@ int main(int argc, char* argv[])
 
 	myfile.close();
 
+	//////////////////////////////////////////////////////////
+	//////////////////////////Task_5//////////////////////////
+	//////////////////////////////////////////////////////////
+
+	Task_5::plot_numbers = 100;
+	Task_5::s0 = 10;
+	Task_5::r = 0.1;
+	Task_5::T = 1.0;
+	Task_5::K = 10.0;
+	Task_5::M = 2;
+	Task_5::sigma = 0.25;
+
+	myfile.open("output/plot_payoff_discrete_arithmetic_average.txt",std::ios::trunc);
+    if (!myfile.is_open()) {
+        std::cout<<"Error opening the file"<<std::endl;
+    }
+
+	for(int i=1; i<Task_5::plot_numbers; i++)
+	{
+		for(int j=1; j<Task_5::plot_numbers; j++)
+		{
+			Task_5::x.clear();
+			Task_5::x.push_back(i*Task_5::T/(Task_5::plot_numbers));
+			Task_5::x.push_back(j*Task_5::T/(Task_5::plot_numbers));
+			Task_5::payoff = payoff_discrete_arithmetic_average(Task_5::x, Task_5::s0, Task_5::r, Task_5::T, Task_5::M, Task_5::K, Task_5::sigma);
+			myfile << Task_5::x[0] << "	" << Task_5::x[1] << "	" << Task_5::payoff << std::endl;
+		}
+	}
+
+	myfile.close();
+
+/*
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_8//////////////////////////
 	//////////////////////////////////////////////////////////
@@ -247,15 +293,15 @@ int main(int argc, char* argv[])
 	//tensor_product(0, Task_8::nodes_temp, Task_8::weights_temp, Task_8::d, Task_8::Nl, Task_8::ids, function_to_integrate);
 
 	std::cout << sum << std::endl;
-
+*/
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_9//////////////////////////
 	//////////////////////////////////////////////////////////
 
 	Task_9::d = 2;
 	Task_9::l = 5;
-*/
-	/* Gauss-Legendre */
+
+	// Gauss-Legendre
 	Task_9::nodes = new std::vector<double>;
   Task_9::weights = new std::vector<double>;
 	gauss_legendre(Task_9::nodes, Task_9::weights, Task_9::l);
@@ -283,7 +329,7 @@ int main(int argc, char* argv[])
 	//write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
 	myfile.close();
 
-	/* Trapezoidal rule */
+	// Trapezoidal rule
 	Task_9::nodes->clear();
     Task_9::weights->clear();
 	Task_9::ids.clear();
@@ -314,7 +360,7 @@ int main(int argc, char* argv[])
 	//write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
 	myfile.close();
 
-	/* Clenshaw Curtis */
+	// Clenshaw Curtis
 	Task_9::nodes->clear();
     Task_9::weights->clear();
 	Task_9::ids.clear();
@@ -437,8 +483,8 @@ int main(int argc, char* argv[])
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_13/////////////////////////
 	//////////////////////////////////////////////////////////
-
-	Task_13::max_l = 4;
+/*
+	Task_13::max_l = 3;
 	Task_13::gamma = 0.1;
 
 	for(int d=1; d<=8; d*=2)
@@ -463,7 +509,7 @@ int main(int argc, char* argv[])
 
 			quasi_monte_carlo_multivariate(Task_13::nodes, Task_13::weights, Task_13::N, d);
 
-			std::cout << "QMC: " << integrate_by_point_evaluation_multivariate(function_task13, Task_13::N, d, Task_13::nodes, Task_13::weights, Task_13::gamma, d) << std::endl;
+			//std::cout << "QMC: " << integrate_by_point_evaluation_multivariate(function_task13, Task_13::N, Task_13::nodes, Task_13::weights, Task_13::gamma, d) << std::endl;
 
 
 			Task_13::calculated_result = integrate_by_point_evaluation_multivariate(function_task13, Task_13::N, Task_13::nodes, Task_13::weights, Task_13::gamma, d);
@@ -522,9 +568,9 @@ int main(int argc, char* argv[])
 		myfile.close();
 	}
 
+*/
 
-
-  //////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////
 	//////////////////////////Task_14/////////////////////////
 	//////////////////////////////////////////////////////////
 
