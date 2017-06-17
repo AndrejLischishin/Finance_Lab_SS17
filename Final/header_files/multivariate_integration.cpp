@@ -242,33 +242,34 @@ double discrete_geometric_average_simulation(gsl_rng* rng, double s0, double r, 
 }
 
 //////////////////////////////////////////////////////////
-//////////////////////////Task_8//////////////////////////
+//////////////////////////Task_5//////////////////////////
 //////////////////////////////////////////////////////////
 
-/*
-double payoff_discrete_arithmetic_average(gsl_rng* rng, double s0, double r, double T, int M, double K, double sigma)
+double payoff_discrete_arithmetic_average(std::vector<double> x, double s0, double r, double T, int M, double K, double sigma)
 {
-	double sum = 0.0;
-	double delta_t = T/(double)M;
-	std::vector<double>* w;
-	std::vector<double>* s;
-
-	// Simulation of brownian motion
-	w = wiener_process(rng, T, delta_t);
-	s = brownian_motion(rng, T, delta_t, w, s0, r, sigma);
+	std::vector<double> z;
+	std::vector<double> S;
+	double delta_t = (double)T/M;
 
 	for(int i=0; i<M; i++)
 	{
-		sum += (*s)[i];
+		z.push_back(normal_inverse_cdf(x[i]));
+		S.push_back(s0*exp((r-(sigma*sigma)/2.0)*delta_t*(i+1.0)+sqrt(delta_t)*z[i]));
 	}
-	sum = sum/(double)M;
 
-	if(sum-K<0.0)
-		return 0.0;
+	double sum = 0.0;
+	for(int i=0; i<M; i++)
+	{
+		sum += S[i];
+	}
+	sum = sum/M;
+	sum = sum-K;
+
+	if(sum>0.0)
+		return sum/exp(r*T);
 	else
-		return sum-K;
+		return 0.0;
 }
-*/
 
 
 double asian_option_call_integrand(std::vector<double>* x,double S0,double K, double sigma, double mu,int M, double T, bool use_bb){
