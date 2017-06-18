@@ -95,8 +95,6 @@ void clenshaw_curtis(std::vector<double>* nodes, std::vector<double>* weights, i
 		}
 		weights->push_back( (double)(2./(Nl+1.)) * sin( M_PI * ((double)i/(double)(Nl+1.)) ) * sum );
 	}
-
-
 }
 
 

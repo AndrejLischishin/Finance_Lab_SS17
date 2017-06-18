@@ -22,18 +22,21 @@
 \begin{center}
 \includegraphics[scale=0.5]{error_task_3.png}
 \end{center}
+The number of timesteps is not really effecting the convergence.
 
 \section*{Task 4}
 
 \begin{center}
 \includegraphics[scale=0.5]{error_continuous_discrete.png}		
 \end{center}
+The discrete geometric average converges linearly to the continuous geometric average.
 
 \section*{Task 5}
 
 \begin{center}
 \includegraphics[scale=0.5]{payoff_discrete_arithmetic_average.png}
 \end{center}
+The discrete geometric payoff function is evaluated on 10.000 points in $[0,1]^2$.
 
 \section*{Task 7}
 
@@ -101,14 +104,14 @@ One can see that the number of points increases much faster in the Full Grid, th
 
 \section*{Task 18}
 
-The difference between MC and QMC is, that MC uses actucal pseudo random numbers, while QMC uses deterministic sequences. For this reason, QMC Quadrature Nodes are more evenly distributed over the integration region, which enhances the convergence rate of QMC (which is $\mathcal{O}(N)$) compared to the convergence of $\mathcal{O}(N^{1/2})$ of Monte Carlo Method.
+The difference between MC and QMC is, that MC uses actual pseudo random numbers, while QMC uses deterministic sequences. For this reason, QMC Quadrature Nodes are more evenly distributed over the integration region, which enhances the convergence rate of QMC (which is $\mathcal{O}(N)$) compared to the convergence of $\mathcal{O}(N^{1/2})$ of Monte Carlo Method. However, there is a higher computational effort in creating quasi-random-number sequences, which increases the cost of QMC especially in high dimensions compared to Monte Carlo. \\
 
 Both, QMC and MC, can integrate a wide range of functions, regardless of how smooth these functions are. \\
 
 Sparse Grids and Full Grids make use of nodes and weights which result from quadrature methods like Clenshaw-Curtis or Trapezoidal rule. These methods can only be applied to somewhat smoother functions, but they have much better convergence rates. 
 Full Grids are heavily affected by the dimension, with the number of nodes increasing exponentially with increasing dimension. For sparse grids, dependence on dimension is considerably lower. \\
 
-Therefore, if it is known that the integrand will be relatively smooth, using Sparse Grid methods is the best way to compute integrals in high dimensions. However, if the integrand is unknown or if the integrand is a function that is not differentiable in many points, MC and QMC integration is the preferred method, espacially in high dimensions.
+Therefore, if it is known that the integrand will be relatively smooth, using Sparse Grid methods is the best way to compute integrals in high dimensions. However, if the integrand is unknown or if the integrand is a function that is not differentiable in many points, MC and QMC integration are the preferred methods, espacially in high dimensions.
 
 \end{document}
 

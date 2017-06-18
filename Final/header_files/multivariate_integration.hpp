@@ -45,6 +45,8 @@ std::vector<double>* brownian_bridge(gsl_rng* r, double T, int M);
 //task 13
 double function_task13(std::vector<double>* x, double gamma, int d);
 double function_task13_integral_exact_result(double gamma, int d);
+void trap_rule_absolute_number(std::vector<double>* nodes, std::vector<double>* weights, int Nl);
+void clenshaw_curtis_absolute_number(std::vector<double>* nodes, std::vector<double>* weights, int Nl);
 //utility
 void write_quadrature_points_to_file(std::ofstream& myfile, int iteration, std::vector<std::vector<double>> nodes_temp, int d, std::vector<int> Nl, std::vector<int> ids);
 double function_to_integrate(std::vector<double> x);
@@ -142,7 +144,8 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 		}
 
 			
-		
+        
+        
 		for(int i=0; i<product*d; i=i+d){
             for(int j=0; j<d; j++){
                 

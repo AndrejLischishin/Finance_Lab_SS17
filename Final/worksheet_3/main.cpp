@@ -85,6 +85,7 @@ namespace Task_13{
 	int max_l;
 	double exact_result;
 	double calculated_result;
+    int N_full_grid;
 }
 
 namespace Task_14{
@@ -530,12 +531,12 @@ int main(int argc, char* argv[])
 
 	Task_13::max_l = 4;
 
-/*
+
 	Task_13::max_l = 3;
 
 	Task_13::gamma = 0.1;
 
-	for(int d=1; d<=8; d*=2)
+	for(int d=2; d<=8; d*=2)
 	{
 		Task_13::exact_result = function_task13_integral_exact_result(Task_13::gamma, d);
 		std::cout << "Exact result: " << Task_13::exact_result << std::endl;
@@ -580,25 +581,25 @@ int main(int argc, char* argv[])
 
 			// Full grid with Trapezoidal rule
 			std::cout << "N " << Task_13::N << std::endl;
+            Task_13::N_full_grid = (int)pow(Task_13::N, 1./d);
 
-			Task_13::nodes = new std::vector<std::vector<double>>((int)pow(8,d));
-			Task_13::weights = new std::vector<double>((int)pow(8,d));
-			full_grid_nodes_weights(Task_13::nodes, Task_13::weights, 7, d, trap_rule);
+			Task_13::nodes = new std::vector<std::vector<double>>((int)pow(Task_13::N_full_grid,d));
+			Task_13::weights = new std::vector<double>((int)pow(Task_13::N_full_grid,d));
+			full_grid_nodes_weights(Task_13::nodes, Task_13::weights, Task_13::N_full_grid, d, trap_rule_absolute_number);
 
-			Task_13::calculated_result = integrate_by_point_evaluation_multivariate(function_task13, (int)pow(7,d), Task_13::nodes, Task_13::weights, Task_13::gamma, d);
+			Task_13::calculated_result = integrate_by_point_evaluation_multivariate(function_task13, (int)pow(Task_13::N_full_grid,d), Task_13::nodes, Task_13::weights, Task_13::gamma, d);
 			std::cout << "Full grid trap rule: " << Task_13::calculated_result << std::endl;
 			myfile << fabs(Task_13::exact_result - Task_13::calculated_result) << "	";
-
+            Task_13::nodes->clear();
+        Task_13::weights->clear();
 			// Full grid with Clenshaw Curtis
-			std::cout << "N " << Task_13::N << std::endl;
-
-			Task_13::nodes = new std::vector<std::vector<double>>((int)pow(8,d));
-			Task_13::weights = new std::vector<double>((int)pow(8,d));
-			full_grid_nodes_weights(Task_13::nodes, Task_13::weights, 7, d, clenshaw_curtis);
-
-			Task_13::calculated_result = integrate_by_point_evaluation_multivariate(function_task13, (int)pow(7,d), Task_13::nodes, Task_13::weights, Task_13::gamma, d);
-			std::cout << "Full grid Clenshaw Curtis: " << Task_13::calculated_result << std::endl;
-			myfile << fabs(Task_13::exact_result - Task_13::calculated_result) << "	";
+            Task_13::nodes = new std::vector<std::vector<double>>((int)pow(Task_13::N_full_grid,d));
+            Task_13::weights = new std::vector<double>((int)pow(Task_13::N_full_grid,d));
+            full_grid_nodes_weights(Task_13::nodes, Task_13::weights, Task_13::N_full_grid, d, clenshaw_curtis_absolute_number);
+            
+            Task_13::calculated_result = integrate_by_point_evaluation_multivariate(function_task13, (int)pow(Task_13::N_full_grid,d), Task_13::nodes, Task_13::weights, Task_13::gamma, d);
+            std::cout << "Full grid clenshaw rule: " << Task_13::calculated_result << std::endl;
+            myfile << fabs(Task_13::exact_result - Task_13::calculated_result) << "	";
 
 			// Sparse Grid with Trapezoidal rule
 			std::vector<std::vector<double>>* nodesv = new std::vector<std::vector<double>>(d);
@@ -620,7 +621,7 @@ int main(int argc, char* argv[])
 		myfile.close();
 	}
 
-*/
+
 /*
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_14/////////////////////////
@@ -669,7 +670,7 @@ int main(int argc, char* argv[])
 	}
 	myfile.close();
 
-*/
+
 
 //////////////////////////////////////////////////////////
 //////////////////////////Task_16/////////////////////////
@@ -682,7 +683,7 @@ int main(int argc, char* argv[])
     Task_16::sigma = 0.25;
     Task_16::mu = 0.1;
     Task_16::K = 0;
-    Task_15::scale_factor = exp(-Task_16::mu*Task_16::T);
+    Task_16::scale_factor = exp(-Task_16::mu*Task_16::T);
 
     Task_16::write_in_file = false;
     Task_16::use_trap_rule = false;
@@ -819,6 +820,7 @@ int main(int argc, char* argv[])
         Task_16::simulation_result_bb = integrate_with_sparse_grid(asian_option_call_integrand,Task_16::dimension_M,l,Task_16::nodes, Task_16::weights,Task_16::write_in_file,false,Task_16::S0, Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,true);
         ///////////////
         std::cout<<"calculated SFCCBB "<<Task_16::simulation_result_bb<<std::endl;
+
         myfile << fabs(Task_16::scale_factor*Task_16::simulation_result_bb-Task_16::exact_value)<<std::endl;
 
         free(Task_16::nodes);
@@ -902,6 +904,7 @@ int main(int argc, char* argv[])
 
     myfile.close();
 
+ */
     free(rng);
 
 /////////////////////////////////////////////////////////
