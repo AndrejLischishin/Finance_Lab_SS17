@@ -276,17 +276,18 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
     // computing num of levels;
     unsigned int max_level = log2(M);
     double result = S0;
-    double delta_t = T/M;
+    double delta_t = 0;
     double helper = 0;
 
 
     std::vector<double> w(2*(M+1),0);
 
     if (use_bb==false) {
-    w[0] = 0.0;
+        delta_t = T/M;
+        w[0] = 0.0;
         for (int i = 1; i < M; i++) {
-            result *= S0*exp((mu-0.5*sigma*sigma)*i*delta_t+sigma*(w[i-1]+delta_t*normal_inverse_cdf((*x)[i])));
-            w[i] = w[i-1]+delta_t*normal_inverse_cdf((*x)[i]);
+            result *= S0*exp((mu-0.5*sigma*sigma)*i*delta_t+sigma*(w[i-1]+delta_t*normal_inverse_cdf((*x)[i-1])));
+            w[i] = w[i-1]+delta_t*normal_inverse_cdf((*x)[i-1]);
         }
         w.resize(M);
     }
@@ -295,19 +296,23 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
 		w[1]=sqrt(T)*normal_inverse_cdf((*x)[M-1]);
 
         for (int i = 1; i <= max_level; i++) {
+            delta_t = T/(pow(2,(double)i));
 			for (int j = 0; j < pow(2,i); j+=2) {
-                if (j<pow(2,max_level)-2) {
-                    helper = 0.5*(w[j]+w[j+1])+delta_t*normal_inverse_cdf((*x)[j]);
-                    result =result * S0*exp((mu-0.5*sigma*sigma)*j*delta_t+sigma*(helper));
+                helper = 0.5*(w[j]+w[j+1])+sqrt(delta_t/2.)*normal_inverse_cdf((*x)[j]);
+                result =result * S0*exp((mu-0.5*sigma*sigma)*j*delta_t+sigma*(helper));
+                w.emplace(w.begin()+j+1, helper);
+                
 
-                    w.emplace(w.begin()+j+1, helper);
-                }
 
 			 }
          }
         w.resize(M);
+        //result = result*trsult(T)
+        //result = result* S0*exp((mu-0.5*sigma*sigma)*T+sigma*(sqrt(T)*normal_inverse_cdf((*x)[M-1])));
+        
     };
-
+    
+    
     result = pow(result,1./M)-K;
     if(result>0.0){
         return result;
