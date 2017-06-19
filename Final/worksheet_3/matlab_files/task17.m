@@ -3,28 +3,31 @@ format_spec = '%f %f %f %f %f';
 sizeA = [5 Inf];
 A = fscanf(fid, format_spec, sizeA);
 fclose(fid);
-A=A'
+A=A';
 n = A(:,1);
 x = A(:,2);
 y = A(:,3);
 z = A(:,4);
 u = A(:,5);
 
-loglog(n, x);
+loglog(n, x,'bo--','Linewidth',2);
 
 hold on
 
-loglog(n, y);
+loglog(n, y,'r^-','Linewidth',2);
 
 hold on
 
-loglog(n, z);
+loglog(n, z,':ms','Linewidth',2);
 
 hold on
 
-loglog(n, u);
+loglog(n, u,'-g*','Linewidth',2);
+
 
 
 title('task 17 errors M=64');
 ylabel('error(N)');
 xlabel('N');
+lngd = legend('QMC TRAPEZ RW','QMC TRAPEZ BB','MC CC RW','MC CC BB');
+set(lngd,'fontsize',4,'Position',[0.6,0.8,0.3,0.1]);

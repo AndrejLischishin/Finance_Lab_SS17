@@ -45,7 +45,7 @@ ylabel('error(N)');
 xlabel('N');
 
 lngd = legend('QMC','MC','FG TRAP','FG CC','SG TRAP','SG CC');
-set(lngd,'fontsize',7,'Position',[0.6,0.73,0.3,0.1]);
+set(lngd,'fontsize',7,'Position',[0.6,0.76,0.3,0.1]);
 
 
 %%%%%%%%%%%%%%%%%%%%%%
