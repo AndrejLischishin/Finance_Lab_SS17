@@ -566,7 +566,7 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
     	}
 
 		tensor_product(0, nodes_one_dimension, weights_one_dimension, nodes, weights, d, Nl, ids);
-        int  k = 0;
+        
 	}
 
 

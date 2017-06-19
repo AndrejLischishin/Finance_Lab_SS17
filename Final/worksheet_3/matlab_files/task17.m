@@ -10,19 +10,19 @@ y = A(:,3);
 z = A(:,4);
 u = A(:,5);
 
-loglog(n, x, "0;QMC RW;");
+loglog(n, x);
 
 hold on
 
-loglog(n, y, "1;QMC BB;");
+loglog(n, y);
 
 hold on
 
-loglog(n, z, "2;MC RW");
+loglog(n, z);
 
 hold on
 
-loglog(n, u, "3;MC BB");
+loglog(n, u);
 
 
 title('task 17 errors M=64');

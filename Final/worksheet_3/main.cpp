@@ -200,7 +200,7 @@ int main(int argc, char* argv[])
 //	std::cout << discrete_geometric_average_simulation(rng, Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma, N) << std::endl;
 
 //	std::cout << continuous_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::K, Task_3::sigma) << std::endl;
-
+/*
   Task_3::M = 10;
 	double calculated_result;
 	double exact_result;
@@ -236,7 +236,7 @@ int main(int argc, char* argv[])
 	}
 
 	myfile.close();
-
+*/
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_4//////////////////////////
 	//////////////////////////////////////////////////////////
@@ -269,7 +269,7 @@ int main(int argc, char* argv[])
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_5//////////////////////////
 	//////////////////////////////////////////////////////////
-
+/*
 	Task_5::plot_numbers = 100;
 	Task_5::s0 = 10;
 	Task_5::r = 0.1;
@@ -296,7 +296,7 @@ int main(int argc, char* argv[])
 	}
 
 	myfile.close();
-
+*/
 /*
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_8//////////////////////////
@@ -337,7 +337,7 @@ int main(int argc, char* argv[])
     */
 
 
-
+/*
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_9//////////////////////////
 	//////////////////////////////////////////////////////////
@@ -434,7 +434,7 @@ int main(int argc, char* argv[])
     }
 	//write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
 	myfile.close();
-
+*/
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_7//////////////////////////
 	//////////////////////////////////////////////////////////
@@ -449,7 +449,7 @@ int main(int argc, char* argv[])
 	for(int i=0; i<20; i++)
 		std::cout << prime_numbers[i] << std::endl;
 	*/
-
+/*
 	Task_7::d = 2;
 	Task_7::n = 100;
 
@@ -536,7 +536,7 @@ int main(int argc, char* argv[])
 
 	Task_13::gamma = 0.1;
 
-	for(int d=2; d<=8; d*=2)
+	for(int d=1; d<=8; d*=2)
 	{
 		Task_13::exact_result = function_task13_integral_exact_result(Task_13::gamma, d);
 		std::cout << "Exact result: " << Task_13::exact_result << std::endl;
@@ -622,7 +622,7 @@ int main(int argc, char* argv[])
 	}
 
 
-/*
+
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_14/////////////////////////
 	//////////////////////////////////////////////////////////
@@ -671,7 +671,7 @@ int main(int argc, char* argv[])
 	myfile.close();
 
 
-
+*/
 //////////////////////////////////////////////////////////
 //////////////////////////Task_16/////////////////////////
 //////////////////////////////////////////////////////////
@@ -751,9 +751,9 @@ int main(int argc, char* argv[])
         Task_16::nodes = new std::vector<std::vector<double> >((int)pow(8,Task_16::dimension_M));
         Task_16::weights_vec = new std::vector<double> ((int)pow(8,Task_16::dimension_M));
 
-        full_grid_nodes_weights(Task_16::nodes, Task_16::weights_vec, 7, Task_16::dimension_M, trap_rule);
+        full_grid_nodes_weights(Task_16::nodes, Task_16::weights_vec, 7, Task_16::dimension_M, trap_rule_absolute_number);
 
-        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow(7,Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
+        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow(Task_16::N,1./Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
         ///////////////
         std::cout<<"calculated FGTRW "<<Task_16::calculated_result<<std::endl;
         myfile<<fabs(Task_16::exact_value-Task_16::scale_factor*Task_16::calculated_result)<<" ";
@@ -834,7 +834,7 @@ int main(int argc, char* argv[])
 //////////////////////////////////////////////////////////
 //////////////////////////Task_17/////////////////////////
 //////////////////////////////////////////////////////////
-
+/*
 
     Task_17::S0 = 10;
     Task_17::T =1;
@@ -860,8 +860,10 @@ int main(int argc, char* argv[])
     Task_17::exact_value = discrete_geometric_average_exact(Task_17::S0, Task_17::mu, Task_17::T, Task_17::dimension_M, Task_17::K, Task_17::sigma);
 
     for (int l = 1; l<=Task_17::max_level; l++) {
-
-        Task_17::N = Task_17::dimension_M*l*(int)pow(10, (double)l);
+        
+        
+        Task_17::N = (int)pow(Task_17::dimension_M/2.,(double)l);
+        std::cout<<Task_17::N<<std::endl;
         myfile<<Task_17::N<<" ";
 
         //////////////////////////////////
@@ -884,7 +886,7 @@ int main(int argc, char* argv[])
         myfile<<fabs(Task_17::exact_value-Task_17::scale_factor*Task_17::calculated_result)<<" ";
         free(Task_17::nodes);
         free(Task_17::weights_vec);
-
+        std::cout<<Task_17::N<<std::endl;
         //////////////////////////////////
         //////////////MC//////////////////
         //////////////////////////////////
@@ -903,8 +905,8 @@ int main(int argc, char* argv[])
 
 
     myfile.close();
-
- */
+*/
+ 
     free(rng);
 
 /////////////////////////////////////////////////////////
