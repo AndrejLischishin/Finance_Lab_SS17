@@ -130,6 +130,7 @@ namespace Task_16{
 	int dimension_M;
     int max_level;
     long int N;
+	int N_full_grid;
 
 	double S0;
 	double mu;
@@ -725,16 +726,17 @@ int main(int argc, char* argv[])
         /////Full_grid_with_TRAPEZOIDAl///
         //////////////////////////////////
         //without_Brownian_Bridge
-        Task_16::nodes = new std::vector<std::vector<double> >((int)pow((pow(2,l)-1),Task_16::dimension_M+1));
-        Task_16::weights_vec = new std::vector<double> ((int)pow((pow(2,l)-1),Task_16::dimension_M+1));
+        Task_16::N_full_grid = (int)pow(Task_16::N, 1./Task_16::dimension_M);
+        Task_16::nodes = new std::vector<std::vector<double> >((int)pow(Task_16::N_full_grid,Task_16::dimension_M+1));
+        Task_16::weights_vec = new std::vector<double> ((int)pow(Task_16::N_full_grid,Task_16::dimension_M+1));
         
-        full_grid_nodes_weights(Task_16::nodes, Task_16::weights_vec, (pow(2,l)-1), Task_16::dimension_M, trap_rule_absolute_number);
+        full_grid_nodes_weights(Task_16::nodes, Task_16::weights_vec, Task_16::N_full_grid, Task_16::dimension_M, trap_rule_absolute_number);
         
-        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow((pow(2,l)-1),Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
+        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow(Task_16::N_full_grid,Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
         std::cout<<" asdf "<<Task_16::calculated_result<<std::endl;
         myfile<<fabs(Task_16::exact_value-Task_16::scale_factor*Task_16::calculated_result)<<" ";
         //with_Brownian_Bridge
-        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow((pow(2,l)-1),Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,true);
+        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow(Task_16::N_full_grid,Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,true);
         std::cout<<Task_16::calculated_result<<std::endl;
         myfile<<fabs(Task_16::exact_value-Task_16::scale_factor*Task_16::calculated_result)<<" ";
         free(Task_16::nodes);
@@ -743,15 +745,15 @@ int main(int argc, char* argv[])
         /////Full_grid_with_CC////////////
         //////////////////////////////////
         //without_Brownian_Bridge
-        Task_16::nodes = new std::vector<std::vector<double> >((int)pow((pow(2,l)),Task_16::dimension_M));
-        Task_16::weights_vec = new std::vector<double> ((int)pow((pow(2,l)),Task_16::dimension_M));
-        full_grid_nodes_weights(Task_16::nodes, Task_16::weights_vec, (pow(2,l)-1), Task_16::dimension_M, clenshaw_curtis_absolute_number);
+        Task_16::nodes = new std::vector<std::vector<double> >((int)pow(Task_16::N_full_grid,Task_16::dimension_M+1));
+        Task_16::weights_vec = new std::vector<double> ((int)pow(Task_16::N_full_grid,Task_16::dimension_M+1));
+        full_grid_nodes_weights(Task_16::nodes, Task_16::weights_vec, Task_16::N_full_grid, Task_16::dimension_M, clenshaw_curtis_absolute_number);
         
-        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow((pow(2,l)-1),Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
+        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow(Task_16::N_full_grid,Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
         std::cout<<Task_16::calculated_result<<std::endl;
         myfile<<fabs(Task_16::exact_value-Task_16::scale_factor*Task_16::calculated_result)<<" ";
         //with_Brownian_Bridge
-        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow((pow(2,l)-1),Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,true);
+        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow(Task_16::N_full_grid,Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,true);
         std::cout<<Task_16::calculated_result<<std::endl;
         myfile<<fabs(Task_16::exact_value-Task_16::scale_factor*Task_16::calculated_result)<<" ";
         
