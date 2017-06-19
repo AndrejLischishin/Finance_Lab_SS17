@@ -186,14 +186,14 @@ int main(int argc, char* argv[])
 		//////////////////////////////////////////////////////////
     //////////////////////////Task_3//////////////////////////
     //////////////////////////////////////////////////////////
-
+/*
     Task_3::s0 = 10.;
     Task_3::r = 0.1;
     Task_3::T = 1.;
     Task_3::K = 10.;
     Task_3::sigma = 0.25;
 
-	 /*Convergence plot for different N has to be inserted! */
+	 //Convergence plot for different N has to be inserted! 
 
 //	std::cout << discrete_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma) << std::endl;
 
@@ -240,7 +240,7 @@ int main(int argc, char* argv[])
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_4//////////////////////////
 	//////////////////////////////////////////////////////////
-/*
+
 	Task_4::s0 = 10.;
 	Task_4::r = 0.1;
 	Task_4::T = 1.;
@@ -265,7 +265,7 @@ int main(int argc, char* argv[])
 	}
 
 	myfile.close();
-*/
+
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_5//////////////////////////
 	//////////////////////////////////////////////////////////
@@ -296,12 +296,17 @@ int main(int argc, char* argv[])
 	}
 
 	myfile.close();
+<<<<<<< HEAD
 */
 /*
+=======
+
+
+>>>>>>> f56d64271586d6cd2aa8a98d11437cc6e1165629
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_8//////////////////////////
 	//////////////////////////////////////////////////////////
-   /*
+   
 	Task_8::d=3;
 	Task_8::l = 2;
 
@@ -334,7 +339,7 @@ int main(int argc, char* argv[])
 
 	std::cout << sum << std::endl;
 
-    */
+    
 
 
 /*
@@ -438,7 +443,7 @@ int main(int argc, char* argv[])
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_7//////////////////////////
 	//////////////////////////////////////////////////////////
-	/*
+	
 	std::cout << "Van der Corput Sequence" << std::endl;
 	std::vector<double> x = van_der_corput_sequence(3, 10, pow(10.,-12.));
 	for(int i=0; i<10; i++)
@@ -448,8 +453,13 @@ int main(int argc, char* argv[])
 	std::vector<int> prime_numbers = first_prime_numbers(20);
 	for(int i=0; i<20; i++)
 		std::cout << prime_numbers[i] << std::endl;
+<<<<<<< HEAD
 	*/
 /*
+=======
+	
+
+>>>>>>> f56d64271586d6cd2aa8a98d11437cc6e1165629
 	Task_7::d = 2;
 	Task_7::n = 100;
 
@@ -524,15 +534,14 @@ int main(int argc, char* argv[])
 
 	myfile.close();
 
+	*/
+	
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_13/////////////////////////
 	//////////////////////////////////////////////////////////
 
 
 	Task_13::max_l = 4;
-
-
-	Task_13::max_l = 3;
 
 	Task_13::gamma = 0.1;
 
@@ -557,14 +566,6 @@ int main(int argc, char* argv[])
 			Task_13::weights = new std::vector<double>(Task_13::N);
 
 			quasi_monte_carlo_multivariate(Task_13::nodes, Task_13::weights, Task_13::N, d);
-
-
-			std::cout << "QMC: " << integrate_by_point_evaluation_multivariate(function_task13, Task_13::N, Task_13::nodes, Task_13::weights, Task_13::gamma, d) << std::endl;
-
-			//std::cout << "QMC: " << integrate_by_point_evaluation_multivariate(function_task13, Task_13::N, Task_13::nodes, Task_13::weights, Task_13::gamma, d) << std::endl;
-
-
-
 			Task_13::calculated_result = integrate_by_point_evaluation_multivariate(function_task13, Task_13::N, Task_13::nodes, Task_13::weights, Task_13::gamma, d);
 			std::cout << "QMC: " << Task_13::calculated_result << std::endl;
 			myfile << fabs(Task_13::exact_result - Task_13::calculated_result) << "	";
@@ -580,21 +581,19 @@ int main(int argc, char* argv[])
 			myfile << fabs(Task_13::exact_result - Task_13::calculated_result) << "	";
 
 			// Full grid with Trapezoidal rule
-			std::cout << "N " << Task_13::N << std::endl;
             Task_13::N_full_grid = (int)pow(Task_13::N, 1./d);
 
-			Task_13::nodes = new std::vector<std::vector<double>>((int)pow(Task_13::N_full_grid,d));
-			Task_13::weights = new std::vector<double>((int)pow(Task_13::N_full_grid,d));
-			full_grid_nodes_weights(Task_13::nodes, Task_13::weights, Task_13::N_full_grid, d, trap_rule_absolute_number);
+			Task_13::nodes = new std::vector<std::vector<double>>((int)pow(Task_13::N_full_grid,d+1));
+			Task_13::weights = new std::vector<double>((int)pow(Task_13::N_full_grid,d+1));
 
+			full_grid_nodes_weights(Task_13::nodes, Task_13::weights, Task_13::N_full_grid, d, trap_rule_absolute_number);
 			Task_13::calculated_result = integrate_by_point_evaluation_multivariate(function_task13, (int)pow(Task_13::N_full_grid,d), Task_13::nodes, Task_13::weights, Task_13::gamma, d);
 			std::cout << "Full grid trap rule: " << Task_13::calculated_result << std::endl;
 			myfile << fabs(Task_13::exact_result - Task_13::calculated_result) << "	";
-            Task_13::nodes->clear();
-        Task_13::weights->clear();
+
 			// Full grid with Clenshaw Curtis
-            Task_13::nodes = new std::vector<std::vector<double>>((int)pow(Task_13::N_full_grid,d));
-            Task_13::weights = new std::vector<double>((int)pow(Task_13::N_full_grid,d));
+            Task_13::nodes = new std::vector<std::vector<double>>((int)pow(Task_13::N_full_grid,d+1));
+            Task_13::weights = new std::vector<double>((int)pow(Task_13::N_full_grid,d+1));
             full_grid_nodes_weights(Task_13::nodes, Task_13::weights, Task_13::N_full_grid, d, clenshaw_curtis_absolute_number);
             
             Task_13::calculated_result = integrate_by_point_evaluation_multivariate(function_task13, (int)pow(Task_13::N_full_grid,d), Task_13::nodes, Task_13::weights, Task_13::gamma, d);
@@ -621,8 +620,12 @@ int main(int argc, char* argv[])
 		myfile.close();
 	}
 
+<<<<<<< HEAD
 
 
+=======
+/*
+>>>>>>> f56d64271586d6cd2aa8a98d11437cc6e1165629
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_14/////////////////////////
 	//////////////////////////////////////////////////////////

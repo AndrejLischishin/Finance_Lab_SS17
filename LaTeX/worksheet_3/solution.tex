@@ -102,6 +102,22 @@ Number of points in Sparse Grid and Full Grid in Level $l=4$:
 \end{center}
 One can see that the number of points increases much faster in the Full Grid, then in the Sparse Grid.
 
+\section*{Task 13}
+
+Convergence plots for the testfunction $f_\gamma$ in different dimensions:
+\begin{center}
+\includegraphics[scale=0.5]{task_13_d1.png}
+\end{center}
+\begin{center}
+\includegraphics[scale=0.5]{task_13_d2.png}
+\end{center}
+\begin{center}
+\includegraphics[scale=0.5]{task_13_d4.png}
+\end{center}
+\begin{center}
+\includegraphics[scale=0.5]{task_13_d8.png}
+\end{center}
+
 \section*{Task 18}
 
 The difference between MC and QMC is, that MC uses actual pseudo random numbers, while QMC uses deterministic sequences. For this reason, QMC Quadrature Nodes are more evenly distributed over the integration region, which enhances the convergence rate of QMC (which is $\mathcal{O}(N)$) compared to the convergence of $\mathcal{O}(N^{1/2})$ of Monte Carlo Method. However, there is a higher computational effort in creating quasi-random-number sequences, which increases the cost of QMC especially in high dimensions compared to Monte Carlo. \\
