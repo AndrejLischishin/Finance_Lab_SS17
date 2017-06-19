@@ -1,6 +1,6 @@
-\hypertarget{simulation__functions_8cpp}{}\section{/\+Users/andrei/\+Desktop/\+Finanzpraktikum\+\_\+\+W1/\+Finance\+\_\+\+Lab\+\_\+\+S\+S17/\+Final/header\+\_\+files/simulation\+\_\+functions.cpp File Reference}
-\label{simulation__functions_8cpp}\index{/\+Users/andrei/\+Desktop/\+Finanzpraktikum\+\_\+\+W1/\+Finance\+\_\+\+Lab\+\_\+\+S\+S17/\+Final/header\+\_\+files/simulation\+\_\+functions.\+cpp@{/\+Users/andrei/\+Desktop/\+Finanzpraktikum\+\_\+\+W1/\+Finance\+\_\+\+Lab\+\_\+\+S\+S17/\+Final/header\+\_\+files/simulation\+\_\+functions.\+cpp}}
-{\ttfamily \#include \char`\"{}simulation\+\_\+functions.\+hpp\char`\"{}}\newline
+\hypertarget{simulation__functions_8cpp}{}\section{/home/hendrik/\+Dokumente/\+Studium/\+Finance\+\_\+\+Lab\+\_\+\+S\+S17/\+Final/header\+\_\+files/simulation\+\_\+functions.cpp File Reference}
+\label{simulation__functions_8cpp}\index{/home/hendrik/\+Dokumente/\+Studium/\+Finance\+\_\+\+Lab\+\_\+\+S\+S17/\+Final/header\+\_\+files/simulation\+\_\+functions.\+cpp@{/home/hendrik/\+Dokumente/\+Studium/\+Finance\+\_\+\+Lab\+\_\+\+S\+S17/\+Final/header\+\_\+files/simulation\+\_\+functions.\+cpp}}
+{\ttfamily \#include \char`\"{}simulation\+\_\+functions.\+hpp\char`\"{}}\\*
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -11,12 +11,19 @@ std\+::vector$<$ double $>$ $\ast$ \hyperlink{simulation__functions_8cpp_a4770d6
 
 
 \subsection{Function Documentation}
-\mbox{\Hypertarget{simulation__functions_8cpp_a4770d6cd7afcf77d63557fbeb7405558}\label{simulation__functions_8cpp_a4770d6cd7afcf77d63557fbeb7405558}} 
 \index{simulation\+\_\+functions.\+cpp@{simulation\+\_\+functions.\+cpp}!brownian\+\_\+motion@{brownian\+\_\+motion}}
 \index{brownian\+\_\+motion@{brownian\+\_\+motion}!simulation\+\_\+functions.\+cpp@{simulation\+\_\+functions.\+cpp}}
-\subsubsection{\texorpdfstring{brownian\+\_\+motion()}{brownian\_motion()}}
-{\footnotesize\ttfamily std\+::vector$<$double$>$$\ast$ brownian\+\_\+motion (\begin{DoxyParamCaption}\item[{gsl\+\_\+rng $\ast$}]{r,  }\item[{double}]{T,  }\item[{double}]{delta\+\_\+t,  }\item[{std\+::vector$<$ double $>$ $\ast$}]{w,  }\item[{double}]{s0,  }\item[{double}]{mu,  }\item[{double}]{sigma }\end{DoxyParamCaption})}
-
+\subsubsection[{\texorpdfstring{brownian\+\_\+motion(gsl\+\_\+rng $\ast$r, double T, double delta\+\_\+t, std\+::vector$<$ double $>$ $\ast$w, double s0, double mu, double sigma)}{brownian_motion(gsl_rng *r, double T, double delta_t, std::vector< double > *w, double s0, double mu, double sigma)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$double$>$$\ast$ brownian\+\_\+motion (
+\begin{DoxyParamCaption}
+\item[{gsl\+\_\+rng $\ast$}]{r, }
+\item[{double}]{T, }
+\item[{double}]{delta\+\_\+t, }
+\item[{std\+::vector$<$ double $>$ $\ast$}]{w, }
+\item[{double}]{s0, }
+\item[{double}]{mu, }
+\item[{double}]{sigma}
+\end{DoxyParamCaption}
+)}\hypertarget{simulation__functions_8cpp_a4770d6cd7afcf77d63557fbeb7405558}{}\label{simulation__functions_8cpp_a4770d6cd7afcf77d63557fbeb7405558}
 Simulates brownian motion path for the given values of wiener process.
 
 
@@ -39,12 +46,15 @@ Simulates brownian motion path for the given values of wiener process.
 \begin{DoxyReturn}{Returns}
 Pointer to the vector of values at discretisation points 
 \end{DoxyReturn}
-\mbox{\Hypertarget{simulation__functions_8cpp_a485ed93a0c324453196f4ca8ad9bfaa4}\label{simulation__functions_8cpp_a485ed93a0c324453196f4ca8ad9bfaa4}} 
 \index{simulation\+\_\+functions.\+cpp@{simulation\+\_\+functions.\+cpp}!wiener\+\_\+process@{wiener\+\_\+process}}
 \index{wiener\+\_\+process@{wiener\+\_\+process}!simulation\+\_\+functions.\+cpp@{simulation\+\_\+functions.\+cpp}}
-\subsubsection{\texorpdfstring{wiener\+\_\+process()}{wiener\_process()}}
-{\footnotesize\ttfamily std\+::vector$<$double$>$$\ast$ wiener\+\_\+process (\begin{DoxyParamCaption}\item[{gsl\+\_\+rng $\ast$}]{r,  }\item[{double}]{T,  }\item[{double}]{delta\+\_\+t }\end{DoxyParamCaption})}
-
+\subsubsection[{\texorpdfstring{wiener\+\_\+process(gsl\+\_\+rng $\ast$r, double T, double delta\+\_\+t)}{wiener_process(gsl_rng *r, double T, double delta_t)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$double$>$$\ast$ wiener\+\_\+process (
+\begin{DoxyParamCaption}
+\item[{gsl\+\_\+rng $\ast$}]{r, }
+\item[{double}]{T, }
+\item[{double}]{delta\+\_\+t}
+\end{DoxyParamCaption}
+)}\hypertarget{simulation__functions_8cpp_a485ed93a0c324453196f4ca8ad9bfaa4}{}\label{simulation__functions_8cpp_a485ed93a0c324453196f4ca8ad9bfaa4}
 Simulates a wiener process.
 
 
