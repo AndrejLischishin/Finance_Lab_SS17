@@ -200,7 +200,7 @@ int main(int argc, char* argv[])
 //	std::cout << discrete_geometric_average_simulation(rng, Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma, N) << std::endl;
 
 //	std::cout << continuous_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::K, Task_3::sigma) << std::endl;
-/*
+
   Task_3::M = 10;
 	double calculated_result;
 	double exact_result;
@@ -236,7 +236,7 @@ int main(int argc, char* argv[])
 	}
 
 	myfile.close();
-*/
+
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_4//////////////////////////
 	//////////////////////////////////////////////////////////
@@ -269,7 +269,6 @@ int main(int argc, char* argv[])
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_5//////////////////////////
 	//////////////////////////////////////////////////////////
-/*
 	Task_5::plot_numbers = 100;
 	Task_5::s0 = 10;
 	Task_5::r = 0.1;
@@ -296,13 +295,8 @@ int main(int argc, char* argv[])
 	}
 
 	myfile.close();
-<<<<<<< HEAD
-*/
-/*
-=======
 
 
->>>>>>> f56d64271586d6cd2aa8a98d11437cc6e1165629
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_8//////////////////////////
 	//////////////////////////////////////////////////////////
@@ -339,10 +333,7 @@ int main(int argc, char* argv[])
 
 	std::cout << sum << std::endl;
 
-    
 
-
-/*
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_9//////////////////////////
 	//////////////////////////////////////////////////////////
@@ -439,7 +430,7 @@ int main(int argc, char* argv[])
     }
 	//write_quadrature_points_to_file(myfile, 0, Task_9::nodes_temp, Task_9::d, Task_9::Nl, Task_9::ids);
 	myfile.close();
-*/
+
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_7//////////////////////////
 	//////////////////////////////////////////////////////////
@@ -453,13 +444,8 @@ int main(int argc, char* argv[])
 	std::vector<int> prime_numbers = first_prime_numbers(20);
 	for(int i=0; i<20; i++)
 		std::cout << prime_numbers[i] << std::endl;
-<<<<<<< HEAD
-	*/
-/*
-=======
 	
 
->>>>>>> f56d64271586d6cd2aa8a98d11437cc6e1165629
 	Task_7::d = 2;
 	Task_7::n = 100;
 
@@ -620,12 +606,7 @@ int main(int argc, char* argv[])
 		myfile.close();
 	}
 
-<<<<<<< HEAD
-
-
-=======
 /*
->>>>>>> f56d64271586d6cd2aa8a98d11437cc6e1165629
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_14/////////////////////////
 	//////////////////////////////////////////////////////////
@@ -744,7 +725,6 @@ int main(int argc, char* argv[])
         /////Full_grid_with_TRAPEZOIDAl///
         //////////////////////////////////
         //without_Brownian_Bridge
-<<<<<<< HEAD
         Task_16::nodes = new std::vector<std::vector<double> >((int)pow((pow(2,l)-1),Task_16::dimension_M+1));
         Task_16::weights_vec = new std::vector<double> ((int)pow((pow(2,l)-1),Task_16::dimension_M+1));
         
@@ -752,16 +732,6 @@ int main(int argc, char* argv[])
         
         Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow((pow(2,l)-1),Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
         std::cout<<" asdf "<<Task_16::calculated_result<<std::endl;
-=======
-        Task_16::nodes = new std::vector<std::vector<double> >((int)pow(8,Task_16::dimension_M));
-        Task_16::weights_vec = new std::vector<double> ((int)pow(8,Task_16::dimension_M));
-
-        full_grid_nodes_weights(Task_16::nodes, Task_16::weights_vec, 7, Task_16::dimension_M, trap_rule_absolute_number);
-
-        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow(Task_16::N,1./Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
-        ///////////////
-        std::cout<<"calculated FGTRW "<<Task_16::calculated_result<<std::endl;
->>>>>>> e8afaf500072f0a698440ec3096dec9e52cb42bd
         myfile<<fabs(Task_16::exact_value-Task_16::scale_factor*Task_16::calculated_result)<<" ";
         //with_Brownian_Bridge
         Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow((pow(2,l)-1),Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,true);

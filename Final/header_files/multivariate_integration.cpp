@@ -274,7 +274,7 @@ double payoff_discrete_arithmetic_average(std::vector<double> x, double s0, doub
 
 double asian_option_call_integrand(std::vector<double>* x,double S0,double K, double sigma, double mu,int M, double T, bool use_bb){
     // computing num of levels;
-    unsigned int max_level = log2(M);
+    int max_level = log2(M);
     double result = 1;//S0;
     double delta_t = 0;
     double helper = 0;
@@ -589,12 +589,12 @@ void trap_rule_absolute_number(std::vector<double>* nodes, std::vector<double>* 
 
 void clenshaw_curtis_absolute_number(std::vector<double>* nodes, std::vector<double>* weights, int Nl)
 {
-    for(unsigned int i=1; i<=Nl; i++)
+    for(int i=1; i<=Nl; i++)
     {
         nodes->push_back(.5*(1.-cos((double)(M_PI*i/(Nl+1.)))));
         double sum = 0.;
         
-        for(unsigned int j=1; j<=(Nl+1)/2; j++)
+        for(int j=1; j<=(Nl+1)/2; j++)
         {
             sum = sum + (double) (1./(2.*j-1.)) * sin( (double)(2.*j-1.) * M_PI * (i/(double)(Nl+1.)) );
         }
