@@ -659,15 +659,15 @@ int main(int argc, char* argv[])
 	myfile.close();
 
 
-
+*/
 //////////////////////////////////////////////////////////
 //////////////////////////Task_16/////////////////////////
 //////////////////////////////////////////////////////////
-
+    
     Task_16::S0 = 10;
     Task_16::T =1;
     Task_16::dimension_M = 8;
-
+    
     Task_16::sigma = 0.25;
     Task_16::mu = 0.1;
     Task_16::K = 0;
@@ -679,20 +679,20 @@ int main(int argc, char* argv[])
     Task_16::max_level = 4;
     Task_16::simulation_result_rw = 0;
     Task_16::simulation_result_bb = 0;
-
+    
     myfile.open("output/testfunction_task16_error.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
-
-
+    
+    
     Task_16::exact_value = discrete_geometric_average_exact(Task_16::S0, Task_16::mu, Task_16::T, Task_16::dimension_M, Task_16::K, Task_16::sigma);
-    std::cout<<"exact"<<Task_16::exact_value<<std::endl;
+    
     for (int l = 1; l<=Task_16::max_level; l++) {
-
+        
         Task_16::N = pow(2,l)*pow(l,Task_16::dimension_M-1);
         myfile<<Task_16::N<<" ";
-
+        
         //////////////////////////////////
         //////////////QMC/////////////////
         //////////////////////////////////
@@ -701,15 +701,12 @@ int main(int argc, char* argv[])
         //QMC without Brownian Bridge
         quasi_monte_carlo_multivariate(Task_16::nodes, Task_16::weights_vec, (int)Task_16::N, Task_16::dimension_M);
         Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)Task_16::N, Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
-        ///////////////
-        std::cout<<"calculated QMCRW "<<Task_16::calculated_result<<std::endl;
+        std::cout<<Task_16::calculated_result<<std::endl;
         myfile<<fabs(Task_16::exact_value-Task_16::scale_factor*Task_16::calculated_result)<<" ";
         //QMC with Brownian Bridge
         Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)Task_16::N, Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,true);
+        std::cout<<Task_16::calculated_result<<std::endl;
         myfile<<fabs(Task_16::exact_value-Task_16::scale_factor*Task_16::calculated_result)<<" ";
-        ///////////////
-        std::cout<<"calculated QMCBB "<<Task_16::calculated_result<<std::endl;
-
         free(Task_16::nodes);
         free(Task_16::weights_vec);
         //////////////////////////////////
@@ -720,35 +717,29 @@ int main(int argc, char* argv[])
         //MC without Brownian Bridge
         monte_carlo_multivariate(Task_16::nodes, Task_16::weights_vec, (int)Task_16::N, Task_16::dimension_M,rng);
         Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)Task_16::N, Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
-        ///////////////
-        std::cout<<"calculated MCRW "<<Task_16::calculated_result<<std::endl;
-
+        std::cout<<Task_16::calculated_result<<std::endl;
         myfile<<fabs(Task_16::exact_value-Task_16::scale_factor*Task_16::calculated_result)<<" ";
         //MC with Brownian Bridge
         Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)Task_16::N, Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,true);
-        ///////////////
-        std::cout<<"calculated MCBB "<<Task_16::calculated_result<<std::endl;
-
         myfile<<fabs(Task_16::exact_value-Task_16::scale_factor*Task_16::calculated_result)<<" ";
+        std::cout<<Task_16::calculated_result<<std::endl;
         free(Task_16::nodes);
         free(Task_16::weights_vec);
         //////////////////////////////////
         /////Full_grid_with_TRAPEZOIDAl///
         //////////////////////////////////
         //without_Brownian_Bridge
-        Task_16::nodes = new std::vector<std::vector<double> >((int)pow(8,Task_16::dimension_M));
-        Task_16::weights_vec = new std::vector<double> ((int)pow(8,Task_16::dimension_M));
-
-        full_grid_nodes_weights(Task_16::nodes, Task_16::weights_vec, 7, Task_16::dimension_M, trap_rule);
-
-        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow(7,Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
-        ///////////////
-        std::cout<<"calculated FGTRW "<<Task_16::calculated_result<<std::endl;
+        Task_16::nodes = new std::vector<std::vector<double> >((int)pow((pow(2,l)-1),Task_16::dimension_M+1));
+        Task_16::weights_vec = new std::vector<double> ((int)pow((pow(2,l)-1),Task_16::dimension_M+1));
+        
+        full_grid_nodes_weights(Task_16::nodes, Task_16::weights_vec, (pow(2,l)-1), Task_16::dimension_M, trap_rule_absolute_number);
+        
+        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow((pow(2,l)-1),Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
+        std::cout<<" asdf "<<Task_16::calculated_result<<std::endl;
         myfile<<fabs(Task_16::exact_value-Task_16::scale_factor*Task_16::calculated_result)<<" ";
         //with_Brownian_Bridge
-        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow(7,Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,true);
-        ///////////////
-        std::cout<<"calculated FGTBB "<<Task_16::calculated_result<<std::endl;
+        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow((pow(2,l)-1),Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,true);
+        std::cout<<Task_16::calculated_result<<std::endl;
         myfile<<fabs(Task_16::exact_value-Task_16::scale_factor*Task_16::calculated_result)<<" ";
         free(Task_16::nodes);
         free(Task_16::weights_vec);
@@ -756,73 +747,66 @@ int main(int argc, char* argv[])
         /////Full_grid_with_CC////////////
         //////////////////////////////////
         //without_Brownian_Bridge
-        Task_16::nodes = new std::vector<std::vector<double> >((int)pow(8,Task_16::dimension_M));
-        Task_16::weights_vec = new std::vector<double> ((int)pow(8,Task_16::dimension_M));
-        full_grid_nodes_weights(Task_16::nodes, Task_16::weights_vec, 7, Task_16::dimension_M, clenshaw_curtis);
-
-        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow(7,Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
-        ///////////////
-        std::cout<<"calculated FGCCRW "<<Task_16::calculated_result<<std::endl;
+        Task_16::nodes = new std::vector<std::vector<double> >((int)pow((pow(2,l)),Task_16::dimension_M));
+        Task_16::weights_vec = new std::vector<double> ((int)pow((pow(2,l)),Task_16::dimension_M));
+        full_grid_nodes_weights(Task_16::nodes, Task_16::weights_vec, (pow(2,l)-1), Task_16::dimension_M, clenshaw_curtis_absolute_number);
+        
+        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow((pow(2,l)-1),Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
+        std::cout<<Task_16::calculated_result<<std::endl;
         myfile<<fabs(Task_16::exact_value-Task_16::scale_factor*Task_16::calculated_result)<<" ";
         //with_Brownian_Bridge
-        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow(7,Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,true);
-        ///////////////
-        std::cout<<"calculated FGCCBB "<<Task_16::calculated_result<<std::endl;
+        Task_16::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand, (int)pow((pow(2,l)-1),Task_16::dimension_M), Task_16::nodes, Task_16::weights_vec, Task_16::S0,Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,true);
+        std::cout<<Task_16::calculated_result<<std::endl;
         myfile<<fabs(Task_16::exact_value-Task_16::scale_factor*Task_16::calculated_result)<<" ";
-
+        
         free(Task_16::nodes);
         free(Task_16::weights_vec);
         //////////////////////////////////
         ///Sparse_grid_with_TRAPEZOIDAl///
         //////////////////////////////////
-
+        
         Task_16::nodes = new std::vector<std::vector<double> >(Task_16::dimension_M);
         Task_16::weights = new std::vector<std::vector<double> > (Task_16::dimension_M);
-
+        
         //without_Brownian_Bridge
         Task_16::simulation_result_rw = integrate_with_sparse_grid(asian_option_call_integrand,Task_16::dimension_M,l,Task_16::nodes, Task_16::weights,Task_16::write_in_file,true,Task_16::S0, Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
-        ///////////////
-        std::cout<<"calculated SGTRW "<<Task_16::simulation_result_rw<<std::endl;
+        std::cout<<"sG "<<Task_16::simulation_result_rw<<std::endl;
         myfile << fabs(Task_16::scale_factor*Task_16::simulation_result_rw-Task_16::exact_value)<<" ";
         //with_Brownian_Bridge
         Task_16::simulation_result_bb = integrate_with_sparse_grid(asian_option_call_integrand,Task_16::dimension_M,l,Task_16::nodes, Task_16::weights,Task_16::write_in_file,true,Task_16::S0, Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,true);
-        ///////////////
-        std::cout<<"calculated SGTBB "<<Task_16::simulation_result_bb<<std::endl;
+        std::cout<<Task_16::simulation_result_bb<<std::endl;
         myfile << fabs(Task_16::scale_factor*Task_16::simulation_result_bb-Task_16::exact_value)<<" ";
-
+        
         free(Task_16::nodes);
         free(Task_16::weights);
         //////////////////////////////////
         ///Sparse_grid_with_CC////////////
         //////////////////////////////////
-
+        
         Task_16::nodes = new std::vector<std::vector<double> >(Task_16::dimension_M);
         Task_16::weights = new std::vector<std::vector<double> > (Task_16::dimension_M);
-
+        
         //without_Brownian_Bridge
         Task_16::simulation_result_rw = integrate_with_sparse_grid(asian_option_call_integrand,Task_16::dimension_M,l,Task_16::nodes, Task_16::weights,Task_16::write_in_file,false,Task_16::S0, Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,false);
-        ///////////////
-        std::cout<<"calculated SGCCRW "<<Task_16::simulation_result_rw<<std::endl;
+        std::cout<<Task_16::simulation_result_rw<<std::endl;
         myfile << fabs(Task_16::scale_factor*Task_16::simulation_result_rw-Task_16::exact_value) <<" ";
         //with_Brownian_Bridge
         Task_16::simulation_result_bb = integrate_with_sparse_grid(asian_option_call_integrand,Task_16::dimension_M,l,Task_16::nodes, Task_16::weights,Task_16::write_in_file,false,Task_16::S0, Task_16::K,Task_16::sigma,Task_16::mu,Task_16::dimension_M,Task_16::T,true);
-        ///////////////
-        std::cout<<"calculated SFCCBB "<<Task_16::simulation_result_bb<<std::endl;
-
+        std::cout<<Task_16::simulation_result_bb<<std::endl;
         myfile << fabs(Task_16::scale_factor*Task_16::simulation_result_bb-Task_16::exact_value)<<std::endl;
-
+        
         free(Task_16::nodes);
         free(Task_16::weights);
-
+        
     }
-
+    
 
     myfile.close();
 
 //////////////////////////////////////////////////////////
 //////////////////////////Task_17/////////////////////////
 //////////////////////////////////////////////////////////
-
+/*
 
     Task_17::S0 = 10;
     Task_17::T =1;

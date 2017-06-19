@@ -550,7 +550,6 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
 
 	void full_grid_nodes_weights(std::vector<std::vector<double>>* nodes, std::vector<double>* weights, int Nl, int d, void (*function_to_create_nodes_and_weights)(std::vector<double>* nodes, std::vector<double>* weights, int Nl))
 	{
-
 		std::vector<double> nodes_one_dimension;
 		std::vector<double> weights_one_dimension;
 		std::vector<int> ids;
