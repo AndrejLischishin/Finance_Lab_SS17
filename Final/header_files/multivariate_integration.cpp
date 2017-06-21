@@ -202,7 +202,7 @@ double discrete_geometric_average_exact(double s0, double r, double T, int M, do
 	double delta_t = T/(double)M;
 	double T1 = T-((M*(M-1.)*(4.*M+1.))/(6.*M*M))*delta_t;
 	double T2 = T-((M-1.)/2.)*delta_t;
-	double A = exp(-r*(T-T2)-(sigma*sigma*(T2-T1))/2);
+	double A = exp(-r*(T-T2)-(sigma*sigma*(T2-T1))/2.);
 	double d = (log(s0/K)+(r-0.5*sigma*sigma)*T2)/(sigma*sqrt(T1));
 
 	return s0*A*normal_cdf(d+sigma*sqrt(T1))-K*exp(-r*T)*normal_cdf(d);
@@ -229,11 +229,11 @@ double discrete_geometric_average_simulation(gsl_rng* rng, double s0, double r, 
 		s = brownian_motion(rng, T, delta_t, w, s0, r, sigma);
 
 		double product = 1.0;
-		for(int j=0; j<M; j++)
+		for(int j=1; j<=M; j++)
 		{
 			product *= (*s)[j];
 		}
-		product = pow(product, 1./(double)M)-K;
+		product = pow(exp(-r*T)*product, 1./(double)M)-K;
 		if(product > 0)
 			result += product;
 	}
@@ -286,22 +286,23 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
         delta_t = T/M;
         w[0] = 0.0;
         for (int i = 1; i <= M; i++) {
-            result *= S0*exp((mu-0.5*sigma*sigma)*i*delta_t+sigma*(w[i-1]+delta_t*normal_inverse_cdf((*x)[i-1])));
-            w[i] = w[i-1]+delta_t*normal_inverse_cdf((*x)[i-1]);
+            result *= S0*exp((mu-0.5*sigma*sigma)*i*delta_t+sigma*(w[i-1]+sqrt(delta_t)*normal_inverse_cdf((*x)[i-1])));
+            w[i] = w[i-1]+sqrt(delta_t)*normal_inverse_cdf((*x)[i-1]);
         }
         w.resize(M);
     }
     else if(use_bb==true){
 		w[0] = 0.0;
 		w[1]=sqrt(T)*normal_inverse_cdf((*x)[M-1]);
+        int count = 0;
 
         for (int i = 1; i <= max_level; i++) {
             delta_t = T/(pow(2,(double)i));
 			for (int j = 0; j < pow(2,i); j+=2) {
-                helper = 0.5*(w[j]+w[j+1])+sqrt(delta_t/2.)*normal_inverse_cdf((*x)[j]);
-                result =result * S0*exp((mu-0.5*sigma*sigma)*j*delta_t+sigma*(helper));
+                helper = 0.5*(w[j]+w[j+1])+sqrt(delta_t/2.)*normal_inverse_cdf((*x)[count]);
+                result =result * S0*exp((mu-0.5*sigma*sigma)*(j+1)*delta_t+sigma*(helper));
                 w.emplace(w.begin()+j+1, helper);
-                
+                count++;
 
 
 			 }
@@ -313,7 +314,7 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
     };
     
     
-    result = pow(result,1./M)-K;
+    result = exp(-mu*T)*pow(result,1./M)-K;
     if(result>0.0){
         return result;
     }
