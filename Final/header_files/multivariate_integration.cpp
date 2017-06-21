@@ -314,7 +314,7 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
     };
     
     
-    result = exp(-mu*T)*pow(result,1./M)-K;
+    result = exp(-mu*T)*(pow(result,1./M)-K);
     if(result>0.0){
         return result;
     }
