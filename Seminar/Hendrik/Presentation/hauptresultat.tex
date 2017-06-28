@@ -1,0 +1,101 @@
+\section{Hauptresultat}
+
+\begin{frame}
+	\frametitle{Multilevel Monte Carlo Theorem}
+	\begin{tabular}{@{\hspace{0em}}l@{}p{8cm}}
+		\textbf{Wichtig:\ } & Die Multilevel Monte Carlo Methode benötigt im Allgemeinen \underline{keine} geometrische Level-Sequenz!
+	\end{tabular}
+	\newline
+	\newline
+	\textbf{Grundlagen für das Theorem:}	
+	\begin{enumerate}
+		\item Geometrische Level-Sequenz
+		\item Kosten wachsen exponentiell mit dem Level
+		\item Fehler $|\mathbb{E}[P_l-P]|$ und Varianz $\mathbb{V}[P_l-P_{l-1}]$ sinken exponentiell mit dem Level
+	\end{enumerate}
+	\textbf{Ziele:}
+	\begin{enumerate}
+		\item $\mathbb{V}[Y]<\epsilon^2/2$
+		\item $(\mathbb{E}[P_L-P])^2<\epsilon^2/2$
+	\end{enumerate}
+	\hspace{0.275cm}$\xLongrightarrow{\eqref{MSEMultilevelMonteCarlo}} MSE<\epsilon^2$
+\end{frame}
+
+\begin{frame}
+	\begin{theorem}[MLMC $\lbrack$Giles, 2015$\rbrack$]
+		Sei $P$ eine Zufallsvariable und $P_l$ eine numerische Approximation an $P$ im Level $l$. 
+		\newline
+		Angenommen, es existieren unabhängige Schätzer $Y_l$ basierend auf $N_l$ Monte Carlo Samples, jeweils mit erwarteten Kosten $C_l$ und einer Varianz $V_l$, sowie positive Konstanten $\alpha,\beta,\gamma,c_1,c_2,c_3$ mit $\alpha\geq\frac{1}{2}\min(\beta,\gamma)$ und
+		\begin{enumerate}
+			\item $|\mathbb{E}[P_l-P]|\leq c_1 2^{-\alpha l}$
+			\item $\mathbb{E}[Y_l]=\begin{cases}\mathbb{E}[P_0], & l=0 \\ \mathbb{E}[P_l-P_{l-1}], & l>0\end{cases}$
+			\item $V_l\leq c_2 2^{-\beta l}$
+			\item $C_l\leq c_3 2^{\gamma l}$.
+		\end{enumerate}
+	\end{theorem}
+\end{frame}
+
+\begin{frame}
+	\begin{theorem}[MLMC $\lbrack$Giles, 2015$\rbrack$]
+		Dann gibt es eine Konstante $c_4>0$, sodass für alle $\epsilon<e^{-1}$ Zahlen $L$ und $N_l$ existieren, für die der Multilevel-Schätzer
+		\[
+			Y:=\sum\limits_{l=0}^L Y_l
+		\]
+		einen Fehler von
+		\[
+			MSE=\mathbb{E}\left[(Y-\mathbb{E}[P])^2\right]<\epsilon^2
+		\]
+		besitzt und der Rechenaufwand $C$ insgesamt beschränkt ist durch
+		\[
+			\mathbb{E}[C]\leq\begin{cases}c_4\epsilon^{-2}, & \beta>\gamma \\ c_4\epsilon^{-2}(\log\epsilon)^2, & \beta=\gamma \\ c_4\epsilon^{-2-(\gamma-\beta)/\alpha}, & \beta<\gamma.\end{cases}
+		\]
+	\end{theorem}
+\end{frame}
+
+\begin{frame}[c]
+	\frametitle{Hinweise zum MLMC-Theorem I\footnote{Ein Beweis des Theorems findet sich in \glqq Multilevel Monte Carlo methods and applications to elliptic PDEs with random coefficients\grqq\ von Cliffe et al. (2011)}}
+	Wofür werden die vielen Annahmen benötigt?
+	\newline
+	\newline
+	Bedingung....
+	\begin{enumerate}
+		\item sichert, dass $|\mathbb{E}[P_l-P]|\xlongrightarrow{l\to\infty}0$,
+		\item sichert, dass $\mathbb{E}[Y]=\mathbb{E}[P_L]$,
+		\item sichert, dass $V_l\xlongrightarrow{l\to\infty}0$,
+		\item sichert, dass $C_l<\infty\ \ \forall\ l\geq 0$.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}[c]
+	\frametitle{Hinweise zum MLMC-Theorem II}
+	\begin{mdframed}[innertopmargin=-15pt,innerbottommargin=5pt,linewidth=0.5pt,topline=true,roundcorner=5pt,innerleftmargin=5pt,backgroundcolor=yellow!20,linecolor=yellow,frametitle={Erinnerung:}]
+	\[
+		C=2\ \frac{\left(\sum\limits_{l=0}^L\sqrt{V_lC_l}\right)^2}{\epsilon^2}\stackrel{Ann.3+4}{\leq}2\ \frac{\left(\sum\limits_{l=0}^L c_2c_3 2^{l(\gamma-\beta)/2}\right)^2}{\epsilon^2}
+	\]
+	\end{mdframed}
+	\vspace{0.3cm}
+	\onslide<2->{Fall 1: $\beta>\gamma$
+	\newline
+	\noindent\hspace*{6mm}$\rightarrow$ Größter Rechenaufwand im gröbsten Level
+	}
+	\newline
+	\newline
+	\onslide<3->{Fall 2: $\beta<\gamma$
+	\newline
+	\noindent\hspace*{6mm}$\rightarrow$ Größter Rechenaufwand im feinsten Level
+	}
+	\newline
+	\newline
+	\onslide<4->{Fall 3: $\beta=\gamma$
+	\newline
+	\noindent\hspace*{6mm}$\rightarrow$ Rechenaufwand in jedem Level ungefähr gleich (Produkt \noindent\hspace*{11mm}aus Varianz und Kosten unabhängig vom Level)}
+\end{frame}
+
+\begin{frame}[c]
+	\frametitle{Hinweise zum MLMC-Theorem III}
+	\begin{itemize}
+		\item Schätzer $Y_l$ kann beliebig konstruiert werden, solange die Voraussetzungen des MLMC-Theorems erfüllt sind
+		\newline
+		\item Aufteilung des Fehlers $\epsilon^2$ gleichermaßen auf $(\mathbb{E}[P_L-P])^2$ und $\mathbb{V}[Y]$ ist nicht immer optimal
+	\end{itemize}
+\end{frame}

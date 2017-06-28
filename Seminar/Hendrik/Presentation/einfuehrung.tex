@@ -1,0 +1,55 @@
+\section{Einführung}
+
+\begin{frame}[c]
+	\frametitle{Beispiel: Kurssimulationen\footnote{Weiterf. Informationen bspw. in \glqq Stochastic Differential Equations and Financial Mathematics\grqq\ von Thomas Önskog (2016, Vorlesungsunterlagen)}}
+	Aktienkurse in Abhängigkeit der Zeit sind Lösungen der Stochastischen Differentialgleichung
+	\[
+		\mathrm{d}S(t)=a(S,t)\mathrm{d}t+b(S,t)\mathrm{d}W(t),\ \ \ \ \ 0<t<T.
+	\]
+	\onslide<2->{Gesucht in Anwendungen: Erwarteter Wert $\mathbb{E}[P(S)]$ des Kurses zum Zeitpunkt $T$.
+	\newline
+	\newline
+	Wir schreiben von nun an $P$ statt $P(S)$.}
+	\newline
+	\newline
+	\onslide<3->{\Lightning\textbf{Problem:} $\mathbb{E}[P]$ kann (oft) nicht analytisch bestimmt werden.}
+\end{frame}
+
+\begin{frame}[c]
+	\frametitle{Beispiel: Kurssimulationen}
+	\underline{Idee der Monte Carlo Methode:}
+	\vspace{0.1cm}
+	\begin{enumerate}
+		\item Bestimmen (approximativ) die Lösung $S$ der SDGL.
+	\onslide<2->{\item Simulieren $N$ Kursverläufe $S^{(1)},\dots,S^{(N)}$ bezüglich $S$.}
+	\onslide<3->{\item Berechnen mit $P^{(i)}:=P(S^{(i)})$ den Monte Carlo Schätzer
+	\begin{align}
+		X:=\frac{1}{N}\sum\limits_{i=1}^N P^{(i)} \label{simpleMonteCarloKurssimulation}
+	\end{align}
+	als Näherung an $\mathbb{E}[P]$.}
+	\end{enumerate}
+	\vspace{0.5cm}
+	\onslide<4->{Es ist (Erwartungstreue von $X$)
+	\[
+		\mathbb{E}[X]=\mathbb{E}[P]
+	\]
+	und
+	\[
+		\mathbb{V}[X]=\frac{1}{N}\mathbb{V}[P].
+	\]}
+\end{frame}
+
+\begin{frame}[c]
+	\frametitle{Beispiel: Kurssimulationen}
+	Als root mean squared error ($RMSE$) dieses Ansatzes ergibt sich:
+	\begin{eqnarray}
+		RMSE&=&\sqrt{\mathbb{E}[(X-\mathbb{E}[P])^2]}\notag\\
+		&=&\sqrt{\mathbb{V}[X]+(\mathbb{E}[X]-\mathbb{E}[P])^2}\notag\\
+		&=&\sqrt{\frac{1}{N}\mathbb{V}[P]}\notag\\
+		&=&\mathcal{O}(N^{-1/2}).\notag
+	\end{eqnarray}
+	\onslide<2->{Für eine Genauigkeit von $\epsilon>0$ werden also $N=\mathcal{O}(\epsilon^{-2})$ Samples benötigt.}
+	\newline
+	\newline
+	\onslide<3->{\Lightning\textbf{Problem:} Hoher Rechenaufwand, falls $\epsilon$ klein ist.}
+\end{frame}

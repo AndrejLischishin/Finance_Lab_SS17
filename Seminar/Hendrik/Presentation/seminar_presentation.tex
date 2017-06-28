@@ -1,0 +1,114 @@
+\documentclass[xcolor=dvipsnames]{beamer}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage{color}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usefonttheme[onlymath]{serif}
+\usetikzlibrary{positioning,fit}
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+\usepackage{subfig}
+\usepackage{tikz-3dplot}
+\usepackage{pgfplots}
+\usepackage{adjustbox}
+\usepackage{extarrows}
+\usepackage[weather]{ifsym}
+\usepackage{mdframed}
+\usepackage{bm}
+
+\usetikzlibrary{shapes.geometric, arrows, angles, calc}
+
+\setbeamercolor*{black}{fg=black, bg=black}
+\beamertemplatenavigationsymbolsempty
+%\setbeamertemplate{theorems}[numbered]
+
+\usetheme{Berlin} %Dresden
+\usecolortheme{dolphin}
+
+\title{Multilevel Monte Carlo Methoden}
+\author{Hendrik Kleikamp}
+\date{5. Juli 2017}
+\titlegraphic{\includegraphics[width=2.5cm]{figures/logo.png}\hspace*{4.75cm}~%
+	\includegraphics[width=2.5cm]{figures/logo.png}}
+\institute{Hauptseminar Wissenschaftliches Rechnen}
+
+\AtBeginSection[]{\frame{\sectionpage}}
+\defbeamertemplate{section page}{mine}[1][]{%
+	\begin{centering}
+		\begin{beamercolorbox}[sep=12pt,center]{part number}
+			Kapitel \thesection
+		\end{beamercolorbox}
+		\vskip1em\par
+		\begin{beamercolorbox}[sep=12pt,center]{part title}
+			\usebeamerfont{section title}\insertsection\par
+		\end{beamercolorbox}
+	\end{centering}
+}
+\setbeamertemplate{section page}[mine]
+
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{0pt}
+\renewcommand{\footnotesize}{\fontsize{6pt}{9pt}\selectfont}
+
+
+\begin{document}
+
+\begingroup
+\setbeamertemplate{headline}{}
+\begin{frame}
+	\titlepage
+\end{frame}
+\endgroup
+
+\begin{frame}
+	\frametitle{Inhaltsübersicht}
+	\tableofcontents
+\end{frame}
+
+\include{einfuehrung}
+
+\include{multilevelMonteCarlo}
+
+\include{hauptresultat}
+
+\include{implementation}
+
+\include{multiindexMonteCarlo}
+
+\include{ausblick}
+
+\section*{}
+\begin{frame}
+	\frametitle{Literaturverzeichnis I}
+	\begin{thebibliography}{10}
+		\bibitem{giles2015}Michael B. Giles: {\glqq Multilevel Monte Carlo methods\grqq}.
+		\newblock Cambridge University Press, 2015
+		
+		\bibitem{pezoldt}Sascha Pezoldt: {\glqq Multi-Level Monte-Carlo-Methoden und
+			ihre Anwendung in der Finanzmathematik\grqq}.
+		\newblock Masterarbeit am Mathematischen Institut der Universität Bayreuth, 2016
+		
+		\bibitem{heinz}Stefan Walter Heinz: {\glqq Multilevel Monte Carlo Methoden
+			und deren Anwendung\grqq}.
+		\newblock Diplomarbeit am Institut für Computerorientierte Mathematik der Johann Wolfgang Goethe Universität in Frankfurt am Main, 2009
+	\end{thebibliography}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Literaturverzeichnis II}
+	\begin{thebibliography}{10}
+		\bibitem{noll}Marco Noll: {\glqq Multilevel Monte-Carlo Simulationsverfahren mit Anwendung auf Multi-Asset Optionen\grqq}.
+		\newblock 2010
+		
+		\bibitem{wolff}Patrick Wolff: {\glqq Das Multilevel Monte Carlo	Verfahren und seine Anwendung im Libor Marktmodell\grqq}.
+		\newblock Masterarbeit am Institut für Mathematische Statistik der Westfälischen Wilhelms-Universität Münster, 2013
+		
+		\bibitem{hajiAli}Abdul-Lateef Haji-Ali, Fabio Nobile, Raúl Tempone: {\glqq Multi index Monte Carlo: when sparsity meets sampling\grqq}.
+		\newblock Mathematics Institute of Computational Science and Engineering, Lausanne, 2014
+	\end{thebibliography}
+\end{frame}
+
+\end{document}

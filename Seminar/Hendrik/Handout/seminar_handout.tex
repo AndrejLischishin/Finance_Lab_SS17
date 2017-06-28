@@ -1,0 +1,238 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{here}
+\usepackage{pgfplots}
+\usepackage{adjustbox}
+
+\geometry{a4paper, top=20mm, left=20mm, right=20mm, bottom=20mm, headsep=10mm, footskip=12mm}
+
+\title{Multilevel Monte Carlo Methoden\\
+\small{Hauptseminar Wissenschaftliches Rechnen}}
+\author{Hendrik Kleikamp}
+\date{5. Juli 2017}
+
+\newtheorem*{theorem*}{Theorem}
+
+\newenvironment{bemerkung}{\begin{proof}[Bemerkung]}{\end{proof}}
+
+\usetikzlibrary{shapes.geometric, arrows}
+
+\usepackage{csquotes}
+\usepackage[backend=bibtex,natbib=true,style=numeric,citestyle=numeric-comp,defernumbers=true]{biblatex}
+\DeclareBibliographyCategory{mlmc}
+\DeclareBibliographyCategory{extensions}
+\addtocategory{mlmc}{giles_2015, pezoldt}
+\addtocategory{extensions}{rhee2012new, haji2016multi, vidal2015model, lemaire2017multilevel, daun2013complexity, giles2009multilevel}
+\addbibresource{literatur.bib}
+\nocite{*}
+\bibliography{literatur.bib}
+
+\makeatletter
+\begin{document}
+
+%\part*{\centering \@title}
+%\vspace{-0.3cm}
+%\begin{center}\@author\end{center}
+%\vspace{-0.5cm}
+%\begin{center}\@date\end{center}
+%\vspace{-0.2cm}
+%\begin{tikzpicture}
+%\draw[line width=1pt,black](0,0)--(\linewidth,0);
+%\draw[line width=1pt,black](0.1\textwidth,5pt)--(0.9\linewidth,5pt);
+%\end{tikzpicture}
+
+\maketitle
+
+\vspace{-1cm}
+\begin{center}
+	\rule{0.8\textwidth}{.4pt}
+\end{center}
+\hrule
+
+\section{Monte Carlo und Multilevel Monte Carlo}
+
+In vielen Anwendungsbereichen, beispielsweise der Finanzmathematik, ist es notwendig, den Erwartungswert einer (reellen) Zufallsvariablen $P$ zu berechnen. Eine Standardmethode hierfür ist die Monte Carlo Simulation, welche auf dem Schwachen Gesetz der großen Zahlen beruht. Hierbei werden $N$ Simulationen $S^{(1)},\dots,S^{(N)}$, sogenannte Samples, aus dem zugrundeliegenden Wahrscheinlichkeitsraum $(\Omega,\mathcal{A},\mathbb{P})$ berechnet und jeweils mittels $P$ ausgewertet. Für $\mathbb{E}[P]$ ergibt sich mit $P^{(i)}:=P(S^{(i)})$ der Monte Carlo Schätzer
+\begin{align}
+	X:=\frac{1}{N}\sum\limits_{i=1}^{N}P^{(i)}. \label{simpleMonteCarloKurssimulation}
+\end{align}
+Der Schätzer $X$ ist zwar erwartungstreu, das heißt es ist $\mathbb{E}[X]=\mathbb{E}[P]$, jedoch sind sehr viele Samples notwendig, um eine ausreichende Genauigkeit zu erhalten.
+\newline
+Die Multilevel Monte Carlo Methode versucht nun, den Rechenaufwand bei gleichbleibender Genauigkeit zu verringern. Hierfür wird die Zufallsvariable $P$ durch eine Folge $\{P_l\}_{l\in\mathbb{N}}$ ersetzt, die $P$ mit wachsendem Level $l$ immer besser approximiert. Zudem wird davon ausgegangen, dass die Kosten zur Berechnung eines Samples mit wachsendem Level ebenfalls steigen. Beim Multilevel Monte Carlo Ansatz werden die Vorteile von kleinen und großen Leveln kombiniert. Samples lassen sich in kleinen Leveln mit relativ geringem Rechenaufwand berechnen, während $P_l$ für großes $l$ eine bessere Approximation an $P$ darstellt als für kleines $l$. Anstatt $\mathbb{E}[P]$ zu berechnen, soll nur $\mathbb{E}[P_L]$ für $L$ hinreichend groß als Approximation an $\mathbb{E}[P]$ berechnet werden. Unter Verwendung der Linearität des Erwartungswertes ergibt sich
+\begin{align}
+	\mathbb{E}[P_L]=\mathbb{E}[P_0]+\sum\limits_{l=1}^L \mathbb{E}[P_l-P_{l-1}]. \label{teleskopsummeMultilevelMonteCarloKurssimulation}
+\end{align}
+Um $\mathbb{E}[P_0]$ und $\mathbb{E}[P_l-P_{l-1}]$ für $l=1,\dots,L$ zu nähern, werden meist Monte Carlo Schätzer wie in Formel \eqref{simpleMonteCarloKurssimulation} genutzt. Dies führt für $\mathbb{E}[P_L]\approx\mathbb{E}[P]$ auf den Schätzer
+\begin{align}
+	Y:=\frac{1}{N_0}\sum\limits_{i=1}^{N_0}P_0^{(0,i)}+\sum\limits_{l=1}^L\left(\frac{1}{N_l}\sum\limits_{i=1}^{N_l}P_l^{(l,i)}-P_{l-1}^{(l,i)}\right). \label{teleskopsummeMultilevelMonteCarloKurssimulationMitSchaetzer}
+\end{align}
+In jedem Level werden hierbei stochastisch unabhängige Samples verwendet, wobei für die Korrekturdifferenzen $P_l^{(l,i)}-P_{l-1}^{(l,i)}$ jeweils dieselben $N_l$ Samples bezüglich $P_l$ und $P_{l-1}$ ausgewertet werden.
+\newline
+Für den Schätzer $Y$ gilt nun $\mathbb{E}[Y]=\mathbb{E}[P_L]$ und $\mathbb{V}[Y]=\sum\limits_{l=0}^L\frac{1}{N_l}\mathbb{V}[P_l-P_{l-1}]$, wenn $P_{-1}\equiv 0$ gesetzt wird. Damit ergibt sich der mean squared error ($MSE$) des Multilevel Monte Carlo Ansatzes als
+\begin{align}
+	MSE=\mathbb{E}\left[(Y-\mathbb{E}[P])^2\right]=\mathbb{V}[Y]+(\mathbb{E}[Y]-\mathbb{E}[P])^2=\underbrace{\sum\limits_{l=0}^{L}\frac{1}{N_l}\mathbb{V}[P_l-P_{l-1}]}_{\substack{\text{Stichproben-Fehler}}}\ +\underbrace{(\mathbb{E}[P_L-P])^2}_{\substack{\text{Approximationsfehler}}}. \label{MSEMultilevelMonteCarlo}
+\end{align}
+Das Ziel der theoretischen Untersuchungen ist es, einen $MSE$ von $\epsilon^2$ für eine vorgegebene Genauigkeit $\epsilon>0$ zu erreichen. Hierzu wird versucht, sowohl den Stichproben-Fehler als auch den Approximationsfehler kleiner als $\epsilon^2/2$ zu halten. Unter gewissen Voraussetzungen an Varianz und Rechenkosten in den einzelnen Leveln kann der gewüschte $MSE$ garantiert und eine Abschätzung für die Gesamtkosten des Schätzers $Y$ angegeben werden. Dies zeigt das Theorem im folgenden Abschnitt.
+
+\section{Hauptresultat}
+
+\begin{theorem*}[MLMC $\lbrack$Giles, 2015$\rbrack$]
+	Sei $P$ eine Zufallsvariable und $P_l$ eine numerische Approximation an $P$ im Level $l$. Angenommen, es existieren unabhängige Schätzer $Y_l$ basierend auf $N_l$ Monte Carlo Samples, jeweils mit erwarteten Kosten $C_l$ und einer Varianz $V_l$, sowie positive Konstanten $\alpha,\beta,\gamma,c_1,c_2,c_3$ mit $\alpha\geq\frac{1}{2}\min(\beta,\gamma)$ und
+	\begin{enumerate}
+		\item $|\mathbb{E}[P_l-P]|\leq c_1 2^{-\alpha l}$
+		\item $\mathbb{E}[Y_l]=\begin{cases}\mathbb{E}[P_0], & l=0 \\ \mathbb{E}[P_l-P_{l-1}], & l>0\end{cases}$
+		\item $V_l\leq c_2 2^{-\beta l}$
+		\item $C_l\leq c_3 2^{\gamma l}$.
+	\end{enumerate}
+	Dann gibt es eine Konstante $c_4>0$, sodass für alle $\epsilon<e^{-1}$ Zahlen $L$ und $N_l$ existieren, für die der Multilevel-Schätzer
+	\[
+		Y:=\sum\limits_{l=0}^L Y_l
+	\]
+	einen Fehler von
+	\[
+		MSE=\mathbb{E}\left[(Y-\mathbb{E}[P])^2\right]<\epsilon^2
+	\]
+	besitzt und der Rechenaufwand $C$ insgesamt beschränkt ist durch
+	\[
+		\mathbb{E}[C]\leq\begin{cases}c_4\epsilon^{-2}, & \beta>\gamma \\ c_4\epsilon^{-2}(\log\epsilon)^2, & \beta=\gamma \\ c_4\epsilon^{-2-(\gamma-\beta)/\alpha}, & \beta<\gamma.\end{cases}
+	\]
+\end{theorem*}
+\vspace{0.5cm}
+Ein Beweis des Theorems findet sich in dem Paper \glqq Multilevel Monte Carlo methods and applications to elliptic PDEs with random coefficients\grqq\ von Cliffe et al. (2011).
+\begin{bemerkung}Das Theorem setzt eine geometrische Level-Sequenz voraus, das heißt die Kosten wachsen exponentiell mit dem Level, während der Fehler $|\mathbb{E}[P_l-P]|$ und die Varianz $\mathbb{V}[P_l-P_{l-1}]$ exponentiell mit wachsendem Level sinken. Nur durch diese Annahmen kann eine Abschätzung für den Rechenaufwand angegeben werden. Es ist wichtig zu beachten, dass das Theorem keine genaueren Angaben zur Konstruktion der Schätzer $Y_l$ macht, diese müssen einzig und allein den korrekten Erwartungswert besitzen (vgl. Annahme $\mathit{2}$ des MLMC-Theorems). Eine andere Wahl von $Y_l$ als der Naheliegenden aus Formel \eqref{simpleMonteCarloKurssimulation} ist also durchaus denkbar, solange diese die Voraussetzungen des Theorems erfüllt. Die Idee alternativer Versionen der $Y_l$ ist es, die Varianz $V_l$ weiter zu reduzieren und somit eine bessere Konvergenzgeschwindigkeit zu erhalten.
+\end{bemerkung}
+
+\section{Implementierung}
+
+	\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, text centered, draw=red, fill=red!30]
+	\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, text width=3cm, draw=orange, fill=orange!30]
+	\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=green, fill=green!30, aspect=3]
+	\tikzstyle{arrow} = [thick,->,>=stealth]
+	
+	\begin{minipage}[t]{0.5\linewidth}
+		\vspace{0pt}
+		\begin{tikzpicture}[node distance=1.75cm]
+	
+			\node (initialisieren) [process] {Initialisieren};
+			\node (weitereSamples) [decision, below of=initialisieren] {Mehr Samples?};
+			\node (stop) [startstop, right of=weitereSamples, xshift=4cm] {Stop};
+			\node (samplesAuswerten) [process, below of=weitereSamples, yshift=-0.75cm] {Weitere Samples auswerten,\\$V_l$ schätzen,\\optimales $N_l$ berechnen};
+			\node (konvergenz) [decision, right of=samplesAuswerten, xshift=4cm] {Konvergenz?};
+			\node (LPlusEins) [process, below of=konvergenz] {Setze $L:=L+1$,\\initialisiere $N_L$};
+	
+			\draw [arrow] (initialisieren) -- (weitereSamples);
+			\draw [arrow] (weitereSamples) -- node[anchor=south] {nein} (stop);
+			\draw [arrow] (weitereSamples) -- node[anchor=east] {ja} (samplesAuswerten);
+			\draw [arrow] (samplesAuswerten) -- (konvergenz);
+			\draw [arrow] (konvergenz) -- node[anchor=east] {nein} (LPlusEins);
+			\draw [arrow] (konvergenz) -- node[anchor=east] {ja} (stop);
+			\draw [arrow] (LPlusEins) -- (-3,-6) -- (-3,-1.75) -- (weitereSamples);
+
+		\end{tikzpicture}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.35\linewidth}
+		\vspace{0pt}
+		\underline{Hinweise zur Implementierung:}
+		\begin{itemize}
+			\item Die Konstanten $c_1$ und $c_2$ aus dem MLMC-Theorem sind meist nicht bekannt.
+			\item Sind $\alpha$ und $\beta$ aus dem MLMC-Theorem nicht bekannt, so müssen diese im Algorithmus geschätzt werden.
+			\item Die Genauigkeit der Schätzer für $V_l$ $(l=0,\dots,L)$ hängt von der Anzahl der verwendeten Samples im jeweiligen Level ab.
+			\item Der Algorithmus ist heuristisch, ein $MSE$ von $\epsilon^2$ ist nicht garantiert.
+		\end{itemize}
+	\end{minipage}	
+
+\section{Multi-Index Monte Carlo}
+
+Die im Abschnitt 1 vorgestellte Multilevel Monte Carlo Methode beschränkt sich auf eindimensionale Levelindizes $l$. In einigen Anwendungen, die beispielsweise die Lösung von Differentialgleichungen voraussetzen, können mehrdimensionale Level von Vorteil sein. Hierdurch werden unterschiedliche Diskretisierungsweiten in unterschiedliche Koordinatenrichtungen ermöglicht.
+\newline
+Um die Multilevel Teleskopsumme aus Formel \eqref{teleskopsummeMultilevelMonteCarloKurssimulation} auf diesen Fall zu erweitern, wird zunächst für $l=(l_i)_{i=1}^d\in\mathbb{N}^d$ die Differenz
+\[
+	\Delta_iP_l=
+	\begin{cases}
+		P_l-P_{l-e_i}, & l_i>0\\P_l, & l_i=0
+	\end{cases}
+\]
+definiert, wobei $e_i$ den Einheitsvektor in Koordinatenrichtung $i$ bezeichnet.
+\newline
+Sei zudem
+\[
+	\Delta P_l=\left(\prod\limits_{i=1}^d\Delta_i\right)P_l.
+\]
+Mit $I=\{l\in\mathbb{N}^d:l\geq 0\}$ ergibt sich für $\mathbb{E}[P]$ der Schätzer
+\[
+	Y:=\sum\limits_{l\in I}\mathbb{E}[\Delta P_l].
+\]
+Als Beispiel betrachten wir eine andere Wahl von $I$. Es sei $I=\left\{(l_1,l_2)\in\mathbb{N}^2:0\leq l_1\leq 3\ \text{und}\ 0\leq l_2\leq 2\right\}$, dies entspricht dem folgenden Rechteck:
+\newline
+\begin{minipage}[t]{0.3\linewidth}
+	\vspace{-0.2cm}
+	\begin{figure}[H]
+		\centering
+		\begin{adjustbox}{width=\textwidth}
+			\begin{tikzpicture} 
+				\begin{axis} [ 
+					style=thick, 
+					xlabel=$l_1$,
+					ylabel=$l_2$,
+					minor tick num=0, 
+					xmin=0, xmax=4,  
+					ymin=0, ymax=3,
+					axis x line=middle,
+					axis y line=middle,
+					xtick={0,1,...,4},
+					ytick={0,1,...,3}
+				  ]
+					\node[circle,fill,inner sep=1.5pt] (P11) at (axis cs:1,1) {};
+					\node[circle,fill,inner sep=1.5pt] (P12) at (axis cs:1,2) {};
+					\node[circle,fill,inner sep=1.5pt] (P21) at (axis cs:2,1) {};
+					\node[circle,fill,inner sep=1.5pt] (P22) at (axis cs:2,2) {};
+					\node[circle,fill,inner sep=1.5pt] (P31) at (axis cs:3,1) {};
+					\node[label={$(3,2)$},circle,fill,inner sep=2.5pt] (P32) at (axis cs:3,2) {};
+					\node[circle,fill,inner sep=1.5pt] (P01) at (axis cs:0,1) {};
+					\node[circle,fill,inner sep=1.5pt] (P02) at (axis cs:0,2) {};
+					\node[circle,fill,inner sep=1.5pt] (P30) at (axis cs:3,0) {};
+					\node[circle,fill,inner sep=1.5pt] (P10) at (axis cs:1,0) {};
+					\node[circle,fill,inner sep=1.5pt] (P20) at (axis cs:2,0) {};
+					\node[circle,fill,inner sep=1.5pt] (P00) at (axis cs:0,0) {};
+					\draw [-] (P02) to (P32);
+					\draw [-] (P30) to (P32);
+					\draw [-] (P20) to (P22);
+					\draw [-] (P01) to (P31);
+					\draw [-] (P10) to (P12);
+				\end{axis} 
+			\end{tikzpicture}
+		\end{adjustbox}
+	\end{figure}		
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.65\textwidth}
+	In diesem Fall ist $\Delta P_{(3,2)}=\Delta_1\Delta_2 P_{(3,2)}=P_{(3,2)}-P_{(2,2)}-P_{(3,1)}+P_{(2,1)}$ und $Y=\mathbb{E}[P_{(3,2)}]$.
+	\newline
+	\newline
+	Die hier gezeigte Wahl von $I$ ist im Allgemeinen nicht optimal. Haji-Ali et al. konnten zeigen, dass die optimale Wahl der verwendeten Levelindizes ähnlich zur Konstruktion dünner Gitter ist (siehe \cite{haji2016multi}).
+	\newline
+	Es ergibt sich
+	\[
+		I=\{l\in\mathbb{N}^d:l\geq 0,\ \langle l,n\rangle\leq L\}
+	\]
+	für eine Richtung $n\in\mathbb{N}^d,n>0,$ und ein $L\in\mathbb{N}$.
+	\newline
+	Im Zweidimensionalen entspricht dies einem Dreieck, wobei zwei Seiten parallel zu den Koordinatenachsen durch den Ursprung verlaufen und die dritte Seite orthogonal zu $n$ steht.
+	\vspace{0.3cm}
+\end{minipage}
+Das MLMC-Theorem lässt sich in leicht abgewandelter Form auch auf die Multi-Index Monte Carlo Methode übertragen (siehe \cite{giles_2015} und \cite{haji2016multi}).
+
+\section{Literaturhinweise}
+
+\printbibliography[category=mlmc, title={\large{Literatur zur Multilevel Monte Carlo Methode und ihren Anwendungen}}]
+\printbibliography[category=extensions, title={\large{Literatur zu weiterführenden Forschungsthemen}}]
+
+\end{document}
