@@ -60,7 +60,7 @@ void trap_rule(std::vector<double>* nodes, std::vector<double>* weights, int l)
 	double node;
     weights->push_back(weight);
 
-	for(int i=1; i<=Nl; i++){
+	for(unsigned int i=1; i<=Nl; i++){
 		node = (double)i/(double)(Nl+1);
 		nodes->push_back(node);
 		if (i>=2&&i<Nl) {
