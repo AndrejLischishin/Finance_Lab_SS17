@@ -2,7 +2,7 @@ CC=g++
 CFLAGS=-Wall -Wshadow -std=c++11
 LDFLAGS=-lgsl -lgslcblas -lm
 
-OBJ = main.o random_functions.o simulation_functions.o integration_functions.o multivariate_integration.o
+OBJ = main.o random_functions.o simulation_functions.o integration_functions.o multivariate_integration.o exotic_options.o
 
 #-I /usr/local/lib/python2.7/site-packages/numpy/core/include -framework Python -I /System/Library/Frameworks/Python.framework/Headers  -lpython2.7
 #../header_files/matplotlibcpp.hpp
@@ -10,7 +10,7 @@ all: $(OBJ) doc
 	$(CC) $(CFLAGS) $(OBJ) $(LDFLAGS)  -o myProg
 
 main.o:main.cpp
-	$(CC) $(CFLAGS) -g -c main.cpp ../header_files/random_functions.hpp ../header_files/simulation_functions.hpp ../header_files/integration_functions.hpp ../header_files/multivariate_integration.hpp
+	$(CC) $(CFLAGS) -g -c main.cpp ../header_files/random_functions.hpp ../header_files/simulation_functions.hpp ../header_files/integration_functions.hpp ../header_files/multivariate_integration.hpp ../header_files/exotic_options.hpp
 
 random_functions.o:../header_files/random_functions.cpp
 	$(CC) $(CFLAGS) -g -c ../header_files/random_functions.cpp ../header_files/random_functions.hpp
@@ -23,6 +23,9 @@ integration_functions.o:../header_files/integration_functions.cpp
 	
 multivariate_integration.o:../header_files/multivariate_integration.cpp
 	$(CC) $(CFLAGS) -g -c ../header_files/multivariate_integration.cpp ../header_files/multivariate_integration.hpp
+
+exotic_options.o:../header_files/exotic_options.cpp
+	$(CC) $(CFLAGS) -g -c ../header_files/exotic_options.cpp ../header_files/exotic_options.hpp
 
 
 doc:
