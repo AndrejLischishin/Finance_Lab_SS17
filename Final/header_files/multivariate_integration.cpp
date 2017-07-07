@@ -68,13 +68,14 @@ void clenshaw_curtis_weights(std::vector<double>* weights, int l){
 	int Nk = pow(2, l-1)-1;
 	double sum = 0.;
 	std::vector<double> weightstemp;
+    weightstemp.clear();
 
 	for(int i=1; i<=Nl; i++)
 	{
 		sum = 0.;
 		for(int j=1; j<=(Nl+1)/2; j++)
 		{
-			sum = sum + (double) (1./(2.*j-1.)) * sin( (double)(2.*j-1.) * M_PI * (i/(double)(Nl+1.)) );
+			sum = sum + (double) (1./(2.*j-1.)) * sin( (double)(2.*j-1.) * M_PI * ((double)i/(double)(Nl+1.)) );
 		}
 		weights->push_back(( (double)(2./(Nl+1.)) * sin( M_PI * ((double)i/(double)(Nl+1.)) ) * sum ));
 	}
@@ -85,7 +86,7 @@ void clenshaw_curtis_weights(std::vector<double>* weights, int l){
 
 		for(int j=1; j<=(Nk+1)/2; j++)
 		{
-			sum = sum + (double) (1./(2.*j-1.)) * sin( (double)(2.*j-1.) * M_PI * (i/(double)(Nk+1.)) );
+			sum = sum + (double) (1./(2.*j-1.)) * sin( (double)(2.*j-1.) * M_PI * ((double)i/(double)(Nk+1.)) );
 		}
 		weightstemp.push_back( (double)(2./(Nk+1.)) * sin( M_PI * ((double)i/(double)(Nk+1.)) ) * sum );
 	}
@@ -590,6 +591,8 @@ void trap_rule_absolute_number(std::vector<double>* nodes, std::vector<double>* 
 
 void clenshaw_curtis_absolute_number(std::vector<double>* nodes, std::vector<double>* weights, int Nl)
 {
+    weights->clear();
+    nodes->clear();
     for(int i=1; i<=Nl; i++)
     {
         nodes->push_back(.5*(1.-cos((double)(M_PI*i/(Nl+1.)))));
@@ -597,7 +600,7 @@ void clenshaw_curtis_absolute_number(std::vector<double>* nodes, std::vector<dou
         
         for(int j=1; j<=(Nl+1)/2; j++)
         {
-            sum = sum + (double) (1./(2.*j-1.)) * sin( (double)(2.*j-1.) * M_PI * (i/(double)(Nl+1.)) );
+            sum = sum + (double) (1./(2.*j-1.)) * sin( (double)(2.*j-1.) * M_PI * ((double)i/(double)(Nl+1.)) );
         }
         weights->push_back( (double)(2./(Nl+1.)) * sin( M_PI * ((double)i/(double)(Nl+1.)) ) * sum );
     }
