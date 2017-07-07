@@ -164,7 +164,7 @@ namespace Task_17{
 
 
 /**
- * Main function to run all exercises of worksheet 2.
+ * Main function to run all exercises of worksheet 3.
  *
  * @param argc Integer argument for main
  * @param argv Char array argument for main
@@ -184,7 +184,7 @@ int main(int argc, char* argv[])
 
 	std::ofstream myfile;
 
-		//////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////
     //////////////////////////Task_3//////////////////////////
     //////////////////////////////////////////////////////////
 
@@ -878,5 +878,6 @@ int main(int argc, char* argv[])
  
     free(rng);
 
+	return 0;
 /////////////////////////////////////////////////////////
 }

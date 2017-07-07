@@ -1,0 +1,7 @@
+\beamer@endinputifotherversion {3.36pt}
+\select@language {ngerman}
+\beamer@sectionintoc {1}{Einf\IeC {\"u}hrung}{3}{0}{1}
+\beamer@sectionintoc {2}{Multilevel Monte Carlo Methoden}{14}{0}{2}
+\beamer@sectionintoc {3}{Hauptresultat}{32}{0}{3}
+\beamer@sectionintoc {4}{Implementierung}{42}{0}{4}
+\beamer@sectionintoc {5}{Multi-Index Monte Carlo}{50}{0}{5}

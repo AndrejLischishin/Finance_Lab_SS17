@@ -1,0 +1,67 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: seminar_handout.aux
+The style file: biblatex.bst
+This database file appears more than once: literatur.bib
+---line 21 of file seminar_handout.aux
+ : \bibdata{seminar_handout-blx,literatur,literatur
+ :                                                 }
+I'm skipping whatever remains of this command
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: seminar_handout-blx.bib
+Database file #2: literatur.bib
+Biblatex version: 3.3
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+You've used 8 entries,
+            6047 wiz_defined-function locations,
+            1181 strings with 9405 characters,
+and the built_in function-call counts, 28276 in all, are:
+= -- 1430
+> -- 962
+< -- 363
++ -- 403
+- -- 317
+* -- 1822
+:= -- 1738
+add.period$ -- 0
+call.type$ -- 8
+change.case$ -- 245
+chr.to.int$ -- 34
+cite$ -- 14
+duplicate$ -- 2967
+empty$ -- 2730
+format.name$ -- 483
+if$ -- 6590
+int.to.chr$ -- 0
+int.to.str$ -- 20
+missing$ -- 0
+newline$ -- 213
+num.names$ -- 477
+pop$ -- 2282
+preamble$ -- 1
+purify$ -- 265
+quote$ -- 0
+skip$ -- 1780
+stack$ -- 0
+substring$ -- 1230
+swap$ -- 1010
+text.length$ -- 214
+text.prefix$ -- 7
+top$ -- 1
+type$ -- 288
+warning$ -- 0
+while$ -- 178
+width$ -- 0
+write$ -- 204
+(There was 1 error message)

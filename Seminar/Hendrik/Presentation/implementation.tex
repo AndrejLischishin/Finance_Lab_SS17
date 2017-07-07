@@ -1,0 +1,72 @@
+\section{Implementierung}
+
+\begin{frame}
+	\frametitle{Der Algorithmus}
+	
+	\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, text centered, draw=red, fill=red!30]
+	\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, text width=3cm, draw=orange, fill=orange!30]
+	\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=green, fill=green!30, aspect=3]
+	\tikzstyle{arrow} = [thick,->,>=stealth]
+	
+	\begin{tikzpicture}[node distance=1.75cm]
+	
+	\node (initialisieren) [process] {Initialisieren};
+	
+	\onslide<2->{
+	\node (weitereSamples) [decision, below of=initialisieren] {Mehr Samples?};
+	}
+	
+	\onslide<3->{
+	\node (stop) [startstop, right of=weitereSamples, xshift=4cm] {Stop};
+	
+	\node (samplesAuswerten) [process, below of=weitereSamples, yshift=-0.75cm] {Weitere Samples auswerten,\\$V_l$ schätzen,\\optimales $N_l$ berechnen};
+	}
+	
+	\onslide<4->{
+	\node (konvergenz) [decision, right of=samplesAuswerten, xshift=4cm] {Konvergenz?};
+	}
+	
+	\onslide<5->{
+	\node (LPlusEins) [process, below of=konvergenz] {Setze $L:=L+1$,\\initialisiere $N_L$};
+	}
+	
+	\onslide<2->{
+	\draw [arrow] (initialisieren) -- (weitereSamples);
+	}
+	\onslide<3->{
+	\draw [arrow] (weitereSamples) -- node[anchor=south] {nein} (stop);
+	\draw [arrow] (weitereSamples) -- node[anchor=east] {ja} (samplesAuswerten);
+	}
+	\onslide<4->{
+	\draw [arrow] (samplesAuswerten) -- (konvergenz);
+	}
+	\onslide<5->{
+	\draw [arrow] (konvergenz) -- node[anchor=east] {nein} (LPlusEins);
+	\draw [arrow] (konvergenz) -- node[anchor=east] {ja} (stop);
+	\draw [arrow] (LPlusEins) -- (-3,-6) -- (-3,-1.75) -- (weitereSamples);
+	}
+
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[c]
+	\frametitle{Hinweise zur Implementierung}
+	\begin{itemize}
+		\item Die Konstanten $c_1$ und $c_2$ sind meist nicht bekannt.
+		\item Die Genauigkeit der Schätzer für $V_l$ $(l=0,\dots,L)$ hängt von der Anzahl der verwendeten Samples ab.
+		\newline
+		\newline
+		\item \textbf{Wichtig:} Der Algorithmus ist heuristisch, ein $MSE$ von $\epsilon^2$ ist \noindent\hspace*{16.25mm}nicht garantiert!
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[c]
+	\frametitle{Besonderheiten bei der Implementierung\footnote{Für eine konkrete Umsetzung des MLMC-Algorithmus mit sämtlichen Besonderheiten siehe \cite{giles2015} und http://people.maths.ox.ac.uk/gilesm/mlmc/ (C/C++ und MATLAB-Code)}}
+	\begin{itemize}
+		\item Der Konvergenz-Test überprüft, ob $|\mathbb{E}[P_L-P]|<\epsilon/\sqrt{2}$ um den gewünschten $MSE$ zu erhalten:
+		\[
+			\left|\mathbb{E}[P-P_L]\right|=\left|\sum\limits_{l=L+1}^{\infty}\mathbb{E}[P_l-P_{l-1}]\right|=\left|\frac{\mathbb{E}[P_L-P_{L-1}]}{(2^\alpha-1)}\right|\stackrel{!}{<}\epsilon/\sqrt{2}
+		\]
+		\item Sind $\alpha$ und $\beta$ nicht bekannt, so müssen diese, bspw. mittels linearer Regression, geschätzt werden.
+	\end{itemize}
+\end{frame}
