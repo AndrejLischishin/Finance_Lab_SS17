@@ -109,7 +109,7 @@ double normal_cdf(double x)
 double normal_inverse_cdf(double x){
 
     double p = x-0.5;
-    double r;
+    long double r;
     if(fabs(p)<0.42)
     {
         r = pow(p, 2.);

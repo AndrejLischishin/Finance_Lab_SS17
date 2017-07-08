@@ -189,7 +189,8 @@ double integrate_by_point_evaluation_multivariate(double (*function)(std::vector
 	for(int i=0; i<N; i++)
 	{
 		result += (*weights)[i]*function(&(*nodes)[i], rest...);
-	}
+        
+    }
 
 	return result;
 }
