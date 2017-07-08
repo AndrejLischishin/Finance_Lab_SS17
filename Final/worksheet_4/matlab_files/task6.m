@@ -24,8 +24,8 @@ plot(log10(n), z,':ms','Linewidth',2);
 
 
 
-title('task 6 M=64');
+title('task 6 lookback');
 ylabel('value');
 xlabel('N');
 lngd = legend('QMC BB','MC BB','reference value');
-set(lngd,'fontsize',4,'Position',[0.6,0.4,0.3,0.1]);
+set(lngd,'fontsize',4,'Position',[0.6,0.15,0.3,0.2]);

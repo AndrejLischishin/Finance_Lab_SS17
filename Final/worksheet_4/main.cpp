@@ -456,7 +456,6 @@ int main(int argc, char* argv[])
     //////////////////////////Task_6//////////////////////////
     //////////////////////////////////////////////////////////
 
-    Task_6::discretization = 64;
     Task_6::s0 = 10;
     Task_6::K = 10;
     Task_6::M = 64;
@@ -471,16 +470,31 @@ int main(int argc, char* argv[])
         std::cout<<"Error opening the file"<<std::endl;
     }
     
-    Task_6::x = new std::vector<double> (Task_6::N);
-    if (Task_6::x==NULL) {
+    
+    //////////////////////////////////
+    /////////Referance_value//////////
+    //////////////////////////////////
+    
+    Task_6::discretization = 5000000;
+    Task_6::nodes = new std::vector<std::vector<double> >(Task_6::discretization);
+    if (Task_6::nodes==NULL) {
+        std::cout<<"Bad allocation task_6"<<std::endl;
+    }
+    Task_6::weights_vec = new std::vector<double> (Task_6::discretization);
+    if (Task_6::weights_vec==NULL) {
         std::cout<<"Bad allocation task_6"<<std::endl;
     }
     
-    for (int i = 0; i<Task_6::discretization; i++) {
-        Task_6::x->push_back(i*Task_6::T/Task_6::discretization);
-    }
+    monte_carlo_multivariate(Task_6::nodes, Task_6::weights_vec, Task_6::discretization, Task_6::M,rng);
+    Task_6::reference_value = integrate_by_point_evaluation_multivariate(lookback_call_integrand_fixed , Task_6::discretization, Task_6::nodes, Task_6::weights_vec, Task_6::s0,Task_6::K,Task_6::sigma,Task_6::r,Task_6::M,Task_6::T, Task_6::use_bb);
     
-    Task_6::reference_value = payoff_discrete_lookback(Task_6::x, Task_6::s0, Task_6::r, Task_6::T, Task_6::M, Task_6::K, Task_6::sigma);
+    free(Task_6::nodes);
+    free(Task_6::weights_vec);
+    
+    
+    /////////////////////////////////
+    ////////Simulatios///////////////
+    /////////////////////////////////
     //std::cout<<Task_6::reference_value<<std::endl;
     for (int i = 1; i<=4; i++) {
         
