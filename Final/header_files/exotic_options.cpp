@@ -55,3 +55,33 @@ double payoff_discrete_lookback(std::vector<double> x, double s0, double r, doub
 	else
 		return 0.0;
 }
+
+
+double black_scholes_down_out_call(double s0, double K, double T, double sigma, double r, double B)
+{
+	double Z;
+	if(B==0)
+		Z = 0;
+	else
+		Z = pow((B/s0),(((2.0*r)/(sigma*sigma))-1.0));
+
+	double Bbar;
+
+	if(B>K)
+		Bbar = B;
+	else
+		Bbar = K;
+
+	return V_bs(s0, Bbar, r, sigma, T)-Z*V_bs(B*B/s0, Bbar, r, sigma, T)+(Bbar-K)*exp(-r*T)*(normal_cdf(d_S_K(s0, Bbar, r, sigma, T))-Z*normal_cdf(d_S_K(B*B/s0, Bbar, r, sigma, T)));
+}
+
+double d_S_K(double S, double K, double r, double sigma, double T)
+{
+	return (log(S/K)+(r-sigma*sigma/2.0)*T)/(sigma*sqrt(T));
+}
+
+double V_bs(double S, double K, double r, double sigma, double T)
+{
+	double d = d_S_K(S, K, r, sigma, T);
+	return S*normal_cdf(d+sigma*sqrt(T))-K*exp(-r*T)*normal_cdf(d);
+}

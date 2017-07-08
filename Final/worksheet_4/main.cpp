@@ -26,6 +26,17 @@ namespace Task_1
 	double payoff;
 }
 
+namespace Task_3
+{
+	double s0;
+	double r;
+	double T;
+	double K;
+	double sigma;
+	double B;
+	double fair_price;
+}
+
 namespace Task_5
 {
 	int plot_numbers;
@@ -95,6 +106,25 @@ int main(int argc, char* argv[])
     //////////////////////////Task_3//////////////////////////
     //////////////////////////////////////////////////////////
 
+	Task_3::s0 = 10.0;
+	Task_3::K = 10.0;
+	Task_3::T = 1.0;
+	Task_3::sigma = 0.2;
+	Task_3::r = 0.02;
+
+	myfile.open("output/fair_prices_down_out_call.txt",std::ios::trunc);
+    if (!myfile.is_open()) {
+        std::cout<<"Error opening the file"<<std::endl;
+    }
+
+	for(int i=0; i<100; i++)
+	{
+		Task_3::B = 0.1*i;
+		Task_3::fair_price = black_scholes_down_out_call(Task_3::s0, Task_3::K, Task_3::T, Task_3::sigma, Task_3::r, Task_3::B);
+		myfile << Task_3::B << "	" << Task_3::fair_price << std::endl;
+	}
+	
+	myfile.close();
 
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_4//////////////////////////
