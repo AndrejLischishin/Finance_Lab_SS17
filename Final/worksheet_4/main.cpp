@@ -43,9 +43,10 @@ namespace Task_2 {
     
     std::vector<std::vector<double> >* nodes;
     std::vector<double>* weights_vec;
-    std::vector<double> x;
+    
     
     double reference_value;
+    double reference_value_coarse_discrt;
     double calculated_result;
     bool use_bb;
 }
@@ -191,7 +192,7 @@ int main(int argc, char* argv[])
     //////////////////////////Task_2//////////////////////////
     //////////////////////////////////////////////////////////
     
-    Task_2::discretization = 64;
+    
     Task_2::s0 = 10;
     Task_2::K = 10;
     Task_2::M = 64;
@@ -207,12 +208,51 @@ int main(int argc, char* argv[])
         std::cout<<"Error opening the file"<<std::endl;
     }
 
-    for (int i = 0; i<Task_2::discretization; i++) {
-        Task_2::x.push_back(i*Task_2::T/Task_2::discretization);
+    //////////////////////////////////
+    /////////Referance_value//////////
+    //////////////////////////////////
+    
+    Task_2::discretization = 5000000;
+    Task_2::nodes = new std::vector<std::vector<double> >(Task_2::discretization);
+    if (Task_2::nodes==NULL) {
+        std::cout<<"Bad allocation task_2"<<std::endl;
+    }
+    Task_2::weights_vec = new std::vector<double> (Task_2::discretization);
+    if (Task_2::weights_vec==NULL) {
+        std::cout<<"Bad allocation task_2"<<std::endl;
     }
     
-    Task_2::reference_value = 0;
-    //std::cout<<Task_2::reference_value<<std::endl;
+    monte_carlo_multivariate(Task_2::nodes, Task_2::weights_vec, Task_2::discretization, Task_2::M,rng);
+    Task_2::reference_value = integrate_by_point_evaluation_multivariate(barrier_integrand, Task_2::discretization, Task_2::nodes, Task_2::weights_vec, Task_2::s0,Task_2::K,Task_2::sigma,Task_2::r,Task_2::M,Task_2::T,Task_2::B, Task_2::use_bb);
+    
+    free(Task_2::nodes);
+    free(Task_2::weights_vec);
+    
+    //////////////////////////////////
+    /////////Referance_value//////////
+    /////////coarse_discrt////////////
+    
+    Task_2::discretization = 200;
+    Task_2::nodes = new std::vector<std::vector<double> >(Task_2::discretization);
+    if (Task_2::nodes==NULL) {
+        std::cout<<"Bad allocation task_2"<<std::endl;
+    }
+    Task_2::weights_vec = new std::vector<double> (Task_2::discretization);
+    if (Task_2::weights_vec==NULL) {
+        std::cout<<"Bad allocation task_2"<<std::endl;
+    }
+    
+    monte_carlo_multivariate(Task_2::nodes, Task_2::weights_vec, Task_2::discretization, Task_2::M,rng);
+    Task_2::reference_value_coarse_discrt = integrate_by_point_evaluation_multivariate(barrier_integrand, Task_2::discretization, Task_2::nodes, Task_2::weights_vec, Task_2::s0,Task_2::K,Task_2::sigma,Task_2::r,Task_2::M,Task_2::T,Task_2::B, Task_2::use_bb);
+    
+    free(Task_2::nodes);
+    free(Task_2::weights_vec);
+    
+    /////////////////////////////////
+    ////////Simulatios///////////////
+    /////////////////////////////////
+    
+    
     for (int i = 1; i<=4; i++) {
         
         
@@ -228,11 +268,11 @@ int main(int argc, char* argv[])
         
         Task_2::nodes = new std::vector<std::vector<double> >(Task_2::N);
         if (Task_2::nodes==NULL) {
-            std::cout<<"Bad allocation task_7"<<std::endl;
+            std::cout<<"Bad allocation task_2"<<std::endl;
         }
         Task_2::weights_vec = new std::vector<double> (Task_2::N);
         if (Task_2::weights_vec==NULL) {
-            std::cout<<"Bad allocation task_7"<<std::endl;
+            std::cout<<"Bad allocation task_2"<<std::endl;
         }
         
         quasi_monte_carlo_multivariate(Task_2::nodes, Task_2::weights_vec, Task_2::N, Task_2::M);
@@ -251,11 +291,11 @@ int main(int argc, char* argv[])
         
         Task_2::nodes = new std::vector<std::vector<double> >(Task_2::N);
         if (Task_2::nodes==NULL) {
-            std::cout<<"Bad allocation task_7"<<std::endl;
+            std::cout<<"Bad allocation task_2"<<std::endl;
         }
         Task_2::weights_vec = new std::vector<double> (Task_2::N);
         if (Task_2::weights_vec==NULL) {
-            std::cout<<"Bad allocation task_7"<<std::endl;
+            std::cout<<"Bad allocation task_2"<<std::endl;
         }
         
         quasi_monte_carlo_multivariate(Task_2::nodes, Task_2::weights_vec, Task_2::N, Task_2::M);
@@ -274,11 +314,11 @@ int main(int argc, char* argv[])
         
         Task_2::nodes = new std::vector<std::vector<double> >(Task_2::N);
         if (Task_2::nodes==NULL) {
-            std::cout<<"Bad allocation task_7"<<std::endl;
+            std::cout<<"Bad allocation task_2"<<std::endl;
         }
         Task_2::weights_vec = new std::vector<double> (Task_2::N);
         if (Task_2::weights_vec==NULL) {
-            std::cout<<"Bad allocation task_7"<<std::endl;
+            std::cout<<"Bad allocation task_2"<<std::endl;
         }
         
         monte_carlo_multivariate(Task_2::nodes, Task_2::weights_vec, Task_2::N, Task_2::M,rng);
@@ -297,17 +337,18 @@ int main(int argc, char* argv[])
         
         Task_2::nodes = new std::vector<std::vector<double> >(Task_2::N);
         if (Task_2::nodes==NULL) {
-            std::cout<<"Bad allocation task_7"<<std::endl;
+            std::cout<<"Bad allocation task_2"<<std::endl;
         }
         Task_2::weights_vec = new std::vector<double> (Task_2::N);
         if (Task_2::weights_vec==NULL) {
-            std::cout<<"Bad allocation task_7"<<std::endl;
+            std::cout<<"Bad allocation task_2"<<std::endl;
         }
         
         monte_carlo_multivariate(Task_2::nodes, Task_2::weights_vec, Task_2::N, Task_2::M,rng);
         Task_2::calculated_result = integrate_by_point_evaluation_multivariate(barrier_integrand, Task_2::N, Task_2::nodes, Task_2::weights_vec, Task_2::s0,Task_2::K,Task_2::sigma,Task_2::r,Task_2::M,Task_2::T,Task_2::B, Task_2::use_bb);
         
         myfile<<Task_2::calculated_result<<" ";
+        myfile<<Task_2::reference_value_coarse_discrt<<" ";
         myfile<<Task_2::reference_value<<std::endl;
         
         free(Task_2::nodes);
@@ -420,7 +461,6 @@ int main(int argc, char* argv[])
     //////////////////////////Task_6//////////////////////////
     //////////////////////////////////////////////////////////
 
-    Task_6::discretization = 64;
     Task_6::s0 = 10;
     Task_6::K = 10;
     Task_6::M = 64;
@@ -435,16 +475,31 @@ int main(int argc, char* argv[])
         std::cout<<"Error opening the file"<<std::endl;
     }
     
-    Task_6::x = new std::vector<double> (Task_6::N);
-    if (Task_6::x==NULL) {
+    
+    //////////////////////////////////
+    /////////Referance_value//////////
+    //////////////////////////////////
+    
+    Task_6::discretization = 5000000;
+    Task_6::nodes = new std::vector<std::vector<double> >(Task_6::discretization);
+    if (Task_6::nodes==NULL) {
+        std::cout<<"Bad allocation task_6"<<std::endl;
+    }
+    Task_6::weights_vec = new std::vector<double> (Task_6::discretization);
+    if (Task_6::weights_vec==NULL) {
         std::cout<<"Bad allocation task_6"<<std::endl;
     }
     
-    for (int i = 0; i<Task_6::discretization; i++) {
-        Task_6::x->push_back(i*Task_6::T/Task_6::discretization);
-    }
+    monte_carlo_multivariate(Task_6::nodes, Task_6::weights_vec, Task_6::discretization, Task_6::M,rng);
+    Task_6::reference_value = integrate_by_point_evaluation_multivariate(lookback_call_integrand_fixed , Task_6::discretization, Task_6::nodes, Task_6::weights_vec, Task_6::s0,Task_6::K,Task_6::sigma,Task_6::r,Task_6::M,Task_6::T, Task_6::use_bb);
     
-    Task_6::reference_value = payoff_discrete_lookback(Task_6::x, Task_6::s0, Task_6::r, Task_6::T, Task_6::M, Task_6::K, Task_6::sigma);
+    free(Task_6::nodes);
+    free(Task_6::weights_vec);
+    
+    
+    /////////////////////////////////
+    ////////Simulatios///////////////
+    /////////////////////////////////
     //std::cout<<Task_6::reference_value<<std::endl;
     for (int i = 1; i<=4; i++) {
         
@@ -608,7 +663,7 @@ int main(int argc, char* argv[])
         
         free(Task_7::nodes);
         free(Task_7::weights_vec);
-        //std::cout<<"Lap"<<std::endl;
+        
     }
     myfile.close();
 
