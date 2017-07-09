@@ -352,12 +352,16 @@ int main(int argc, char* argv[])
 	Task_4::r = 0.02;
 	Task_4::M = {4,64,256,1024};
 
-	std::cout << "Task 4" << std::endl;
+	myfile.open("output/convergence_plot_discrete_down_out_call.txt",std::ios::trunc);
+    if (!myfile.is_open()) {
+        std::cout<<"Error opening the file"<<std::endl;
+    }
 	
-	for(int n=10; n<=100000; n*=10)
+	for(int n=10; n<=10000; n*=10)
 	{
 		Task_4::exact_value = black_scholes_down_out_call(Task_4::s0, Task_4::K, Task_4::T, Task_4::sigma, Task_4::r, Task_4::B);
-		std::cout << "Exact result: " << Task_4::exact_value << std::endl;
+		//std::cout << "Exact result: " << Task_4::exact_value << std::endl;
+		myfile << n << "	";
 		for(unsigned int m=0; m<Task_4::M.size(); m++)
 		{
 			Task_4::nodes = new std::vector<std::vector<double>>(n);
@@ -368,9 +372,10 @@ int main(int argc, char* argv[])
 			monte_carlo_multivariate(Task_4::nodes, Task_4::weights_vec, n, Task_4::M[m], rng);
 
 			Task_4::calculated_result = integrate_by_point_evaluation_multivariate(payoff_discrete_down_out_call, n, Task_4::nodes, Task_4::weights_vec, Task_4::s0, Task_4::r, Task_4::T, Task_4::M[m], Task_4::K, Task_4::sigma, Task_4::B);
-			//myfile<<fabs(Task_4::exact_value-Task_4::calculated_result)<<" ";
-			std::cout << Task_4::calculated_result << std::endl;
+			myfile << fabs(Task_4::exact_value-Task_4::calculated_result) << "	";
+			//std::cout << Task_4::calculated_result << std::endl;
 		}
+		myfile << std::endl;
 	}
 	
 	free(Task_4::nodes);
