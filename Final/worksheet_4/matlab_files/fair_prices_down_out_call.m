@@ -8,6 +8,6 @@ x = A(2,:);
 
 plot(d, x);
 
-title('Fair prices for Down-Out call option');
+title('Fair price for Down-Out call option');
 ylabel('Price');
 xlabel('B');
