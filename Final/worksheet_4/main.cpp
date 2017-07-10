@@ -151,6 +151,7 @@ int main(int argc, char* argv[])
     gsl_rng_set(rng, seed);
 
 	std::ofstream myfile;
+    std::ofstream secondfile;
 
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_1//////////////////////////
@@ -192,7 +193,7 @@ int main(int argc, char* argv[])
     //////////////////////////Task_2//////////////////////////
     //////////////////////////////////////////////////////////
 
-/*    
+   
     
     Task_2::s0 = 10;
     Task_2::K = 10;
@@ -205,6 +206,11 @@ int main(int argc, char* argv[])
     Task_2::use_bb = true;
     
     myfile.open("output/task2.txt",std::ios::trunc);
+    if (!myfile.is_open()) {
+        std::cout<<"Error opening the file"<<std::endl;
+    }
+    
+    secondfile.open("output/task2_error.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
@@ -259,6 +265,7 @@ int main(int argc, char* argv[])
         
         Task_2::N = (int)pow(Task_2::M/2.,(double)i);
         myfile<<Task_2::N<<" ";
+        secondfile<<Task_2::N<<" ";
         
         //////////////////////////////////
         //////////////QMC_RW//////////////
@@ -280,6 +287,7 @@ int main(int argc, char* argv[])
         Task_2::calculated_result = integrate_by_point_evaluation_multivariate(barrier_integrand, Task_2::N, Task_2::nodes, Task_2::weights_vec, Task_2::s0,Task_2::K,Task_2::sigma,Task_2::r,Task_2::M,Task_2::T, Task_2::B, Task_2::use_bb);
         
         myfile<<Task_2::calculated_result<<" ";
+        secondfile<<fabs(Task_2::calculated_result - Task_2::reference_value)<<" ";
         
         free(Task_2::nodes);
         free(Task_2::weights_vec);
@@ -303,6 +311,7 @@ int main(int argc, char* argv[])
         Task_2::calculated_result = integrate_by_point_evaluation_multivariate(barrier_integrand, Task_2::N, Task_2::nodes, Task_2::weights_vec, Task_2::s0,Task_2::K,Task_2::sigma,Task_2::r,Task_2::M,Task_2::T, Task_2::B, Task_2::use_bb);
         
         myfile<<Task_2::calculated_result<<" ";
+        secondfile<<fabs(Task_2::calculated_result - Task_2::reference_value)<<" ";
         
         free(Task_2::nodes);
         free(Task_2::weights_vec);
@@ -326,6 +335,7 @@ int main(int argc, char* argv[])
         Task_2::calculated_result = integrate_by_point_evaluation_multivariate(barrier_integrand, Task_2::N, Task_2::nodes, Task_2::weights_vec, Task_2::s0,Task_2::K,Task_2::sigma,Task_2::r,Task_2::M,Task_2::T,Task_2::B, Task_2::use_bb);
         
         myfile<<Task_2::calculated_result<<" ";
+        secondfile<<fabs(Task_2::calculated_result - Task_2::reference_value)<<" ";
         
         free(Task_2::nodes);
         free(Task_2::weights_vec);
@@ -349,6 +359,7 @@ int main(int argc, char* argv[])
         Task_2::calculated_result = integrate_by_point_evaluation_multivariate(barrier_integrand, Task_2::N, Task_2::nodes, Task_2::weights_vec, Task_2::s0,Task_2::K,Task_2::sigma,Task_2::r,Task_2::M,Task_2::T,Task_2::B, Task_2::use_bb);
         
         myfile<<Task_2::calculated_result<<" ";
+        secondfile<<fabs(Task_2::calculated_result - Task_2::reference_value)<<std::endl;
         myfile<<Task_2::reference_value_coarse_discrt<<" ";
         myfile<<Task_2::reference_value<<std::endl;
         
@@ -357,7 +368,8 @@ int main(int argc, char* argv[])
         
     }
     myfile.close();
-*/
+    secondfile.close();
+
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_3//////////////////////////
     //////////////////////////////////////////////////////////
@@ -462,7 +474,7 @@ int main(int argc, char* argv[])
     //////////////////////////Task_6//////////////////////////
     //////////////////////////////////////////////////////////
 
-/*
+
     Task_6::s0 = 10;
     Task_6::K = 10;
     Task_6::M = 64;
@@ -473,6 +485,11 @@ int main(int argc, char* argv[])
     Task_6::use_bb = true;
     
     myfile.open("output/task6.txt",std::ios::trunc);
+    if (!myfile.is_open()) {
+        std::cout<<"Error opening the file"<<std::endl;
+    }
+    
+    secondfile.open("output/task6_errors.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
@@ -508,6 +525,7 @@ int main(int argc, char* argv[])
         
         Task_6::N = (int)pow(Task_6::M/2.,(double)i);
         myfile<<Task_6::N<<" ";
+        secondfile<<Task_6::N<<" ";
         
         //////////////////////////////////
         //////////////QMC/////////////////
@@ -526,6 +544,7 @@ int main(int argc, char* argv[])
         Task_6::calculated_result = integrate_by_point_evaluation_multivariate(lookback_call_integrand_fixed, Task_6::N, Task_6::nodes, Task_6::weights_vec, Task_6::s0,Task_6::K,Task_6::sigma,Task_6::r,Task_6::M,Task_6::T, Task_6::use_bb);
         
         myfile<<Task_6::calculated_result<<" ";
+        secondfile<<fabs(Task_6::calculated_result - Task_6::reference_value)<<" ";
         
         free(Task_6::nodes);
         free(Task_6::weights_vec);
@@ -547,6 +566,7 @@ int main(int argc, char* argv[])
         Task_6::calculated_result = integrate_by_point_evaluation_multivariate(lookback_call_integrand_fixed, Task_6::N, Task_6::nodes, Task_6::weights_vec, Task_6::s0,Task_6::K,Task_6::sigma,Task_6::r,Task_6::M,Task_6::T, Task_6::use_bb);
         
         myfile<<Task_6::calculated_result<<" ";
+        secondfile<<fabs(Task_6::calculated_result - Task_6::reference_value)<<std::endl;
         myfile<<Task_6::reference_value<<std::endl;
         
         free(Task_6::nodes);
@@ -554,7 +574,8 @@ int main(int argc, char* argv[])
     
     }
     myfile.close();
-*/	//////////////////////////////////////////////////////////
+    secondfile.close();
+	//////////////////////////////////////////////////////////
     //////////////////////////Task_7//////////////////////////
     //////////////////////////////////////////////////////////
 

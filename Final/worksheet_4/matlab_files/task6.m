@@ -21,10 +21,7 @@ hold on
 plot(log10(n), z,':ms','Linewidth',2);
 
 
-
-
-
-title('task 6 lookback');
+title('M = 64, lookback, QMC, MC');
 ylabel('value');
 xlabel('N');
 lngd = legend('QMC BB','MC BB','reference value');

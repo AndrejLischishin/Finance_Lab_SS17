@@ -36,7 +36,7 @@ hold on
 plot(log10(n), q,'-c+','Linewidth',2);
 
 
-title('task 2 barrier down-out');
+title('M = 64, barrier down-out call, QMC, MC');
 ylabel('value');
 xlabel('N');
 lngd = legend('QMC RW','QMC BB','MC RW','MC BB','reference value coarse discrt.','reference value');
