@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.5.15)  9 JUL 2017 19:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.5.15)  11 JUL 2017 00:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -649,65 +649,139 @@ File: payoff_down_out_call.png Graphic file (type png)
 
 <use payoff_down_out_call.png>
 Package pdftex.def Info: payoff_down_out_call.png used on input line 23.
-(pdftex.def)             Requested size: 240.8994pt x 180.67456pt.
+(pdftex.def)             Requested size: 337.25769pt x 252.94327pt.
+ <images/task2.png, id=5, 1156.32pt x 867.24pt>
+File: images/task2.png Graphic file (type png)
 
-<fair_prices_down_out_call.png, id=5, 578.16pt x 434.5836pt>
-File: fair_prices_down_out_call.png Graphic file (type png)
+<use images/task2.png>
+Package pdftex.def Info: images/task2.png used on input line 30.
+(pdftex.def)             Requested size: 404.71806pt x 303.53854pt.
 
-<use fair_prices_down_out_call.png>
-Package pdftex.def Info: fair_prices_down_out_call.png used on input line 29.
-(pdftex.def)             Requested size: 289.07928pt x 217.29126pt.
- [1
+Overfull \hbox (59.71806pt too wide) in paragraph at lines 30--31
+ [] 
+ []
+
+[1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./payoff_down_out_call.png
  (PNG copy)>]
-<convergence_plot_discrete_down_out_call.png, id=17, 1371.2028pt x 650.43pt>
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 34.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 34.
+
+<images/task2_error.png, id=18, 1156.32pt x 867.24pt>
+File: images/task2_error.png Graphic file (type png)
+
+<use images/task2_error.png>
+Package pdftex.def Info: images/task2_error.png used on input line 46.
+(pdftex.def)             Requested size: 404.71806pt x 303.53854pt.
+
+Overfull \hbox (59.71806pt too wide) in paragraph at lines 46--47
+ [] 
+ []
+
+[2 <./images/task2.png (PNG copy)>]
+<fair_prices_down_out_call.png, id=25, 578.16pt x 434.5836pt>
+File: fair_prices_down_out_call.png Graphic file (type png)
+
+<use fair_prices_down_out_call.png>
+Package pdftex.def Info: fair_prices_down_out_call.png used on input line 54.
+(pdftex.def)             Requested size: 404.70924pt x 304.20644pt.
+
+Overfull \hbox (59.70924pt too wide) in paragraph at lines 54--55
+ [] 
+ []
+
+[3 <./images/task2_error.png (PNG copy)>]
+<convergence_plot_discrete_down_out_call.png, id=32, 1371.2028pt x 650.43pt>
 File: convergence_plot_discrete_down_out_call.png Graphic file (type png)
 
 <use convergence_plot_discrete_down_out_call.png>
 Package pdftex.def Info: convergence_plot_discrete_down_out_call.png used on in
-put line 35.
-(pdftex.def)             Requested size: 685.59973pt x 325.2142pt.
+put line 62.
+(pdftex.def)             Requested size: 959.83545pt x 455.2979pt.
 
-Overfull \hbox (340.59973pt too wide) in paragraph at lines 35--36
+Overfull \hbox (614.83545pt too wide) in paragraph at lines 62--63
  [] 
  []
 
-[2 <./fair_prices_down_out_call.png>]
-<payoff_lookback.png, id=24, 481.8pt x 361.35pt>
+[4 <./fair_prices_down_out_call.png>]
+<payoff_lookback.png, id=38, 481.8pt x 361.35pt>
 File: payoff_lookback.png Graphic file (type png)
  <use payoff_lookback.png>
-Package pdftex.def Info: payoff_lookback.png used on input line 41.
-(pdftex.def)             Requested size: 240.8994pt x 180.67456pt.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 44.
+Package pdftex.def Info: payoff_lookback.png used on input line 68.
+(pdftex.def)             Requested size: 337.25769pt x 252.94327pt.
 
-[3 <./convergence_plot_discrete_down_out_call.png> <./payoff_lookback.png (PNG 
-copy)>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 44.
- (./solution.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 44.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 44.
+[5 <./convergence_plot_discrete_down_out_call.png>]
+<images/task6.png, id=43, 1156.32pt x 867.24pt>
+File: images/task6.png Graphic file (type png)
+ <use images/task6.png>
+Package pdftex.def Info: images/task6.png used on input line 74.
+(pdftex.def)             Requested size: 404.71806pt x 303.53854pt.
+
+Overfull \hbox (59.71806pt too wide) in paragraph at lines 74--75
+ [] 
+ []
+
+[6 <./payoff_lookback.png (PNG copy)>]
+<images/task6_error.png, id=50, 1156.32pt x 867.24pt>
+File: images/task6_error.png Graphic file (type png)
+
+<use images/task6_error.png>
+Package pdftex.def Info: images/task6_error.png used on input line 85.
+(pdftex.def)             Requested size: 404.71806pt x 303.53854pt.
+
+Overfull \hbox (59.71806pt too wide) in paragraph at lines 85--86
+ [] 
+ []
+
+[7 <./images/task6.png (PNG copy)>]
+<images/task7.png, id=56, 1156.32pt x 867.24pt>
+File: images/task7.png Graphic file (type png)
+ <use images/task7.png>
+Package pdftex.def Info: images/task7.png used on input line 92.
+(pdftex.def)             Requested size: 404.71806pt x 303.53854pt.
+
+Overfull \hbox (59.71806pt too wide) in paragraph at lines 92--93
+ [] 
+ []
+
+[8 <./images/task6_error.png (PNG copy)>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 101.
+ [9 <./images/task7.png (PNG copy)>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 101.
+
+(./solution.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 101.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 101.
 Package rerunfilecheck Info: File `solution.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 44.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 101.
  ) 
 Here is how much of TeX's memory you used:
- 7569 strings out of 493029
- 106640 string characters out of 6136234
- 190517 words of memory out of 5000000
- 11023 multiletter control sequences out of 15000+600000
- 11143 words of font info for 43 fonts, out of 8000000 for 9000
+ 7631 strings out of 493029
+ 107628 string characters out of 6136234
+ 191517 words of memory out of 5000000
+ 11064 multiletter control sequences out of 15000+600000
+ 12742 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,6n,32p,225b,389s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
-Output written on solution.pdf (3 pages, 253005 bytes).
+ 29i,6n,32p,406b,389s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy10.pfb>
+Output written on solution.pdf (9 pages, 550781 bytes).
 PDF statistics:
- 51 PDF objects out of 1000 (max. 8388607)
- 36 compressed objects within 1 object stream
- 8 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 102 PDF objects out of 1000 (max. 8388607)
+ 72 compressed objects within 1 object stream
+ 17 named destinations out of 1000 (max. 500000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 
