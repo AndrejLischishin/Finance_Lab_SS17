@@ -155,7 +155,7 @@ int main(int argc, char* argv[])
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_1//////////////////////////
     //////////////////////////////////////////////////////////
-
+/*
 	Task_1::plot_numbers = 100;
 	Task_1::s0 = 10.0;
 	Task_1::r = 0.02;
@@ -187,7 +187,7 @@ int main(int argc, char* argv[])
 	free(Task_1::x);
 
 	myfile.close();
-
+*/
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_2//////////////////////////
     //////////////////////////////////////////////////////////
@@ -361,7 +361,7 @@ int main(int argc, char* argv[])
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_3//////////////////////////
     //////////////////////////////////////////////////////////
-
+/*
 	Task_3::s0 = 10.0;
 	Task_3::K = 10.0;
 	Task_3::T = 1.0;
@@ -457,7 +457,7 @@ int main(int argc, char* argv[])
 	free(Task_5::x);
 
 	myfile.close();
-
+*/
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_6//////////////////////////
     //////////////////////////////////////////////////////////
@@ -554,7 +554,7 @@ int main(int argc, char* argv[])
     
     }
     myfile.close();
-	//////////////////////////////////////////////////////////
+*/	//////////////////////////////////////////////////////////
     //////////////////////////Task_7//////////////////////////
     //////////////////////////////////////////////////////////
 
@@ -568,7 +568,7 @@ int main(int argc, char* argv[])
     
     Task_7::use_bb = true;
     
-    myfile.open("task7.txt",std::ios::trunc);
+    myfile.open("output/task7.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
@@ -606,6 +606,8 @@ int main(int argc, char* argv[])
         //////////////////////////////////
         ///////QMC_control_variates///////
         //////////////////////////////////
+        /////////idea: \int f(x) - g(x) + \int g(x) = \int f(x), where \int g(x) is known => variance reduction///////////////////////////
+        /////////hier f(x)-g(x) = asian_option_call_integrand_arithmetic_control_variates, where f = arithmetic and g = geometric/////////
         
         Task_7::nodes = new std::vector<std::vector<double> >(Task_7::N);
         if (Task_7::nodes==NULL) {
@@ -615,6 +617,7 @@ int main(int argc, char* argv[])
         if (Task_7::weights_vec==NULL) {
             std::cout<<"Bad allocation task_7"<<std::endl;
         }
+        
         
         quasi_monte_carlo_multivariate(Task_7::nodes, Task_7::weights_vec, Task_7::N, Task_7::M);
         Task_7::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand_arithmetic_control_variates, Task_7::N, Task_7::nodes, Task_7::weights_vec, Task_7::s0,Task_7::K,Task_7::sigma,Task_7::r, Task_7::M,Task_7::T, Task_7::use_bb);
@@ -668,7 +671,7 @@ int main(int argc, char* argv[])
         
     }
     myfile.close();
-*/
+
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_8//////////////////////////
     //////////////////////////////////////////////////////////
