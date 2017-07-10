@@ -381,6 +381,10 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
   			v=v/p;
   		}
   		x_i_1 = x_i_1+(p+1.)*v-1.;
+		if(x_i_1<=0)
+		{
+			x_i_1 = 0.1;
+		}
   		x.push_back(x_i_1);
   	}
 
