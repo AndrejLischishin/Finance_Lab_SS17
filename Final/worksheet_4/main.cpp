@@ -126,6 +126,8 @@ namespace Task_7 {
     std::vector<double>* weights_vec;
     
     double geom_exact_value;
+    double calculated_result_cv;
+    double arithmetic_result_reference;
     double calculated_result;
     bool use_bb;
 }
@@ -156,7 +158,7 @@ int main(int argc, char* argv[])
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_1//////////////////////////
     //////////////////////////////////////////////////////////
-/*
+
 	Task_1::plot_numbers = 100;
 	Task_1::s0 = 10.0;
 	Task_1::r = 0.02;
@@ -188,12 +190,12 @@ int main(int argc, char* argv[])
 	free(Task_1::x);
 
 	myfile.close();
-*/
+
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_2//////////////////////////
     //////////////////////////////////////////////////////////
 
-   
+
     
     Task_2::s0 = 10;
     Task_2::K = 10;
@@ -205,12 +207,12 @@ int main(int argc, char* argv[])
     
     Task_2::use_bb = true;
     
-    myfile.open("output/task2.txt",std::ios::trunc);
+    myfile.open("output/task2_error.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
     
-    secondfile.open("output/task2_error.txt",std::ios::trunc);
+    secondfile.open("output/task2_error_coarse_discretisation.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
@@ -286,8 +288,9 @@ int main(int argc, char* argv[])
         quasi_monte_carlo_multivariate(Task_2::nodes, Task_2::weights_vec, Task_2::N, Task_2::M);
         Task_2::calculated_result = integrate_by_point_evaluation_multivariate(barrier_integrand, Task_2::N, Task_2::nodes, Task_2::weights_vec, Task_2::s0,Task_2::K,Task_2::sigma,Task_2::r,Task_2::M,Task_2::T, Task_2::B, Task_2::use_bb);
         
-        myfile<<Task_2::calculated_result<<" ";
-        secondfile<<fabs(Task_2::calculated_result - Task_2::reference_value)<<" ";
+        
+        myfile<<fabs(Task_2::calculated_result - Task_2::reference_value)<<" ";
+        secondfile<<fabs(Task_2::calculated_result - Task_2::reference_value_coarse_discrt)<<" ";
         
         free(Task_2::nodes);
         free(Task_2::weights_vec);
@@ -310,8 +313,9 @@ int main(int argc, char* argv[])
         quasi_monte_carlo_multivariate(Task_2::nodes, Task_2::weights_vec, Task_2::N, Task_2::M);
         Task_2::calculated_result = integrate_by_point_evaluation_multivariate(barrier_integrand, Task_2::N, Task_2::nodes, Task_2::weights_vec, Task_2::s0,Task_2::K,Task_2::sigma,Task_2::r,Task_2::M,Task_2::T, Task_2::B, Task_2::use_bb);
         
-        myfile<<Task_2::calculated_result<<" ";
-        secondfile<<fabs(Task_2::calculated_result - Task_2::reference_value)<<" ";
+        myfile<<fabs(Task_2::calculated_result - Task_2::reference_value)<<" ";
+        secondfile<<fabs(Task_2::calculated_result - Task_2::reference_value_coarse_discrt)<<" ";
+
         
         free(Task_2::nodes);
         free(Task_2::weights_vec);
@@ -334,8 +338,9 @@ int main(int argc, char* argv[])
         monte_carlo_multivariate(Task_2::nodes, Task_2::weights_vec, Task_2::N, Task_2::M,rng);
         Task_2::calculated_result = integrate_by_point_evaluation_multivariate(barrier_integrand, Task_2::N, Task_2::nodes, Task_2::weights_vec, Task_2::s0,Task_2::K,Task_2::sigma,Task_2::r,Task_2::M,Task_2::T,Task_2::B, Task_2::use_bb);
         
-        myfile<<Task_2::calculated_result<<" ";
-        secondfile<<fabs(Task_2::calculated_result - Task_2::reference_value)<<" ";
+        myfile<<fabs(Task_2::calculated_result - Task_2::reference_value)<<" ";
+        secondfile<<fabs(Task_2::calculated_result - Task_2::reference_value_coarse_discrt)<<" ";
+
         
         free(Task_2::nodes);
         free(Task_2::weights_vec);
@@ -358,10 +363,9 @@ int main(int argc, char* argv[])
         monte_carlo_multivariate(Task_2::nodes, Task_2::weights_vec, Task_2::N, Task_2::M,rng);
         Task_2::calculated_result = integrate_by_point_evaluation_multivariate(barrier_integrand, Task_2::N, Task_2::nodes, Task_2::weights_vec, Task_2::s0,Task_2::K,Task_2::sigma,Task_2::r,Task_2::M,Task_2::T,Task_2::B, Task_2::use_bb);
         
-        myfile<<Task_2::calculated_result<<" ";
-        secondfile<<fabs(Task_2::calculated_result - Task_2::reference_value)<<std::endl;
-        myfile<<Task_2::reference_value_coarse_discrt<<" ";
-        myfile<<Task_2::reference_value<<std::endl;
+        myfile<<fabs(Task_2::calculated_result - Task_2::reference_value)<<std::endl;
+        secondfile<<fabs(Task_2::calculated_result - Task_2::reference_value_coarse_discrt)<<std::endl;
+
         
         free(Task_2::nodes);
         free(Task_2::weights_vec);
@@ -373,7 +377,7 @@ int main(int argc, char* argv[])
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_3//////////////////////////
     //////////////////////////////////////////////////////////
-/*
+
 	Task_3::s0 = 10.0;
 	Task_3::K = 10.0;
 	Task_3::T = 1.0;
@@ -469,7 +473,7 @@ int main(int argc, char* argv[])
 	free(Task_5::x);
 
 	myfile.close();
-*/
+
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_6//////////////////////////
     //////////////////////////////////////////////////////////
@@ -484,17 +488,12 @@ int main(int argc, char* argv[])
     
     Task_6::use_bb = true;
     
-    myfile.open("output/task6.txt",std::ios::trunc);
+    myfile.open("output/task6_error.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
     
-    secondfile.open("output/task6_errors.txt",std::ios::trunc);
-    if (!myfile.is_open()) {
-        std::cout<<"Error opening the file"<<std::endl;
-    }
-    
-    
+ 
     //////////////////////////////////
     /////////Referance_value//////////
     //////////////////////////////////
@@ -543,8 +542,8 @@ int main(int argc, char* argv[])
         quasi_monte_carlo_multivariate(Task_6::nodes, Task_6::weights_vec, Task_6::N, Task_6::M);
         Task_6::calculated_result = integrate_by_point_evaluation_multivariate(lookback_call_integrand_fixed, Task_6::N, Task_6::nodes, Task_6::weights_vec, Task_6::s0,Task_6::K,Task_6::sigma,Task_6::r,Task_6::M,Task_6::T, Task_6::use_bb);
         
-        myfile<<Task_6::calculated_result<<" ";
-        secondfile<<fabs(Task_6::calculated_result - Task_6::reference_value)<<" ";
+ 
+        myfile<<fabs(Task_6::calculated_result - Task_6::reference_value)<<" ";
         
         free(Task_6::nodes);
         free(Task_6::weights_vec);
@@ -565,16 +564,15 @@ int main(int argc, char* argv[])
         monte_carlo_multivariate(Task_6::nodes, Task_6::weights_vec, Task_6::N, Task_6::M,rng);
         Task_6::calculated_result = integrate_by_point_evaluation_multivariate(lookback_call_integrand_fixed, Task_6::N, Task_6::nodes, Task_6::weights_vec, Task_6::s0,Task_6::K,Task_6::sigma,Task_6::r,Task_6::M,Task_6::T, Task_6::use_bb);
         
-        myfile<<Task_6::calculated_result<<" ";
-        secondfile<<fabs(Task_6::calculated_result - Task_6::reference_value)<<std::endl;
-        myfile<<Task_6::reference_value<<std::endl;
-        
+ 
+        myfile<<fabs(Task_6::calculated_result - Task_6::reference_value)<<std::endl;
+ 
         free(Task_6::nodes);
         free(Task_6::weights_vec);
     
     }
     myfile.close();
-    secondfile.close();
+ 
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_7//////////////////////////
     //////////////////////////////////////////////////////////
@@ -589,7 +587,7 @@ int main(int argc, char* argv[])
     
     Task_7::use_bb = true;
     
-    myfile.open("output/task7.txt",std::ios::trunc);
+    myfile.open("output/task7_error.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
     }
@@ -597,6 +595,30 @@ int main(int argc, char* argv[])
     
     Task_7::geom_exact_value = discrete_geometric_average_exact(Task_7::s0, Task_7::r, Task_7::T, Task_7::M, Task_7::K, Task_7::sigma);
     
+    ////////////////////////////////////
+    //////reference_arithmetic_value////
+    ////////////////////////////////////
+    
+    Task_7::N = 5000000;
+    
+    Task_7::nodes = new std::vector<std::vector<double> >(Task_7::N);
+    if (Task_7::nodes==NULL) {
+        std::cout<<"Bad allocation task_7"<<std::endl;
+    }
+    Task_7::weights_vec = new std::vector<double> (Task_7::N);
+    if (Task_7::weights_vec==NULL) {
+        std::cout<<"Bad allocation task_7"<<std::endl;
+    }
+    
+    monte_carlo_multivariate(Task_7::nodes, Task_7::weights_vec, Task_7::N, Task_7::M, rng);
+    Task_7::arithmetic_result_reference = integrate_by_point_evaluation_multivariate(asian_option_call_integrand_arithmetic, Task_7::N, Task_7::nodes, Task_7::weights_vec, Task_7::s0,Task_7::K,Task_7::sigma,Task_7::r,Task_7::M,Task_7::T, Task_7::use_bb);;
+    
+    free(Task_7::nodes);
+    free(Task_7::weights_vec);
+
+    /////////////////////////////
+    //////////simulatios/////////
+    /////////////////////////////
     for (int i = 1; i<=4; i++) {
         
         
@@ -619,7 +641,7 @@ int main(int argc, char* argv[])
         quasi_monte_carlo_multivariate(Task_7::nodes, Task_7::weights_vec, Task_7::N, Task_7::M);
         Task_7::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand_arithmetic, Task_7::N, Task_7::nodes, Task_7::weights_vec, Task_7::s0,Task_7::K,Task_7::sigma,Task_7::r,Task_7::M,Task_7::T, Task_7::use_bb);
         
-        myfile<<Task_7::calculated_result<<" ";
+        myfile<<fabs(Task_7::arithmetic_result_reference-Task_7::calculated_result)<<" ";
         
         free(Task_7::nodes);
         free(Task_7::weights_vec);
@@ -641,9 +663,9 @@ int main(int argc, char* argv[])
         
         
         quasi_monte_carlo_multivariate(Task_7::nodes, Task_7::weights_vec, Task_7::N, Task_7::M);
-        Task_7::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand_arithmetic_control_variates, Task_7::N, Task_7::nodes, Task_7::weights_vec, Task_7::s0,Task_7::K,Task_7::sigma,Task_7::r, Task_7::M,Task_7::T, Task_7::use_bb);
+        Task_7::calculated_result_cv = integrate_by_point_evaluation_multivariate(asian_option_call_integrand_arithmetic_control_variates, Task_7::N, Task_7::nodes, Task_7::weights_vec, Task_7::s0,Task_7::K,Task_7::sigma,Task_7::r, Task_7::M,Task_7::T, Task_7::use_bb);
         
-        myfile<<Task_7::calculated_result+Task_7::geom_exact_value<<" ";
+        myfile<<fabs(Task_7::arithmetic_result_reference-(Task_7::calculated_result_cv+Task_7::geom_exact_value))<<" ";
         
         free(Task_7::nodes);
         free(Task_7::weights_vec);
@@ -664,7 +686,7 @@ int main(int argc, char* argv[])
         monte_carlo_multivariate(Task_7::nodes, Task_7::weights_vec, Task_7::N, Task_7::M, rng);
         Task_7::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand_arithmetic, Task_7::N, Task_7::nodes, Task_7::weights_vec, Task_7::s0,Task_7::K,Task_7::sigma,Task_7::r,Task_7::M,Task_7::T, Task_7::use_bb);
         
-        myfile<<Task_7::calculated_result<<" ";
+        myfile<<fabs(Task_7::arithmetic_result_reference-Task_7::calculated_result)<<" ";
         
         free(Task_7::nodes);
         free(Task_7::weights_vec);
@@ -683,9 +705,9 @@ int main(int argc, char* argv[])
         }
         
         monte_carlo_multivariate(Task_7::nodes, Task_7::weights_vec, Task_7::N, Task_7::M, rng);
-        Task_7::calculated_result = integrate_by_point_evaluation_multivariate(asian_option_call_integrand_arithmetic_control_variates, Task_7::N, Task_7::nodes, Task_7::weights_vec, Task_7::s0,Task_7::K,Task_7::sigma,Task_7::r,Task_7::M,Task_7::T, Task_7::use_bb);
+        Task_7::calculated_result_cv = integrate_by_point_evaluation_multivariate(asian_option_call_integrand_arithmetic_control_variates, Task_7::N, Task_7::nodes, Task_7::weights_vec, Task_7::s0,Task_7::K,Task_7::sigma,Task_7::r,Task_7::M,Task_7::T, Task_7::use_bb);
         
-        myfile<<Task_7::calculated_result+Task_7::geom_exact_value<<std::endl;
+        myfile<<fabs(Task_7::arithmetic_result_reference-(Task_7::calculated_result_cv+Task_7::geom_exact_value))<<std::endl;
         
         free(Task_7::nodes);
         free(Task_7::weights_vec);
