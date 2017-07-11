@@ -19,6 +19,7 @@ double payoff_discrete_lookback(std::vector<double>* x, double s0, double r, dou
 double black_scholes_down_out_call(double s0, double K, double T, double sigma, double r, double B);
 double d_S_K(double S, double K, double r, double sigma, double T);
 double V_bs(double S, double K, double r, double sigma, double T);
+double newton_raphson_volatility(double v, double s_0, double K, double r, double T);
 
 
 #endif /* exotic_options.hpp */

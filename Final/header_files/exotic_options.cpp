@@ -354,3 +354,31 @@ double V_bs(double S, double K, double r, double sigma, double T)
 	return S*normal_cdf(d+sigma*sqrt(T))-K*exp(-r*T)*normal_cdf(d);
 
 }
+
+double newton_raphson_volatility(double v, double s_0,double K, double r, double T){
+	double x, xold;
+	double nu;
+	double d_1, d_2, vcall;
+	int maxiter = 0;	
+
+	
+	x = 2*v/(sqrt(T)*s_0);
+	xold = x+1;
+	
+	while(maxiter < 10){
+		
+		xold = x;
+		d_1 = (log(s_0/K)+(r+0.5*x*x)*T)/(x*sqrt(T));
+	   	d_2 = d_1 - x*sqrt(T);
+	
+		vcall = s_0*normal_cdf(d_1)-K*exp(-r*T)*normal_cdf(d_2);
+
+		nu = s_0*sqrt(T)*1/sqrt(2*M_PI)*exp(-d_1*d_1*0.5);
+		x = x - (vcall - v)/nu;
+		maxiter++;
+		if( fabs(xold-x)<0.0001) break;
+	}
+		
+	return x;
+}
+
