@@ -187,22 +187,19 @@ int main(int argc, char* argv[])
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_3//////////////////////////
     //////////////////////////////////////////////////////////
-
+/*
     Task_3::s0 = 10.;
     Task_3::r = 0.1;
     Task_3::T = 1.;
     Task_3::K = 10.;
     Task_3::sigma = 0.25;
 
-	 //Convergence plot for different N has to be inserted! 
+    //Convergence plot for different N has to be inserted!
+    //std::cout << discrete_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma) << std::endl;
+    //std::cout << discrete_geometric_average_simulation(rng, Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma, N) << std::endl;
+    //std::cout << continuous_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::K, Task_3::sigma) << std::endl;
 
-//	std::cout << discrete_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma) << std::endl;
-
-//	std::cout << discrete_geometric_average_simulation(rng, Task_3::s0, Task_3::r, Task_3::T, Task_3::M, Task_3::K, Task_3::sigma, N) << std::endl;
-
-//	std::cout << continuous_geometric_average_exact(Task_3::s0, Task_3::r, Task_3::T, Task_3::K, Task_3::sigma) << std::endl;
-/*
-  Task_3::M = 10;
+    Task_3::M = 10;
 	double calculated_result;
 	double exact_result;
 	double absolute_error;
@@ -615,7 +612,7 @@ int main(int argc, char* argv[])
 
 
 */
-/*
+
 	//////////////////////////////////////////////////////////
 	//////////////////////////Task_15/////////////////////////
 	//////////////////////////////////////////////////////////
@@ -628,7 +625,13 @@ int main(int argc, char* argv[])
 	Task_15::mu = 0.1;
 	Task_15::K = 0;
     Task_15::nodes = new std::vector<std::vector<double> >(Task_15::dimension_M);
+    if (Task_15::nodes==NULL) {
+        std::cout<<"Bad allocation Task 15"<<std::endl;
+    }
 	Task_15::weights = new std::vector<std::vector<double> >(Task_15::dimension_M);
+    if (Task_15::weights==NULL) {
+        std::cout<<"Bad allocation Task 15"<<std::endl;
+    }
     Task_15::write_in_file = false;
     Task_15::use_trap_rule = false;
     Task_15::use_bb = true;
@@ -642,19 +645,25 @@ int main(int argc, char* argv[])
 		}
 
     Task_15::exact_value = discrete_geometric_average_exact(Task_15::S0, Task_15::mu, Task_15::T, Task_15::dimension_M, Task_15::K, Task_15::sigma);
+    
 	for (int l = 1;l <= Task_15::max_level;l++) {
+        
 		Task_15::N = pow(2,l)*pow(l,Task_15::dimension_M-1);
-
-		myfile << Task_15::N << "	";
+        myfile << Task_15::N << "	";
         
         Task_15::simulation_result_rw = integrate_with_sparse_grid(asian_option_call_integrand,Task_15::dimension_M,l,Task_15::nodes, Task_15::weights,Task_15::write_in_file,Task_15::use_trap_rule,Task_15::S0, Task_15::K,Task_15::sigma,Task_15::mu,Task_15::dimension_M,Task_15::T,false);
         std::cout<<Task_15::simulation_result_rw<<std::endl;
+        
 		Task_15::simulation_result_bb = integrate_with_sparse_grid(asian_option_call_integrand,Task_15::dimension_M,l,Task_15::nodes, Task_15::weights,Task_15::write_in_file,Task_15::use_trap_rule,Task_15::S0, Task_15::K,Task_15::sigma,Task_15::mu,Task_15::dimension_M,Task_15::T,Task_15::use_bb);
-        std::cout<<Task_15::simulation_result_bb<<std::endl;
+        
+        
         myfile << fabs(Task_15::simulation_result_rw-Task_15::exact_value) << "	";
 		myfile << fabs(Task_15::simulation_result_bb-Task_15::exact_value) << std::endl;
 
 	}
+    
+    free(Task_15::nodes);
+    free(Task_15::weights);
 	myfile.close();
 
 
@@ -662,7 +671,7 @@ int main(int argc, char* argv[])
 //////////////////////////////////////////////////////////
 //////////////////////////Task_16/////////////////////////
 //////////////////////////////////////////////////////////
-    
+/*
     Task_16::S0 = 10;
     Task_16::T =1;
     Task_16::dimension_M = 8;
@@ -805,7 +814,7 @@ int main(int argc, char* argv[])
 //////////////////////////Task_17/////////////////////////
 //////////////////////////////////////////////////////////
 
-
+/*
     Task_17::S0 = 10;
     Task_17::T =1;
     Task_17::dimension_M = 64;
@@ -874,7 +883,7 @@ int main(int argc, char* argv[])
 
     myfile.close();
 
- 
+*/
     free(rng);
 
 	return 0;

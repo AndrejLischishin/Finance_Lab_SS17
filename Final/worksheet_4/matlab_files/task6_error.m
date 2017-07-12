@@ -9,7 +9,7 @@ x = A(:,2);
 y = A(:,3);
 
 
-loglog(log10(n), x,'bo--','Linewidth',2);
+loglog(n, x,'bo--','Linewidth',2);
 
 hold on
 

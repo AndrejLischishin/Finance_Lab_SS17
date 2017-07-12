@@ -287,8 +287,9 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
         delta_t = T/M;
         w[0] = 0.0;
         for (int i = 1; i <= M; i++) {
-            result *= S0*exp((mu-0.5*sigma*sigma)*i*delta_t+sigma*(w[i-1]+sqrt(delta_t)*normal_inverse_cdf((*x)[i-1])));
             w[i] = w[i-1]+sqrt(delta_t)*normal_inverse_cdf((*x)[i-1]);
+            result *= S0*exp((mu-0.5*sigma*sigma)*i*delta_t+sigma*(w[i]));
+            
         }
         w.resize(M);
     }
@@ -299,9 +300,11 @@ double asian_option_call_integrand(std::vector<double>* x,double S0,double K, do
 
         for (int i = 1; i <= max_level; i++) {
             delta_t = T/(pow(2,(double)i));
+            
 			for (int j = 0; j < pow(2,i); j+=2) {
+                
                 helper = 0.5*(w[j]+w[j+1])+sqrt(delta_t/2.)*normal_inverse_cdf((*x)[count]);
-                result =result * S0*exp((mu-0.5*sigma*sigma)*(j+1)*delta_t+sigma*(helper));
+                result *= S0*exp((mu-0.5*sigma*sigma)*(j+1)*delta_t+sigma*(helper));
                 w.emplace(w.begin()+j+1, helper);
                 count++;
 

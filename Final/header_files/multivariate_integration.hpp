@@ -141,7 +141,7 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 				clenshaw_curtis_weights(&(*weights)[i], (*k)[i]);
 				clenshaw_curtis_nodes(&(*nodes)[i], (*k)[i]);
 			}
-		}
+        };
 
 			
         
