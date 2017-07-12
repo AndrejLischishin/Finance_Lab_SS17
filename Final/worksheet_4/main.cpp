@@ -719,7 +719,19 @@ int main(int argc, char* argv[])
     //////////////////////////Task_8//////////////////////////
     //////////////////////////////////////////////////////////
 
+	//artificial Values for which the method actually would converge
+/*
+	double Task_8::s0 = 21;
+	double Task_8::K  = 20;
+	double Task_8::T = 0.25; 
+	double Task_8::r = 0.1;
+	double Task_8::v = 1.875;
+	
+	double Task_8::volatility = newton_raphson_volatility(v,s0,K,r,T);
+		
+		std::cout<<Task_8::volatility<<" Volatility "<<std::endl;
 
+*/
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_9//////////////////////////
     //////////////////////////////////////////////////////////
