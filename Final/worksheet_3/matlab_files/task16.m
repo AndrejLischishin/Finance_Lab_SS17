@@ -45,7 +45,7 @@ ylabel('error(N)');
 xlabel('N');
 
 lngd = legend('QMC','MC','FG TRAP','FG CC','SG TRAP','SG CC');
-set(lngd,'fontsize',7,'Position',[0.6,0.76,0.3,0.1]);
+set(lngd,'fontsize',5,'Position',[0.15,0.65,0.3,0.1]);
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -78,4 +78,4 @@ title('All methods using BB')
 ylabel('error(N)');
 xlabel('N');
 lngd = legend('QMC','MC','FG TRAP','FG CC','SG TRAP','SG CC');
-set(lngd,'fontsize',4,'Position',[0.6,0.27,0.3,0.1]);
+set(lngd,'fontsize',5,'Position',[0.15,0.17,0.3,0.1]);
