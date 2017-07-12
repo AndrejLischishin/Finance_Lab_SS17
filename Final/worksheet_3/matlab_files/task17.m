@@ -30,4 +30,4 @@ title('task 17 errors M=64');
 ylabel('error(N)');
 xlabel('N');
 lngd = legend('QMC RW','QMC BB','MC RW','MC BB');
-set(lngd,'fontsize',4,'Position',[0.6,0.8,0.3,0.1]);
+set(lngd,'fontsize',6,'Position',[0.6,0.8,0.3,0.1]);
