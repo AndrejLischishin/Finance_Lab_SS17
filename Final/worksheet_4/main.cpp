@@ -158,7 +158,7 @@ int main(int argc, char* argv[])
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_1//////////////////////////
     //////////////////////////////////////////////////////////
-
+/*
 	Task_1::plot_numbers = 100;
 	Task_1::s0 = 10.0;
 	Task_1::r = 0.02;
@@ -221,7 +221,7 @@ int main(int argc, char* argv[])
     /////////Referance_value//////////
     //////////////////////////////////
     
-    Task_2::discretization = 5000000;
+    Task_2::discretization = 50000000;
     Task_2::nodes = new std::vector<std::vector<double> >(Task_2::discretization);
     if (Task_2::nodes==NULL) {
         std::cout<<"Bad allocation task_2"<<std::endl;
@@ -473,7 +473,7 @@ int main(int argc, char* argv[])
 	free(Task_5::x);
 
 	myfile.close();
-
+*/
 	//////////////////////////////////////////////////////////
     //////////////////////////Task_6//////////////////////////
     //////////////////////////////////////////////////////////
@@ -498,7 +498,7 @@ int main(int argc, char* argv[])
     /////////Referance_value//////////
     //////////////////////////////////
     
-    Task_6::discretization = 5000000;
+    Task_6::discretization = 25000000;
     Task_6::nodes = new std::vector<std::vector<double> >(Task_6::discretization);
     if (Task_6::nodes==NULL) {
         std::cout<<"Bad allocation task_6"<<std::endl;
@@ -599,7 +599,7 @@ int main(int argc, char* argv[])
     //////reference_arithmetic_value////
     ////////////////////////////////////
 
-    Task_7::N = 5000000;
+    Task_7::N = 25000000;
     
     Task_7::nodes = new std::vector<std::vector<double> >(Task_7::N);
     if (Task_7::nodes==NULL) {
