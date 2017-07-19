@@ -118,15 +118,15 @@ Convergence plots for the testfunction $f_\gamma$ in different dimensions:
 \includegraphics[scale=0.5]{task_13_d8.png}
 \end{center}
 Obviously, the Sparse Grid Method has the best convergence and the Full
-Grid method has the second best convergence, while MC and QMC can't match
-these convergence rates. Since the quadrature nodes are better distributed on
+Grid method has the second best convergence, while MC and QMC can not match
+these convergence rates. Since the quadrature nodes are better distributed over
 the integration region, QMC has better convergence than MC.
 
 \section*{Task 15}
 \begin{center}
 \includegraphics[scale=0.51]{task15.png}
 \end{center}
-In case of Sparsegrid using Clenshaw-Curtis it makes no difference between using Random-walk- or Brownian-Bridge-construction.
+In case of Sparse-grid using Clenshaw-Curtis there is no difference between Random-walk- and Brownian-Bridge-construction.
 \section*{Task 16}
 \begin{center}
 \includegraphics[scale=0.51]{task16rw.png}
@@ -134,24 +134,22 @@ In case of Sparsegrid using Clenshaw-Curtis it makes no difference between using
 \begin{center}
 \includegraphics[scale=0.51]{task16bb.png}
 \end{center}
-Again, Brownian Bridge does not have any feasible effect,only by MC and QMC one can find some negligible differences. 
+Again, Brownian Bridge does not have any feasible effect, only when using MC or QMC one can find some negligible differences. 
 \section*{Task 17}
 \begin{center}
 \includegraphics[scale=0.51]{task17.png}
 \end{center}
-This again illustrates that use of Brownian-Bridge Interpolation does not bring strong benefits over
-Random Walk, especially in case of QMC. Furthermore, the simpler MC method has almost the same convergence as QMC.
+This again illustrates that using the Brownian-Bridge Interpolation does not lead to strong benefits compared to Random Walk, especially in case of QMC. Furthermore, the simpler MC method has almost the same convergence as QMC.
 
 \section*{Task 18}
 
-The difference between MC and QMC is, that MC uses actual pseudo random numbers, while QMC uses deterministic sequences. For this reason, QMC Quadrature Nodes are more evenly distributed over the integration region, which enhances the convergence rate of QMC (which is $\mathcal{O}(N)$) compared to the convergence of $\mathcal{O}(N^{1/2})$ of Monte Carlo Method. However, there is a higher computational effort in creating quasi-random-number sequences, which increases the cost of QMC especially in high dimensions compared to Monte Carlo. \\
+The difference between MC and QMC is, that MC uses actual pseudo random numbers, while QMC uses deterministic sequences (e.g. Hatlon Sequence). For this reason, QMC Quadrature Nodes are more evenly distributed over the integration region, which enhances the convergence rate of QMC (which is $\mathcal{O}(N)$) compared to the convergence of $\mathcal{O}(N^{1/2})$ of Monte Carlo Method. However, there is a higher computational effort in creating quasi-random-number sequences, which increases the cost of QMC especially in high dimensions compared to Monte Carlo. \\
 
 Both, QMC and MC, can integrate a wide range of functions, regardless of how smooth these functions are. \\
 
 Sparse Grids and Full Grids make use of nodes and weights which result from quadrature methods like Clenshaw-Curtis or Trapezoidal rule. These methods can only be applied to somewhat smoother functions, but they have much better convergence rates. 
-Full Grids are heavily affected by the dimension, with the number of nodes increasing exponentially with increasing dimension. For sparse grids, dependence on dimension is considerably lower. \\
+Full Grids are heavily affected by the curse of dimension, the number of nodes is increasing exponentially with increasing dimension. For Sparse Grids, dependence on dimension is considerably lower. \\
 
 Therefore, if it is known that the integrand will be relatively smooth, using Sparse Grid methods is the best way to compute integrals in high dimensions. However, if the integrand is unknown or if the integrand is a function that is not differentiable in many points, MC and QMC integration are the preferred methods, espacially in high dimensions.
 
 \end{document}
-
