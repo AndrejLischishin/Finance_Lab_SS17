@@ -124,20 +124,23 @@ the integration region, QMC has better convergence than MC.
 
 \section*{Task 15}
 \begin{center}
-\includegraphics[scale=0.29]{task15.png}
+\includegraphics[scale=0.51]{task15.png}
 \end{center}
+In case of Sparsegrid using Clenshaw-Curtis it makes no difference between using Random-walk- or Brownian-Bridge-construction.
 \section*{Task 16}
 \begin{center}
-\includegraphics[scale=0.3]{task16.png}
+\includegraphics[scale=0.51]{task16rw.png}
 \end{center}
-Again, Brownian Bridge has better convergence than Random Walk. 
+\begin{center}
+\includegraphics[scale=0.51]{task16bb.png}
+\end{center}
+Again, Brownian Bridge does not have any feasible effect,only by MC and QMC one can find some negligible differences. 
 \section*{Task 17}
 \begin{center}
-\includegraphics[scale=0.28]{task17.png}
+\includegraphics[scale=0.51]{task17.png}
 \end{center}
-This again illustrates the superiority of Brownian Bridge Interpolation over
-Random Walk. Furthermore, the simpler MC method has almost the same
-convergence as QMC.
+This again illustrates that use of Brownian-Bridge Interpolation does not bring strong benefits over
+Random Walk, especially in case of QMC. Furthermore, the simpler MC method has almost the same convergence as QMC.
 
 \section*{Task 18}
 
