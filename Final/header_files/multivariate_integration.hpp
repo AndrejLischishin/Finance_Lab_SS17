@@ -75,13 +75,12 @@ double integrate_with_sparse_grid(double (*multifunction_to_integrate)(std::vect
 	int maxlevel = (int)pow(2,l)-1;
 
 	std::vector<int>* klevel = new std::vector<int>(d);
-
-	std::vector<int>* k = new std::vector<int>(d);
-
-	std::vector<int>* k1 = new std::vector<int>(d);
-
-	std::vector<int>* vec = new std::vector<int>(d);
+    std::vector<int>* k = new std::vector<int>(d);
+    std::vector<int>* k1 = new std::vector<int>(d);
+    std::vector<int>* vec = new std::vector<int>(d);
+    
 	int sum = 1;
+    
 	std::vector<int>* diag = new std::vector<int>;
 	std::vector<int>* allvec = new std::vector<int>();
     std::vector<double>* point = new std::vector<double>;

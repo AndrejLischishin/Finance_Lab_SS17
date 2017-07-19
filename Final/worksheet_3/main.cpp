@@ -652,10 +652,10 @@ int main(int argc, char* argv[])
         myfile << Task_15::N << "	";
         
         Task_15::simulation_result_rw = integrate_with_sparse_grid(asian_option_call_integrand,Task_15::dimension_M,l,Task_15::nodes, Task_15::weights,Task_15::write_in_file,Task_15::use_trap_rule,Task_15::S0, Task_15::K,Task_15::sigma,Task_15::mu,Task_15::dimension_M,Task_15::T,false);
-        std::cout<<Task_15::simulation_result_rw<<std::endl;
+        //std::cout<<Task_15::simulation_result_rw<<std::endl;
         
 		Task_15::simulation_result_bb = integrate_with_sparse_grid(asian_option_call_integrand,Task_15::dimension_M,l,Task_15::nodes, Task_15::weights,Task_15::write_in_file,Task_15::use_trap_rule,Task_15::S0, Task_15::K,Task_15::sigma,Task_15::mu,Task_15::dimension_M,Task_15::T,Task_15::use_bb);
-        
+        //std::cout<<Task_15::simulation_result_rw<<std::endl;
         
         myfile << fabs(Task_15::simulation_result_rw-Task_15::exact_value) << "	";
 		myfile << fabs(Task_15::simulation_result_bb-Task_15::exact_value) << std::endl;
