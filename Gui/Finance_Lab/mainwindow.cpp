@@ -37,6 +37,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->box_muller_button, SIGNAL(released()), this, SLOT(box_muller_button_pressed()));
 
+    connect(ui->rejection_sample_button, SIGNAL(released()), this, SLOT(rejection_sample_button_pressed()));
+
     connect(ui->trapezoidal_rule_button, SIGNAL(released()), this, SLOT(trapezoidal_rule_button_pressed()));
 
     connect(ui->gauss_legendre_button, SIGNAL(released()), this, SLOT(gauss_legendre_button_pressed()));
@@ -44,6 +46,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->clenshaw_curtis_button, SIGNAL(released()), this, SLOT(clenshaw_curtis_button_pressed()));
 
     connect(ui->wiener_and_asset_simulation_button, SIGNAL(released()), this, SLOT(wiener_and_asset_simulation_button_pressed()));
+
+    QPixmap pix("images/logo.png");
+    ui->logo->setPixmap(pix);
+    ui->logo->setStyleSheet("border: 1px solid black; margin: 10px; padding: 10px; background-color: white;");
 }
 
 MainWindow::~MainWindow()
@@ -89,7 +95,45 @@ void MainWindow::asian_option_button_pressed()
 
 void MainWindow::lookback_option_button_pressed()
 {
+    gsl_rng* rng;
 
+    //seeding
+    unsigned long seed = time(NULL);
+    //memory allocation
+    rng = gsl_rng_alloc(gsl_rng_mt19937);
+    gsl_rng_set(rng, seed);
+
+    int M = 64;
+
+    double s0 = (ui->input_s0->text()).toDouble();
+    double r = (ui->input_mu->text()).toDouble();
+    double sigma = (ui->input_sigma->text()).toDouble();
+    double T = (ui->input_T->text()).toDouble();
+    double K = (ui->input_K->text()).toDouble();
+
+    bool use_bb = true;
+
+    int discretization = 250000;
+    std::vector<std::vector<double> >* nodes;
+    std::vector<double>* weights_vec;
+    nodes = new std::vector<std::vector<double> >(discretization);
+    if (nodes==NULL) {
+        std::cout<<"Bad allocation lookback option"<<std::endl;
+    }
+    weights_vec = new std::vector<double> (discretization);
+    if (weights_vec==NULL) {
+        std::cout<<"Bad allocation lookback option"<<std::endl;
+    }
+
+    monte_carlo_multivariate(nodes, weights_vec, discretization, M, rng);
+    double reference_value = integrate_by_point_evaluation_multivariate(lookback_call_integrand_fixed, discretization, nodes, weights_vec, s0, K, sigma, r, M, T, use_bb);
+
+    free(nodes);
+    free(weights_vec);
+
+    QString exact_result_label = QString::number(reference_value);
+
+    ui->fair_price->setText("Fair price for Lookback Option: "+exact_result_label);
 }
 
 void MainWindow::down_out_call_button_pressed()
@@ -143,10 +187,18 @@ void MainWindow::lookback_integrand_button_pressed()
 
     myfile.close();
 
+    int width = ui->pic_label->width();
+    int height = ui->pic_label->height();
+
     FILE *stream;
 
     stream=popen("gnuplot", "w");
-    fprintf(stream, "set terminal png size 950,500\n");
+    std::string temp = "set terminal png size ";
+    temp += std::to_string(width);
+    temp += ",";
+    temp += std::to_string(height);
+    temp += "\n";
+    fprintf(stream, temp.c_str());
     fprintf(stream, "set output 'images/lookback_integrand.png'\n");
     fprintf(stream, "set key off\n");
     fprintf(stream, "set grid\n");
@@ -194,10 +246,18 @@ void MainWindow::down_out_call_integrand_button_pressed()
 
     myfile.close();
 
+    int width = ui->pic_label->width();
+    int height = ui->pic_label->height();
+
     FILE *stream;
 
     stream=popen("gnuplot", "w");
-    fprintf(stream, "set terminal png size 950,500\n");
+    std::string temp = "set terminal png size ";
+    temp += std::to_string(width);
+    temp += ",";
+    temp += std::to_string(height);
+    temp += "\n";
+    fprintf(stream, temp.c_str());
     fprintf(stream, "set output 'images/down_out_call_integrand.png'\n");
     fprintf(stream, "set key off\n");
     fprintf(stream, "set grid\n");
@@ -241,10 +301,18 @@ void MainWindow::arithmetic_asian_integrand_button_pressed()
 
     myfile.close();
 
+    int width = ui->pic_label->width();
+    int height = ui->pic_label->height();
+
     FILE *stream;
 
     stream=popen("gnuplot", "w");
-    fprintf(stream, "set terminal png size 950,500\n");
+    std::string temp = "set terminal png size ";
+    temp += std::to_string(width);
+    temp += ",";
+    temp += std::to_string(height);
+    temp += "\n";
+    fprintf(stream, temp.c_str());
     fprintf(stream, "set output 'images/arithmetic_asian_integrand.png'\n");
     fprintf(stream, "set key off\n");
     fprintf(stream, "set grid\n");
@@ -278,10 +346,18 @@ void MainWindow::uniform_random_numbers_button_pressed()
 
     myfile.close();
 
+    int width = ui->random_functions_pic_label->width();
+    int height = ui->random_functions_pic_label->height();
+
     FILE *stream;
 
     stream=popen("gnuplot", "w");
-    fprintf(stream, "set terminal png size 950,500\n");
+    std::string temp = "set terminal png size ";
+    temp += std::to_string(width);
+    temp += ",";
+    temp += std::to_string(height);
+    temp += "\n";
+    fprintf(stream, temp.c_str());
     fprintf(stream, "set output 'images/uniform_random_numbers.png'\n");
     fprintf(stream, "set title \"Uniform random numbers\"\n");
     fprintf(stream, "plot 'output/uniform_random_numbers.txt' notitle\n");
@@ -315,10 +391,18 @@ void MainWindow::halton_sequence_button_pressed()
 
     myfile.close();
 
+    int width = ui->random_functions_pic_label->width();
+    int height = ui->random_functions_pic_label->height();
+
     FILE *stream;
 
     stream=popen("gnuplot", "w");
-    fprintf(stream, "set terminal png size 950,500\n");
+    std::string temp = "set terminal png size ";
+    temp += std::to_string(width);
+    temp += ",";
+    temp += std::to_string(height);
+    temp += "\n";
+    fprintf(stream, temp.c_str());
     fprintf(stream, "set output 'images/halton_sequence.png'\n");
     fprintf(stream, "set title \"Halton sequence\"\n");
     fprintf(stream, "plot 'output/halton_sequence.txt' notitle\n");
@@ -359,16 +443,86 @@ void MainWindow::box_muller_button_pressed()
     //closes file
     myfile.close();
 
+    int width = ui->random_functions_pic_label->width();
+    int height = ui->random_functions_pic_label->height();
+
     FILE *stream;
 
     stream=popen("gnuplot", "w");
-    fprintf(stream, "set terminal png size 950,500\n");
+    std::string temp = "set terminal png size ";
+    temp += std::to_string(width);
+    temp += ",";
+    temp += std::to_string(height);
+    temp += "\n";
+    fprintf(stream, temp.c_str());
     fprintf(stream, "set output 'images/box_muller.png'\n");
     fprintf(stream, "set title \"Box muller\"\n");
     fprintf(stream, "plot 'output/box_muller.txt' notitle\n");
     fclose(stream);
 
     QPixmap pix("images/box_muller.png");
+    ui->random_functions_pic_label->setPixmap(pix);
+}
+
+void MainWindow::rejection_sample_button_pressed()
+{
+    gsl_rng* r;
+
+    //seeding
+    unsigned long seed = time(NULL);
+    //memory allocation
+    r = gsl_rng_alloc(gsl_rng_mt19937);
+    gsl_rng_set(r, seed);
+
+    int number_samples = (ui->input_number_of_random_points->text()).toInt();
+
+    std::ofstream myfile;
+
+    //opens a file and checks if it was successfully
+    //when file will be opened previous content will be deleted
+    myfile.open("output/rejection_sampl.txt",std::ios::trunc);
+    if (!myfile.is_open()) {
+        std::cout<<"Error opening the file"<<std::endl;
+    }
+    //for iteration
+    for(int i=0; i<number_samples; i++) {
+        myfile<<rejection_sampl_algo(r)<<std::endl;
+    }
+    //closes file
+    myfile.close();
+
+    int width = ui->random_functions_pic_label->width();
+    int height = ui->random_functions_pic_label->height();
+
+    FILE *stream;
+
+    stream=popen("gnuplot", "w");
+    std::string temp = "set terminal png size ";
+    temp += std::to_string(width);
+    temp += ",";
+    temp += std::to_string(height);
+    temp += "\n";
+    fprintf(stream, temp.c_str());
+    fprintf(stream, "set output 'images/rejection_sampl.png'\n");
+    fprintf(stream, "set title \"Rejection sample\"\n");
+    fprintf(stream, "set xrange [-6: 6]\n");
+    fprintf(stream, "set yrange [0:]\n");
+    fprintf(stream, "n = 100.0\n");
+    fprintf(stream, "max = 6\n");
+    fprintf(stream, "min = -6\n");
+    temp = "rows = ";
+    temp += std::to_string(number_samples);
+    temp += "\n";
+    fprintf(stream, temp.c_str());
+    fprintf(stream, "sigma = 1\n");
+    fprintf(stream, "mu = 0\n");
+    fprintf(stream, "gauss(x) = 1. / (sigma * sqrt(2 * pi)) * exp(-(x - mu)**2 / (2 * sigma**2))\n");
+    fprintf(stream, "width = (max - min) / n\n");
+    fprintf(stream, "hist(x, width) = width * floor(x / width) + width / 2.0\n");
+    fprintf(stream, "plot 'output/rejection_sampl.txt' using (hist($1, width)):(100.0 /rows) smooth freq lc rgb\"red\" notitle, gauss(x) * width * 100.0 notitle lc rgb\"blue\"\n");
+    fclose(stream);
+
+    QPixmap pix("images/rejection_sampl.png");
     ui->random_functions_pic_label->setPixmap(pix);
 }
 
@@ -411,10 +565,18 @@ void MainWindow::trapezoidal_rule_button_pressed()
     write_quadrature_points_to_file(myfile, 0, nodes_temp, d, Nl, ids);
     myfile.close();
 
+    int width = ui->quadrature_points_pic_label->width();
+    int height = ui->quadrature_points_pic_label->height();
+
     FILE *stream;
 
     stream=popen("gnuplot", "w");
-    fprintf(stream, "set terminal png size 950,500\n");
+    std::string temp = "set terminal png size ";
+    temp += std::to_string(width);
+    temp += ",";
+    temp += std::to_string(height);
+    temp += "\n";
+    fprintf(stream, temp.c_str());
     fprintf(stream, "set output 'images/quadrature_points_trapezoidal_rule.png'\n");
     fprintf(stream, "set title \"Trapezoidal rule quadrature points\"\n");
     fprintf(stream, "plot 'output/quadrature_points_trapezoidal_rule.txt' notitle\n");
@@ -463,10 +625,18 @@ void MainWindow::gauss_legendre_button_pressed()
     write_quadrature_points_to_file(myfile, 0, nodes_temp, d, Nl, ids);
     myfile.close();
 
+    int width = ui->quadrature_points_pic_label->width();
+    int height = ui->quadrature_points_pic_label->height();
+
     FILE *stream;
 
     stream=popen("gnuplot", "w");
-    fprintf(stream, "set terminal png size 950,500\n");
+    std::string temp = "set terminal png size ";
+    temp += std::to_string(width);
+    temp += ",";
+    temp += std::to_string(height);
+    temp += "\n";
+    fprintf(stream, temp.c_str());
     fprintf(stream, "set output 'images/quadrature_points_gauss_legendre.png'\n");
     fprintf(stream, "set title \"Gauss Legendre quadrature points\"\n");
     fprintf(stream, "plot 'output/quadrature_points_gauss_legendre.txt' notitle\n");
@@ -508,6 +678,9 @@ void MainWindow::clenshaw_curtis_button_pressed()
         }
     }
 
+    int width = ui->quadrature_points_pic_label->width();
+    int height = ui->quadrature_points_pic_label->height();
+
     myfile.open("output/quadrature_points_clenshaw_curtis.txt",std::ios::trunc);
     if (!myfile.is_open()) {
         std::cout<<"Error opening the file"<<std::endl;
@@ -518,7 +691,12 @@ void MainWindow::clenshaw_curtis_button_pressed()
     FILE *stream;
 
     stream=popen("gnuplot", "w");
-    fprintf(stream, "set terminal png size 950,500\n");
+    std::string temp = "set terminal png size ";
+    temp += std::to_string(width);
+    temp += ",";
+    temp += std::to_string(height);
+    temp += "\n";
+    fprintf(stream, temp.c_str());
     fprintf(stream, "set output 'images/quadrature_points_clenshaw_curtis.png'\n");
     fprintf(stream, "set title \"Clenshaw Curtis quadrature points\"\n");
     fprintf(stream, "plot 'output/quadrature_points_clenshaw_curtis.txt' notitle\n");
@@ -575,22 +753,31 @@ void MainWindow::wiener_and_asset_simulation_button_pressed()
 
     wiener_file.close();
 
+    int width = ui->wiener_process_pic_label->width();
+    int height = ui->wiener_process_pic_label->height();
+
     FILE *stream;
 
     stream=popen("gnuplot", "w");
-    fprintf(stream, "set terminal png size 950,250\n");
+    std::string temp = "set terminal png size ";
+    temp += std::to_string(width);
+    temp += ",";
+    temp += std::to_string(height);
+    temp += "\n";
+    fprintf(stream, temp.c_str());
     fprintf(stream, "set output 'images/wiener_process.png'\n");
     fprintf(stream, "set title \"Wiener process\"\n");
-    std::string temp = "plot ";
+    temp = "plot ";
     for(int i=0; i<number_of_simulations; i++)
     {
         temp += "\"output/wiener_process.txt\" using 1:";
         temp += std::to_string(i+2);
-        temp += " with linespoints ls 1 notitle";
+        temp += " with lines notitle linecolor ";
+        temp += std::to_string(i);
         if(i!=number_of_simulations-1)
             temp += ", ";
     }
-    fprintf(stream, (temp).c_str());
+    fprintf(stream, temp.c_str());
     fclose(stream);
 
     QPixmap pix("images/wiener_process.png");
@@ -621,8 +808,16 @@ void MainWindow::wiener_and_asset_simulation_button_pressed()
 
     asset_file.close();
 
+    width = ui->asset_price_pic_label->width();
+    height = ui->asset_price_pic_label->height();
+
     stream=popen("gnuplot", "w");
-    fprintf(stream, "set terminal png size 950,250\n");
+    temp = "set terminal png size ";
+    temp += std::to_string(width);
+    temp += ",";
+    temp += std::to_string(height);
+    temp += "\n";
+    fprintf(stream, temp.c_str());
     fprintf(stream, "set output 'images/correspond_asset_prices.png'\n");
     fprintf(stream, "set title \"Asset prices\"\n");
     temp = "plot ";
@@ -630,11 +825,12 @@ void MainWindow::wiener_and_asset_simulation_button_pressed()
     {
         temp += "\"output/correspond_asset_prices.txt\" using 1:";
         temp += std::to_string(i+2);
-        temp += " with linespoints ls 1 notitle";
+        temp += " with lines notitle linecolor ";
+        temp += std::to_string(i);
         if(i!=number_of_simulations-1)
             temp += ", ";
     }
-    fprintf(stream, (temp).c_str());
+    fprintf(stream, temp.c_str());
     fclose(stream);
 
     QPixmap pix2("images/correspond_asset_prices.png");

@@ -49,6 +49,9 @@ private slots:
     void box_muller_button_pressed();
 
 private slots:
+    void rejection_sample_button_pressed();
+
+private slots:
     void trapezoidal_rule_button_pressed();
 
 private slots:

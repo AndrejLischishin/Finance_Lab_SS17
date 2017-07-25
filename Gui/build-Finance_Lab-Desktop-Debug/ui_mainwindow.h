@@ -49,11 +49,14 @@ public:
     QLineEdit *input_B;
     QLabel *label_5;
     QVBoxLayout *verticalLayout;
+    QLabel *logo;
+    QLabel *label_9;
     QPushButton *european_call_button;
     QPushButton *asian_button;
     QPushButton *down_out_call_button;
     QPushButton *lookback_button;
     QLabel *fair_price;
+    QSpacerItem *verticalSpacer;
     QWidget *tab_5;
     QVBoxLayout *verticalLayout_7;
     QHBoxLayout *horizontalLayout_9;
@@ -84,6 +87,7 @@ public:
     QPushButton *uniform_random_numbers_button;
     QPushButton *halton_sequence_button;
     QPushButton *box_muller_button;
+    QPushButton *rejection_sample_button;
     QLabel *random_functions_pic_label;
     QWidget *tab_4;
     QVBoxLayout *verticalLayout_4;
@@ -102,14 +106,31 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
+        MainWindow->setEnabled(true);
         MainWindow->resize(1000, 620);
-        centralWidget = new QWidget(MainWindow);
-        centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(centralWidget->sizePolicy().hasHeightForWidth());
-        centralWidget->setSizePolicy(sizePolicy);
+        sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
+        MainWindow->setSizePolicy(sizePolicy);
+        QFont font;
+        font.setFamily(QStringLiteral("Noto Sans"));
+        font.setPointSize(9);
+        font.setBold(false);
+        font.setItalic(false);
+        font.setUnderline(false);
+        font.setWeight(50);
+        font.setStrikeOut(false);
+        font.setKerning(true);
+        font.setStyleStrategy(QFont::PreferDefault);
+        MainWindow->setFont(font);
+        centralWidget = new QWidget(MainWindow);
+        centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(centralWidget->sizePolicy().hasHeightForWidth());
+        centralWidget->setSizePolicy(sizePolicy1);
         centralWidget->setMinimumSize(QSize(625, 0));
         horizontalLayout = new QHBoxLayout(centralWidget);
         horizontalLayout->setSpacing(6);
@@ -128,11 +149,11 @@ public:
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         input_K = new QLineEdit(tab);
         input_K->setObjectName(QStringLiteral("input_K"));
-        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(input_K->sizePolicy().hasHeightForWidth());
-        input_K->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(input_K->sizePolicy().hasHeightForWidth());
+        input_K->setSizePolicy(sizePolicy2);
 
         gridLayout_2->addWidget(input_K, 5, 1, 1, 1);
 
@@ -158,15 +179,15 @@ public:
 
         input_sigma = new QLineEdit(tab);
         input_sigma->setObjectName(QStringLiteral("input_sigma"));
-        sizePolicy1.setHeightForWidth(input_sigma->sizePolicy().hasHeightForWidth());
-        input_sigma->setSizePolicy(sizePolicy1);
+        sizePolicy2.setHeightForWidth(input_sigma->sizePolicy().hasHeightForWidth());
+        input_sigma->setSizePolicy(sizePolicy2);
 
         gridLayout_2->addWidget(input_sigma, 3, 1, 1, 1);
 
         input_T = new QLineEdit(tab);
         input_T->setObjectName(QStringLiteral("input_T"));
-        sizePolicy1.setHeightForWidth(input_T->sizePolicy().hasHeightForWidth());
-        input_T->setSizePolicy(sizePolicy1);
+        sizePolicy2.setHeightForWidth(input_T->sizePolicy().hasHeightForWidth());
+        input_T->setSizePolicy(sizePolicy2);
 
         gridLayout_2->addWidget(input_T, 4, 1, 1, 1);
 
@@ -177,22 +198,22 @@ public:
 
         input_s0 = new QLineEdit(tab);
         input_s0->setObjectName(QStringLiteral("input_s0"));
-        sizePolicy1.setHeightForWidth(input_s0->sizePolicy().hasHeightForWidth());
-        input_s0->setSizePolicy(sizePolicy1);
+        sizePolicy2.setHeightForWidth(input_s0->sizePolicy().hasHeightForWidth());
+        input_s0->setSizePolicy(sizePolicy2);
 
         gridLayout_2->addWidget(input_s0, 0, 1, 1, 1);
 
         input_mu = new QLineEdit(tab);
         input_mu->setObjectName(QStringLiteral("input_mu"));
-        sizePolicy1.setHeightForWidth(input_mu->sizePolicy().hasHeightForWidth());
-        input_mu->setSizePolicy(sizePolicy1);
+        sizePolicy2.setHeightForWidth(input_mu->sizePolicy().hasHeightForWidth());
+        input_mu->setSizePolicy(sizePolicy2);
 
         gridLayout_2->addWidget(input_mu, 1, 1, 1, 1);
 
         input_B = new QLineEdit(tab);
         input_B->setObjectName(QStringLiteral("input_B"));
-        sizePolicy1.setHeightForWidth(input_B->sizePolicy().hasHeightForWidth());
-        input_B->setSizePolicy(sizePolicy1);
+        sizePolicy2.setHeightForWidth(input_B->sizePolicy().hasHeightForWidth());
+        input_B->setSizePolicy(sizePolicy2);
 
         gridLayout_2->addWidget(input_B, 6, 1, 1, 1);
 
@@ -207,6 +228,24 @@ public:
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        logo = new QLabel(tab);
+        logo->setObjectName(QStringLiteral("logo"));
+        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(logo->sizePolicy().hasHeightForWidth());
+        logo->setSizePolicy(sizePolicy3);
+
+        verticalLayout->addWidget(logo);
+
+        label_9 = new QLabel(tab);
+        label_9->setObjectName(QStringLiteral("label_9"));
+        QFont font1;
+        font1.setPointSize(12);
+        label_9->setFont(font1);
+
+        verticalLayout->addWidget(label_9);
+
         european_call_button = new QPushButton(tab);
         european_call_button->setObjectName(QStringLiteral("european_call_button"));
 
@@ -229,8 +268,20 @@ public:
 
         fair_price = new QLabel(tab);
         fair_price->setObjectName(QStringLiteral("fair_price"));
+        QSizePolicy sizePolicy4(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(fair_price->sizePolicy().hasHeightForWidth());
+        fair_price->setSizePolicy(sizePolicy4);
+        QFont font2;
+        font2.setPointSize(10);
+        fair_price->setFont(font2);
 
         verticalLayout->addWidget(fair_price);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout->addItem(verticalSpacer);
 
 
         horizontalLayout_2->addLayout(verticalLayout);
@@ -252,11 +303,11 @@ public:
 
         input_delta_t = new QLineEdit(tab_5);
         input_delta_t->setObjectName(QStringLiteral("input_delta_t"));
-        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(input_delta_t->sizePolicy().hasHeightForWidth());
-        input_delta_t->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy5(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(input_delta_t->sizePolicy().hasHeightForWidth());
+        input_delta_t->setSizePolicy(sizePolicy5);
 
         horizontalLayout_9->addWidget(input_delta_t);
 
@@ -267,8 +318,8 @@ public:
 
         input_number_of_simulations = new QLineEdit(tab_5);
         input_number_of_simulations->setObjectName(QStringLiteral("input_number_of_simulations"));
-        sizePolicy2.setHeightForWidth(input_number_of_simulations->sizePolicy().hasHeightForWidth());
-        input_number_of_simulations->setSizePolicy(sizePolicy2);
+        sizePolicy5.setHeightForWidth(input_number_of_simulations->sizePolicy().hasHeightForWidth());
+        input_number_of_simulations->setSizePolicy(sizePolicy5);
 
         horizontalLayout_9->addWidget(input_number_of_simulations);
 
@@ -348,9 +399,6 @@ public:
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
         label_8 = new QLabel(tab_3);
         label_8->setObjectName(QStringLiteral("label_8"));
-        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Preferred);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
         sizePolicy3.setHeightForWidth(label_8->sizePolicy().hasHeightForWidth());
         label_8->setSizePolicy(sizePolicy3);
 
@@ -358,8 +406,8 @@ public:
 
         input_number_of_random_points = new QLineEdit(tab_3);
         input_number_of_random_points->setObjectName(QStringLiteral("input_number_of_random_points"));
-        sizePolicy2.setHeightForWidth(input_number_of_random_points->sizePolicy().hasHeightForWidth());
-        input_number_of_random_points->setSizePolicy(sizePolicy2);
+        sizePolicy5.setHeightForWidth(input_number_of_random_points->sizePolicy().hasHeightForWidth());
+        input_number_of_random_points->setSizePolicy(sizePolicy5);
 
         horizontalLayout_5->addWidget(input_number_of_random_points);
 
@@ -387,6 +435,11 @@ public:
         box_muller_button->setObjectName(QStringLiteral("box_muller_button"));
 
         horizontalLayout_8->addWidget(box_muller_button);
+
+        rejection_sample_button = new QPushButton(tab_3);
+        rejection_sample_button->setObjectName(QStringLiteral("rejection_sample_button"));
+
+        horizontalLayout_8->addWidget(rejection_sample_button);
 
 
         verticalLayout_6->addLayout(horizontalLayout_8);
@@ -421,8 +474,8 @@ public:
 
         level_input = new QLineEdit(tab_4);
         level_input->setObjectName(QStringLiteral("level_input"));
-        sizePolicy2.setHeightForWidth(level_input->sizePolicy().hasHeightForWidth());
-        level_input->setSizePolicy(sizePolicy2);
+        sizePolicy5.setHeightForWidth(level_input->sizePolicy().hasHeightForWidth());
+        level_input->setSizePolicy(sizePolicy5);
 
         horizontalLayout_7->addWidget(level_input);
 
@@ -470,7 +523,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -491,6 +544,8 @@ public:
         input_mu->setText(QApplication::translate("MainWindow", "0.02", 0));
         input_B->setText(QApplication::translate("MainWindow", "8", 0));
         label_5->setText(QApplication::translate("MainWindow", "B", 0));
+        logo->setText(QString());
+        label_9->setText(QApplication::translate("MainWindow", "Compute the fair values for the following option types:", 0));
         european_call_button->setText(QApplication::translate("MainWindow", "European Call Option", 0));
         asian_button->setText(QApplication::translate("MainWindow", "Continuous Geometric Asian Option", 0));
         down_out_call_button->setText(QApplication::translate("MainWindow", "Down-Out Call Option", 0));
@@ -515,6 +570,7 @@ public:
         uniform_random_numbers_button->setText(QApplication::translate("MainWindow", "Uniform random numbers", 0));
         halton_sequence_button->setText(QApplication::translate("MainWindow", "Halton sequence", 0));
         box_muller_button->setText(QApplication::translate("MainWindow", "Box muller", 0));
+        rejection_sample_button->setText(QApplication::translate("MainWindow", "Rejection sample", 0));
         random_functions_pic_label->setText(QString());
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "Random functions", 0));
         label_7->setText(QApplication::translate("MainWindow", "Level", 0));
