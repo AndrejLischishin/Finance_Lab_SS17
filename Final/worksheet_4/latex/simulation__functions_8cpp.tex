@@ -1,0 +1,61 @@
+\hypertarget{simulation__functions_8cpp}{}\section{/\+Users/larsschleithoff/\+Desktop/\+Practical\+Lab/\+Finance\+\_\+\+Lab\+\_\+\+S\+S17/\+Final/header\+\_\+files/simulation\+\_\+functions.cpp File Reference}
+\label{simulation__functions_8cpp}\index{/\+Users/larsschleithoff/\+Desktop/\+Practical\+Lab/\+Finance\+\_\+\+Lab\+\_\+\+S\+S17/\+Final/header\+\_\+files/simulation\+\_\+functions.\+cpp@{/\+Users/larsschleithoff/\+Desktop/\+Practical\+Lab/\+Finance\+\_\+\+Lab\+\_\+\+S\+S17/\+Final/header\+\_\+files/simulation\+\_\+functions.\+cpp}}
+{\ttfamily \#include \char`\"{}simulation\+\_\+functions.\+hpp\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ double $>$ $\ast$ \hyperlink{simulation__functions_8cpp_a485ed93a0c324453196f4ca8ad9bfaa4}{wiener\+\_\+process} (gsl\+\_\+rng $\ast$r, double T, double delta\+\_\+t)
+\item 
+std\+::vector$<$ double $>$ $\ast$ \hyperlink{simulation__functions_8cpp_a4770d6cd7afcf77d63557fbeb7405558}{brownian\+\_\+motion} (gsl\+\_\+rng $\ast$r, double T, double delta\+\_\+t, std\+::vector$<$ double $>$ $\ast$w, double s0, double mu, double sigma)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{simulation__functions_8cpp_a4770d6cd7afcf77d63557fbeb7405558}\label{simulation__functions_8cpp_a4770d6cd7afcf77d63557fbeb7405558}} 
+\index{simulation\+\_\+functions.\+cpp@{simulation\+\_\+functions.\+cpp}!brownian\+\_\+motion@{brownian\+\_\+motion}}
+\index{brownian\+\_\+motion@{brownian\+\_\+motion}!simulation\+\_\+functions.\+cpp@{simulation\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{brownian\+\_\+motion()}{brownian\_motion()}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$$\ast$ brownian\+\_\+motion (\begin{DoxyParamCaption}\item[{gsl\+\_\+rng $\ast$}]{r,  }\item[{double}]{T,  }\item[{double}]{delta\+\_\+t,  }\item[{std\+::vector$<$ double $>$ $\ast$}]{w,  }\item[{double}]{s0,  }\item[{double}]{mu,  }\item[{double}]{sigma }\end{DoxyParamCaption})}
+
+Simulates brownian motion path for the given values of wiener process.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Pointer to the gsl\+\_\+rng object for generating standard normal distributed numbers \\
+\hline
+{\em T} & Time period of simulated process \\
+\hline
+{\em delta\+\_\+t} & Step of discretisation \\
+\hline
+{\em w} & Pointer to the vector with values of wiener process at discretisation points \\
+\hline
+{\em s0} & Value of brownian\+\_\+motion at time = 0 \\
+\hline
+{\em mu} & Drift \\
+\hline
+{\em sigma} & Volatility\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the vector of values at discretisation points 
+\end{DoxyReturn}
+\mbox{\Hypertarget{simulation__functions_8cpp_a485ed93a0c324453196f4ca8ad9bfaa4}\label{simulation__functions_8cpp_a485ed93a0c324453196f4ca8ad9bfaa4}} 
+\index{simulation\+\_\+functions.\+cpp@{simulation\+\_\+functions.\+cpp}!wiener\+\_\+process@{wiener\+\_\+process}}
+\index{wiener\+\_\+process@{wiener\+\_\+process}!simulation\+\_\+functions.\+cpp@{simulation\+\_\+functions.\+cpp}}
+\subsubsection{\texorpdfstring{wiener\+\_\+process()}{wiener\_process()}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$$\ast$ wiener\+\_\+process (\begin{DoxyParamCaption}\item[{gsl\+\_\+rng $\ast$}]{r,  }\item[{double}]{T,  }\item[{double}]{delta\+\_\+t }\end{DoxyParamCaption})}
+
+Simulates a wiener process.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Pointer to the gsl\+\_\+rng object for generating standard normal distributed numbers \\
+\hline
+{\em T} & Time period of simulated process \\
+\hline
+{\em delta\+\_\+t} & Step of discretisation\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the vector of values at discretisation points 
+\end{DoxyReturn}

@@ -131,6 +131,18 @@ namespace Task_7 {
     double calculated_result;
     bool use_bb;
 }
+
+namespace Task_8 {
+
+	double s0 = 21;
+	double K  = 20;
+	double T = 0.25; 
+	double r = 0.1;
+	double v = 1.875;
+	
+	double volatility;
+}
+
 /**
  * Main function to run all exercises of worksheet 4.
  *
