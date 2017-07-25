@@ -192,7 +192,7 @@ We have
 \includegraphics[scale=0.3]{task4.jpg}		
 \end{center}	
 
-$5$ independent simulations of $\mathbb{E}[V_{call}(S_T,0)]$. As expected, the rate of convergence is $O(N^{1/2})$.
+$5$ independent simulations of $\mathbb{E}[V_{call}(S_T,0)]$. As expected, the rate of convergence is $O(N^{-1/2})$.
 
 \section*{Task 5}
 We have $\Phi^{-1}(0)=-\infty$ and $\Phi^{-1}(1)=\infty$ where $\Phi^{-1}:(0,1)\to(-\infty,\infty)$ is the inverse cumulative distribution function. As an integral of a positive continious function, $\Phi$ is a bijection, continious and differentiable. That means $\Phi$ is a diffeomorphism. $\Phi^{-1}$ is also differentiable, so we can use the transformation theorem with the change-of-variable $t=\Phi(s)$. We have $|\det(D\Phi(s))|=\frac{1}{\sqrt{2\pi}}\exp(-\frac{s^2}{2})$ and
@@ -239,7 +239,7 @@ The Clenshaw-Curtis Quadrature rule uses nested nodes, the nodes of each level a
 \section*{Task 9}
 
 \begin{center}
-\includegraphics[scale=0.5]{Task_9.png}		
+\includegraphics[scale=0.5]{task_9.png}		
 \end{center}	
 
 \section*{Task 10}
@@ -283,6 +283,7 @@ The discrete geometric average converges linearly to the continuous geometric av
 \end{center}
 The discrete geometric payoff function is evaluated on 10.000 points in $[0,1]^2$.
 
+\newpage
 \section*{Task 7}
 
 Uniform random numbers in $(0,1)^2$:
@@ -297,6 +298,7 @@ Halton sequence:
 
 One can see that there are some regions in $(0,1)^2$ where no uniform random numbers are set. This is not the case in the point set calculated by the Halton sequence. The Halton sequence gives a very uniform spread set without any holes.
 
+\newpage
 \section*{Task 9}
 
 Quadrature nodes of the two-dimensional product rule for trapezoidal rule:
@@ -308,7 +310,7 @@ Quadrature nodes of the two-dimensional product rule for Gauss-Legendre:
 \begin{center}
 \includegraphics[scale=0.5]{quadrature_nodes_gauss_legendre.png}		
 \end{center}
-
+\newpage
 Quadrature nodes of the two-dimensional product rule for Clenshaw Curtis:
 \begin{center}
 \includegraphics[scale=0.5]{quadrature_nodes_clenshaw_curtis.png}		
@@ -322,7 +324,7 @@ Two-dimensional Sparse Grid using Trapeziodal Rule for $l=5$:
 \begin{center}
 \includegraphics[scale=0.5]{sparse_grid_l5.png}	
 \end{center}
-
+\newpage
 Two-dimensional Sparse Grid using Trapezoidal Rule for $l=7$:
 \begin{center}
 \includegraphics[scale=0.5]{sparse_grid_l7.png}	
@@ -332,7 +334,7 @@ Two-dimensional Sparse Grid using Clenshaw-Curtis Quadrature Rule for $l=5$:
 \begin{center}
 \includegraphics[scale=0.5]{clenshaw_curtis_l5.png}	
 \end{center}
-
+\newpage
 Two-dimensional Sparse Grid using Clenshaw-Curtis Quadrature Rule for $l=7$:
 \begin{center}
 \includegraphics[scale=0.5]{clenshaw_curtis_l7.png}	
